@@ -1,10 +1,7 @@
 """Defines handler paths and initializes the app."""
 import webapp2
 import base
-import webapp2
-import jinja2
 import signup
-import addquestions
 import resume
 
 
@@ -32,7 +29,6 @@ class SettingsPage(base.RequestHandler):
        
 app = webapp2.WSGIApplication([
     ('/', MainPage),
-    ('/addquestions', addquestions.QuestionPage),
     ('/faqs', FaqPage),
     ('/todo', ToDOPage),
     ('/settings', SettingsPage),

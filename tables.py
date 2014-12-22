@@ -65,11 +65,11 @@ class Work(db.Model):
 class Education(db.Model):
     user = db.StringProperty(required=True)
     degree = db.StringProperty(required=True)
-    majors = db.StringListProperty(required=True)
+    majors = db.ListProperty(str, required=True)
     school = db.StringProperty(required=True)
     gpa = db.StringProperty()
     graduation = db.StringProperty(required=True)
-    courses = db.StringListProperty(required=True)
+    courses = db.ListProperty(str, required=True)
     
     @classmethod
     def create_edu(cls, user, degree,

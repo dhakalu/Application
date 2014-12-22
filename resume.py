@@ -1,6 +1,5 @@
 import user
 import base
-import education
 import json
 import tables
 
@@ -45,9 +44,9 @@ class UpdateEducation(base.RequestHandler):
         degree = self.request.get('degree')
         school = self.request.get('school')
         gpa = self.request.get('gpa')
-        majors = self.request.get('major').split(',')
+        majors = self.request.get('majors').split(',')
         graduation = self.request.get('graduation')
-        courses = self.request.get('courses').split('/n')
+        courses = self.request.get('courses').split(',')
         output_json = {
             'status': True,
             'degree': degree,
@@ -55,14 +54,14 @@ class UpdateEducation(base.RequestHandler):
             'gpa': gpa,
             'courses': courses
         }
-        edu = education.Education.create_edu(user=self.user.user_name,
-                                             degree=degree,
-                                             school=school,
-                                             majors=majors,
-                                             gpa=gpa,
-                                             graduation=graduation,
-                                             courses=courses
-                                             )
+        edu = tables.Education.create_edu(user=self.user.user_name,
+                                          degree=degree,
+                                          school=school,
+                                          majors=majors,
+                                          gpa=gpa,
+                                          graduation=graduation,
+                                          courses=courses
+                                          )
         edu.put()
         self.render_json(json.dumps(output_json))
 
@@ -124,10 +123,9 @@ class UpdateWork(base.RequestHandler):
 
 class GetJSON(base.RequestHandler):
     def get(self):
-        user_name = self.request.get('user_name')
+        user_name = self.request.get('u')
         if not user_name:
             user_name = self.user.user_name
-
         if user_name:
             educations = list(tables.Education.by_user(user_name))
             work = list(tables.Work.by_user(user_name))
@@ -140,7 +138,9 @@ class GetJSON(base.RequestHandler):
                     'degree': e.degree,
                     'majors': e.majors,
                     'gpa': e.gpa,
-                    'graduation': e.graduation}
+                    'graduation': e.graduation,
+                    'courses': e.courses
+                }
                 education_list.append(edu)
             work_list = []
             for w in work:

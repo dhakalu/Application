@@ -44,7 +44,7 @@
 	 <div>{{e.degree}}</div>
 	 <div>
 	   {% for major in e.majors %}
-	   <span>{% major %}</span>
+	   <span>{{ major }}</span>
 	   {% endfor %}
 	 </div>
 	 <div>
@@ -52,15 +52,19 @@
 	   GPA: {{e.gpa}}
 	   {% endif %}
 	 </div>
-	 <div>{{e.courses}}</div>
+	 <div>
+	   {% for course in e.courses %}
+	    <button class="option-box"> {{course}} </button> 
+	   {% endfor %}
+	 </div>
 	 <hr>
        {% endfor %}
      </div>
 
      <div id="add_edu">
        <form id="add_edu_form">
-	<input type="text" name="degree" id="degree" class="form-control default-input" placeholder="Level">
-	<input type="text" name="majors" id="majors" class="form-control default-input" placeholder="Majors seperatr by comma">
+	<input type="text" name="degree" id="degree" class="form-control default-input" placeholder="Degree e.g BSc">
+	<input type="text" name="majors" id="majors" class="form-control default-input" placeholder="Majors seperate by comma">
 	<input type="text" name="school" id="school" class="form-control default-input" placeholder="Institution">
 	<input type="text" name="gpa" id="gpa" class="form-control default-input" placeholder="GPA">
 	<input name="graduation" id="graduation" class="form-control default-input" placeholder="Graduation Date/ Expected Graduation">
