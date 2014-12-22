@@ -1,0 +1,165 @@
+
+*{
+	-webkit-box-sizing:border-box;
+	-moz-box-sizing:border-box;
+	-ms-box-sizing:border-box;
+	box-sizing:border-box;
+}
+
+textarea{
+    resize: none;
+}
+
+h1, h2,h3,h4,h5,h6{
+	padding: 0px;
+	margin: 0px;
+}
+
+.comment-form{
+	display: flex;
+}
+
+.comment-area{
+	margin-left: 5px;
+}
+
+.user_profile_pic{
+	margin-right: 5px;
+}
+
+.post_head{
+	display: flex;
+}
+
+.post_body{
+	margin-top: 10px;
+}
+
+.body{
+	min-height: 100%;
+}
+.text-error{
+	color: red;
+}
+
+.default-input{
+	margin-bottom: 5px;
+}
+
+.form-error{
+	background: #FFAD85;
+	border: 1px solid red red;
+	margin-bottom: 5px;
+	border-radius: 5px;
+}
+
+.title-curved{
+padding: 9px;
+background: #80B2B2;
+color: white;
+font-weight: bold;
+border-radius: 5px;
+margin-top: 5px;
+}
+
+.title-flat{
+padding: 9px;
+background: #80B2B2;
+color: white;
+font-weight: bold;
+border-style: 1px solid #B2D1D1;
+border-bottom: none;
+text-align: center;
+}
+
+.title-top-curved{
+padding: 9px;
+background: #80B2B2;
+color: white;
+font-weight: bold;
+border-style: 1px solid #B2D1D1;
+border-top-left-radius: 5px;
+border-top-right-radius: 5px;
+margin-top: 5px;
+}
+
+.bottom-menu{
+padding: 9px;
+border-top-style: none;
+background: #E6F0F0;
+border-bottom-left-radius: 5px;
+border-bottom-right-radius: 5px;
+border-color: #B2D1D1;
+border-width: 0px 1px 1px 1px;
+border-style: solid;
+margin-bottom: 10px;
+}
+
+.box-flat{
+padding:9px;
+background:white;
+border:1px solid #B2D1D1;
+}
+.box-flat-shadow{
+padding: 9px;
+background: white;
+border-width: 1px solid #B2D1D1;
+box-shadow: 5px 5px 5px #888888;
+}
+
+.box-all-curved{
+margin-top:10px;
+padding:9px;
+background:white;
+border-color:#B2D1D1;
+border-width:1px;
+border-style:solid;
+border-radius:5px;
+}
+
+.box-bottom-menu{
+margin-top:10px;
+padding:9px;
+background:white;
+border-top-left-radius:5px;
+border-top-right-radius:5px;
+border-color:#B2D1D1;
+border-width:1px;
+border-style:solid;
+}
+
+.box-top-menu{
+padding:9px;
+background:white;
+border-color:#B2D1D1;
+border-width:1px;
+border-style:solid;
+border-bottom-right-radius:5px;
+border-bottom-left-radius:5px;
+}
+
+.button-default{
+min-width: 100px;
+padding: 10px;
+background: #80B2B2;
+color: white;
+font-weight: bold;
+border-radius: 5px;
+border:1px solid #80B2B2;
+}
+
+#signup label.error {
+color: #F00;
+font-weight: bold;
+display: block;
+}
+
+#signup input.error, #signup select.error {
+border: 1px solid red;
+}
+
+.text-title{
+ font-size: 15px;
+ font-weight: bold;
+ margin-bottom:3px;
+}

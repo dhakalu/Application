@@ -1,0 +1,33 @@
+.task-box{
+    margin-top : 10px;
+    border : 1px solid;
+    border-radius: 5px;
+    padding: 5px;
+}
+
+.delete {
+    border: 1px solid #c2c2c2;
+    position: relative;
+    padding: 1px 5px;
+    background-color: #605F61;
+    border-radius: 20px;
+}
+.delete a {
+    font-size: 15px;
+    font-weight: bold;
+    color: white;
+    text-decoration: none;
+}
+.done{
+    border: 1px solid #c2c2c2;
+    position : relative;
+    padding: 1px 5px;
+    background-color: green;
+    border-radius: 20px;
+   }
+.done a{
+    font-size: 15px;
+    font-weight: bold;
+    color: white;
+    text-decoration: none;
+}

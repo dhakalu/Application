@@ -1,0 +1,176 @@
+{% extends "base.html" %}
+
+{% block header %}
+<script src="/js/resume.js"></script>
+{% endblock %}
+
+{% block body%}
+<!-- The main page -->
+<div id="main">
+  <!-- Self Summary Section -->
+  <h3>Self Summary</h3>
+  <div>
+    {% if loged_user %}
+    <div summary_menu>
+      <button id="edit_self_bttn"></button>
+    </div>
+    <hr>
+    {% endif %}
+
+    <div id="self_details">
+      I am a good guy
+    </div>
+  
+    <div id="self_add">
+      <form id="self_add_form">
+	<textarea id="self_summary" name="self_summary" placeholder="" class="form-control default-input"></textarea>
+	<input type="submit" id="self_summary_btn" value="Add">
+      </form>
+    </div>
+  </div>
+  <!--Education Section -->
+   <h3>Education</h3>
+   <div>
+     {% if loged_user %}
+     <div id="add_edu_menu">
+       <button id="add_education">Add Education</button>
+       <hr>
+     </div>
+     {% endif %}
+
+     <div id="edu_details">
+       {% for e in edu %}
+	 <div class="text-title">{{e.school}}</div>
+	 <div>{{e.level}}</div>
+	 <div>
+	   {% if e.gpa %}
+	   GPA: {{e.gpa}}
+	   {% endif %}
+	 </div>
+	 <div>{{e.courses}}</div>
+	 <hr>
+       {% endfor %}
+     </div>
+
+     <div id="add_edu">
+       <form id="add_edu_form">
+	<input type="text" name="level" id="level" class="form-control default-input" placeholder="Level">
+	<input type="text" name="school" id="school" class="form-control default-input" placeholder="Institution">
+	<input type="text" name="gpa" id="gpa" class="form-control default-input" placeholder="GPA">
+	<input name="graduation" id="graduation" class="form-control default-input" placeholder="Graduation Date/ Expected Graduation">
+	<textarea name="courses" id="courses" class="form-control default-input" placeholder="Seperate Subjects with coma"></textarea>
+	</form>
+     </div>
+    </div>
+   
+   <!-- work experience section goes here -->
+    <h3>Work Experience</h3>
+    <div>
+      {% if loged_user %}
+      <div "work_menu">
+	<button id="add_work"> Add Work</button>
+	<hr>
+      </div>
+      {% endif %}
+      
+      <div id="work_details">
+	
+	{% for work in works %}
+	  <div class="text-title">{{work.title}}</div>
+	  <div>
+	    <div> {{work.employer}}</div>
+	    <div> {{work.start_date}} - {{work.end_date}} </div>
+	  </div>
+	  <hr>
+	  {% endfor %}
+	
+      </div>
+      
+      <div id="add_work_dialog">
+	<form id="add_work_form">
+	  <input type="text" name="work_title" id="work_title" placeholder="Title" class="form-control default-input">
+	  <input type="tetxt" name="employer" id="employer" placeholder="Employer" class="form-control default-input">
+	  <input type="text" name="start_date" id="end_date" placeholder="From" class="form-control default-input">
+	  <input type="text" name="end_date" i="end_date" placeholder="End Date" class="form-control default-input">  
+	</form>
+      </div>
+
+    </div>
+    
+    <h3>Awards</h3>
+    <div>
+      
+      {% if loged_user %}
+      <div id="award_menu">
+	<button id="add_award_btn">Add Award</button>
+	<hr>
+      </div>
+      {% endif %}
+      
+      <div id="award_deatils">
+	
+	 {% for award in awards %}
+	 <div class="text-title">
+	  {{ award.title }}
+	 </div>
+	 <div>
+	   {{ award.details }}
+	   <hr>
+	 </div>
+	 {% endfor %}
+	
+      </div>
+      
+      <div id="award_form">
+	<form id="add_award">
+	  <input type="text" id="title" name="title" placeholder="Title" class="form-control default-input">
+	  <textarea id="award_details" id="detail" placeholder="Details" class="form-control"></textarea>
+	</form>
+	
+      </div>
+      
+    </div>
+    
+    <h3>Publications</h3>
+    <div>
+      {% if loged_user %}
+      <div id="publication_menu">
+	<button id="add_publication_bttn"> Add Publication</button><hr>
+      </div>
+      {% endif %}
+      
+      <div id="publications_details">
+	
+	  {% for publication in publications %}
+	  <div class="text-title">
+	   <a href="{{publication.link}}
+"></a> {{publication.title}}
+	  </div>
+	  <div>
+	    {{publication.authors}}
+	    <hr>
+	  </div>
+	  {% endfor %}
+	
+      </div>
+      
+      <div id="add_publication">
+	<form id="add_public_form">
+	  <input type="text" id="title" name="title" class="form-control default-input" placeholder="Title">
+	  <input type="text" id="titlr" name="link" class="form-control default-input" placeholder="link">
+	  <input type="text" id="authors" name="authors" class="form-control" placeholder="Authors">
+	</form>
+      </div>
+      
+  </div>
+</div>
+<br>
+
+{% if loged_user %}
+<div id="menu">
+    <button id="add_section_bttn">Add a costume field</button>
+</div>
+{% endif %}
+
+
+{% endblock %}

@@ -1,0 +1,43 @@
+<html>
+  <head>
+    <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.1/css/bootstrap.min.css">
+    <script src="https://ajax.googleapis.com/ajax/libs/jquery/1.11.1/jquery.min.js" ></script>
+    <link rel="stylesheet" href="/stylesheets/main.css">
+    <link rel="stylesheet" href="//ajax.googleapis.com/ajax/libs/jqueryui/1.11.2/themes/smoothness/jquery-ui.css" />
+    <script src="//ajax.googleapis.com/ajax/libs/jqueryui/1.11.2/jquery-ui.min.js"></script>
+    <script src="http://ajax.aspnetcdn.com/ajax/jquery.validate/1.13.1/jquery.validate.min.js"></script>
+    <script src="http://ajax.aspnetcdn.com/ajax/jquery.validate/1.13.1/additional-methods.js"></script>
+    <script src="/js/signup.js"></script>
+</head>
+<body>
+  <div class="row">
+    <div class="col-md-2"></div>
+    <div class="col-md-4">
+
+      <!--Signup Form Starts Here -->
+      <div class="title-top-curved">Sign Up here!</div>
+      <form id="signup">
+	<div class="box-top-menu">
+	<input type="text" name="first_name" id="first_name" value="{{first_name}}" placeholder="First Name" class="default-input form-control">
+	<input type="text" name="last_name" id="last_name" value="{{last_name}}" placeholder="Last Name" class="default-input form-control">
+	<div id="username_container">
+	<input type="text" name="user_name" id="user_name" value="{{user_name}}" placeholder="Username" class="default-input form-control">
+        </div>
+         <div id="email_container">
+	<input type="text" name="email" id="email" value="{{email}}" placeholder="Email" class="form-control default-input"></div>
+	<input type="text" name="email_confirm" id="email_confirm" value="{{email_confirm}}" placeholder="Confirm Email" class="form-control default-input">
+	<input type="password" name="password" id="password" value="{{password}}" placeholder="Password" class="default-input form-control">
+	<input type="submit" value="SignUp" class="btn btn-success">
+      </form>
+      </div>
+      <!-- Sign Up form ends here -->
+
+    </div>
+
+    <div class="col-md-4">
+      
+    </div>
+    <div class="col-md-2"></div>
+  </div>
+</body>
+</html>

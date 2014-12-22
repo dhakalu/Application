@@ -1,0 +1,47 @@
+{% extends "base.html" %}
+
+{% block header %}
+  <script src="/js/todo.js"></script>
+  <link rel="stylesheet" href="/stylesheets/todo.css">
+{% endblock %}
+
+
+  <!--- Left bar -->
+  {% block left_bar %}
+    <button class="btn btn-default" id="add-to-list">Add to list</button>
+   {% endblock %}
+
+<!--- main page -->
+{% block body %}
+<div id="add-new-todo" title="Add the item to do list">
+  <form onsubmit="return false" id="todo-form">
+    <input type="text" id="new-todo" placeholder="Title">
+  </form>
+</div>
+
+<div id="tobedone-task">
+  <div class="row title-curved">
+    Tasks that needs to be done
+  </div>
+
+  <div id="todo-list">
+  </div>
+</div>
+
+<hr>
+
+<div id="completed-task">
+  <div class="row title-curved">
+    Tasks Completed
+   </div>
+  
+  <div id="completed-list">
+  </div>
+</div>
+
+{% endblock %}
+
+{% block right_bar %} 
+  <!--- right bar --->
+{% endblock %}
+

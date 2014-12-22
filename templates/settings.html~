@@ -1,0 +1,20 @@
+{% extends "base.html" %}
+
+{% block header %}
+
+{% endblock %}
+
+{% block body %}
+<div>
+  <!-- general sett
+ <div id="general">
+ </div>
+
+ <div id="privacy">
+ </div>
+
+ <div id="profile">
+ </div>
+<div>
+{% endblock %}
+
