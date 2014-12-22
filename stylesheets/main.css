@@ -169,3 +169,10 @@ border: 1px solid red;
     border: 1px solid #C2D6D6;
     margin: 2px;
 }
+
+#main_page_body{
+   margin: 0;
+   position: relative;               
+   top: 50%;                         
+   transform: translate(0, -50%)
+}

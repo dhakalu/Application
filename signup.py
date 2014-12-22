@@ -74,7 +74,7 @@ class SignUp(base.RequestHandler):
         last_name = self.request.get('last_name')
         email = self.request.get('email')
         email_confirm = self.request.get('email_confirm')
-        password = self.request.get('password')
+        password = base.hash_str(self.request.get('password'))
         output = {'first_name': first_name,
                   'last_name': last_name,
                   'email': email,
@@ -95,10 +95,6 @@ class SignUp(base.RequestHandler):
         elif email != email_confirm:
             has_error = True
             output['email_error'] = 'Emails did not match.'
-
-        if not self.is_valid_password(password):
-            has_error = True
-            output['password_error'] = 'The password is not valid.'
 
         if has_error:
             output_str = {
@@ -127,12 +123,13 @@ class Login(base.RequestHandler):
     def post(self):
         has_error = False
         user_name = self.request.get('login_name')
-        password = self.request.get('login_pass')
+        password = base.hash_str(self.request.get('login_pass'))
         output = {}
         u = user.User.by_name(user_name)
         if u:
             if self.validate_password(u, password):
                 self.login(u)
+                self.redirect('/profile')
             else:
                 has_error = True
                 output['password_error'] = 'The password is incorrect'
@@ -141,9 +138,11 @@ class Login(base.RequestHandler):
             if u:
                 if self.validate_password(u, password):
                     self.login(u)
+                    self.redirect('/profile')
                 else:
                     has_error = True
-                    output['password_error'] = 'The password is incorrect'
+                    output['password_error'] = ('The password is incorrect \n'
+                                                + password)
             else:
                 has_error = True
                 output['name_error'] = ('There is no accout with' +

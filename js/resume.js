@@ -176,8 +176,6 @@ $(document).ready(function(){
 	heightStyle: "content"
     }); // end of qccordion
     
-    $('#main h3').draggable();
-
     $('#add_education').button({
 	icons : {
 	    primary : "ui-icon-plus"

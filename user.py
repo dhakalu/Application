@@ -35,12 +35,11 @@ class User(db.Model):
     # Creates the object User
     @classmethod
     def create_user(cls, first_name, last_name, user_name, email, password):
-        pw_hash = base.hash_str(password)
         return User(first_name=first_name,
                     last_name=last_name,
                     user_name=user_name,
                     email=email,
-                    password=pw_hash)
+                    password=password)
 
     # Validates the user
     @classmethod
@@ -48,4 +47,3 @@ class User(db.Model):
         user = cls.by_email(email)
         if user and base.valid_pw(user.name, pw, user.password):
             return user
-

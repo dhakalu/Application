@@ -1,17 +1,26 @@
-.navigation {
-  list-style: none;
-  margin: 0; 
-  background-color: #4CAF50;
-  box-shadow: 2px 2px 5px rgba(33, 33, 33, .4);
+.navBar {
+  margin: 0;
+  background-color: #006666;
   display: -webkit-box;
   display: -moz-box;
+  box-shadow: 2px 2px 5px rgba(33, 33, 33, .4);
   display: -ms-flexbox;
   display: -webkit-flex;
+  height: 60px;
+  }
+.navigation {
+  list-style: none;
   display: flex;
-  
-  -webkit-flex-flow: row wrap;
   justify-content: flex-end;
+ 
 }
+
+.navWrap {
+  width: 1000px;
+  margin-left: auto;
+  margin-right: auto;
+}
+
 
 .navigation a {
   text-decoration: none;
@@ -43,8 +52,6 @@
     border-top: 1px solid rgba(255,255,255,0.3); 
     border-bottom: 1px solid rgba(0,0,0,0.1); 
   }
-
-  
   .navigation li:last-of-type a {
     border-bottom: none;
   }
