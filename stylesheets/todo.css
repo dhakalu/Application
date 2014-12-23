@@ -3,31 +3,24 @@
     border : 1px solid;
     border-radius: 5px;
     padding: 5px;
+    background: #fff;
 }
 
-.delete {
-    border: 1px solid #c2c2c2;
-    position: relative;
-    padding: 1px 5px;
-    background-color: #605F61;
-    border-radius: 20px;
+.title{
+    margin-left: 10px;
 }
-.delete a {
-    font-size: 15px;
-    font-weight: bold;
-    color: white;
-    text-decoration: none;
+
+.mark_done_btn{
+    height:20px;
+    width: 30px;
 }
-.done{
-    border: 1px solid #c2c2c2;
-    position : relative;
-    padding: 1px 5px;
-    background-color: green;
-    border-radius: 20px;
-   }
-.done a{
-    font-size: 15px;
-    font-weight: bold;
-    color: white;
-    text-decoration: none;
+
+.edit_btn{
+    height:20px;
+    width: 30px;
+}
+
+.remove_btn{
+    height:20px;
+    width: 30px;
 }

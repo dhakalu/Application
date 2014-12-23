@@ -1,7 +1,50 @@
 $(document).ready(function(){
     
-     $('#self_add').hide();
-     if ($('#self_details').is(':empty')){
+    function loadPage(){
+	var old_data = {
+	    'award': 0,
+	    'education': 0,
+	    'publication': 0
+	};
+	$.ajax({
+	    url: '/resume_json',
+	    type: 'GET',
+	    dataType: 'json'
+	}).done(function(data){
+	    console.log(data);
+	    var results = data.results;
+	    var awards = results.awards;
+	    var education = results.education;
+	    var publications = results.publications;
+	    
+	    // load all awards
+	    for (var i = old_data.award; i < awards.length; i++){
+		var new_edu = '<div>';
+		var title_bar  = '<div class="row">';
+		title_bar += '<div class="text-title col-md-10"></div>';
+		title_bar += '<div class="col-md-2 edit"></div>';
+		title_bar += '</div>';
+		new_edu += title_bar;
+		new_edu += 'div class="degree"></div>';
+		new_edu += '</div>';
+	    }
+
+	    // locd all education
+	    for (var i = old_data.education; i < education.length; i++){
+		
+	    }
+
+	    // load all publications
+	    for (var i = old_data.publication; i < publications.length; i++){
+		
+	    }
+	});
+    }
+
+    setInterval(loadPage(), 3000);
+    
+    $('#self_add').hide();
+    if ($('#self_details').is(':empty')){
 	$('#edit_self_bttn').text('Add Summary');
     } else {
 	$('#edit_self_bttn').text('Edit Summary');

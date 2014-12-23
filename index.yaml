@@ -14,4 +14,9 @@ indexes:
   properties:
   - name: user_name
   - name: date
+
+- kind: ToDo
+  properties:
+  - name: user_name
+  - name: date
     direction: desc

@@ -5,8 +5,7 @@ import json
 
 class ToDoPage(base.RequestHandler):
     def get(self):
-        user_name = self.user.user_name
-        if user_name:
+        if self.user:
             self.render('todo.html')
         else:
             self.redirect('/')
@@ -52,6 +51,7 @@ class GetJSON(base.RequestHandler):
             tasks = tables.ToDo.by_user_name(user_name)
             for task in tasks:
                 t = {'user': task.user_name,
+                     'id': task.key().id(),
                      'task': task.task,
                      }
                 if task.status:
