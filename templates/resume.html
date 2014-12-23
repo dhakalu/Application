@@ -1,12 +1,13 @@
 {% extends "base.html" %}
 
 {% block header %}
+<link rel="stylesheet" href="/stylesheets/resume.css">
 <script src="/js/resume.js"></script>
 {% endblock %}
 
 {% block body%}
 <!-- The main page -->
-<div id="main">
+<div id="resume_accordion">
   <!-- Self Summary Section -->
   <h3>Self Summary</h3>
   <div>
@@ -21,7 +22,7 @@
       I am a good guy
     </div>
   
-    <div id="self_add">
+    <div id="self_add" title="Add your self summary!">
       <form id="self_add_form">
 	<textarea id="self_summary" name="self_summary" placeholder="" class="form-control default-input"></textarea>
 	<input type="submit" id="self_summary_btn" value="Add">
@@ -61,7 +62,7 @@
        {% endfor %}
      </div>
 
-     <div id="add_edu">
+     <div id="add_edu" title="Add Academic Details">
        <form id="add_edu_form">
 	<input type="text" name="degree" id="degree" class="form-control default-input" placeholder="Degree e.g BSc">
 	<input type="text" name="majors" id="majors" class="form-control default-input" placeholder="Majors seperate by comma">
@@ -96,7 +97,7 @@
 	
       </div>
       
-      <div id="add_work_dialog">
+      <div id="add_work_dialog" title="Add Job Details">
 	<form id="add_work_form">
 	  <input type="text" name="work_title" id="work_title" placeholder="Title" class="form-control default-input">
 	  <input type="tetxt" name="employer" id="employer" placeholder="Employer" class="form-control default-input">
@@ -131,7 +132,7 @@
 	
       </div>
       
-      <div id="award_form">
+      <div id="award_form" title="Add Award">
 	<form id="add_award">
 	  <input type="text" id="title" name="title" placeholder="Title" class="form-control default-input">
 	  <textarea id="award_details" id="detail" placeholder="Details" class="form-control"></textarea>
@@ -164,7 +165,7 @@
 	
       </div>
       
-      <div id="add_publication">
+      <div id="add_publication" title="Add Publication">
 	<form id="add_public_form">
 	  <input type="text" id="title" name="title" class="form-control default-input" placeholder="Title">
 	  <input type="text" id="titlr" name="link" class="form-control default-input" placeholder="link">

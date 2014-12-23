@@ -23,6 +23,7 @@ $(document).ready(function(){
 	autoOpen: false,
 	modal: true,
 	draggable: false,
+	dialogClass: 'form-dialog no-close',
 	buttons: [
 	     {
 		 text: "Add",
@@ -64,6 +65,7 @@ $(document).ready(function(){
 	resizeable: false,
 	modal: true,
 	autoOpen: false,
+	dialogClass: 'form-dialog no-close',
 	buttons: [
 	    {
 		text: "Add",
@@ -101,6 +103,7 @@ $(document).ready(function(){
 	modal: true,
 	draggable: false,
 	resizeable: false,
+	dialogClass: 'form-dialog no-close',
 	buttons : [
 	    {
 		text: "Add",
@@ -141,6 +144,7 @@ $(document).ready(function(){
 	resizeable: false,
 	autoOpen: false,
 	modal: true,
+	dialogClass: 'form-dialog no-close',
 	buttons: [
 	    {
 		text: "Add",
@@ -172,7 +176,7 @@ $(document).ready(function(){
 	]   
     });
 
-    $('#main').accordion({
+    $('#resume_accordion').accordion({
 	heightStyle: "content"
     }); // end of qccordion
     

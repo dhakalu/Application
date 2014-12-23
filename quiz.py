@@ -3,6 +3,7 @@ import webapp2
 import base
 import signup
 import resume
+import todo
 
 
 class MainPage(base.RequestHandler):
@@ -18,11 +19,6 @@ class FaqPage(base.RequestHandler):
         self.render("faq.html")
 
 
-class ToDOPage(base.RequestHandler):
-    def get(self):
-        self.render("todo.html")
-
-
 class SettingsPage(base.RequestHandler):
     def get(self):
         self.render("settings.html")
@@ -30,7 +26,9 @@ class SettingsPage(base.RequestHandler):
 app = webapp2.WSGIApplication([
     ('/', MainPage),
     ('/faqs', FaqPage),
-    ('/todo', ToDOPage),
+    ('/todo', todo.ToDoPage),
+    ('/todo_json', todo.GetJSON),
+    ('/updatetodo', todo.Update),
     ('/settings', SettingsPage),
     ('/signup', signup.SignUp),
     ('/login', signup.Login),

@@ -8,14 +8,16 @@
 
   <!--- Left bar -->
   {% block left_bar %}
-    <button class="btn btn-default" id="add-to-list">Add to list</button>
-   {% endblock %}
+ 
+  {% endblock %}
 
 <!--- main page -->
 {% block body %}
-<div id="add-new-todo" title="Add the item to do list">
+<button id="add-to-list">Add to list</button>
+<hr>
+<div id="add-new-todo" title="Add item to do list">
   <form onsubmit="return false" id="todo-form">
-    <input type="text" id="new-todo" placeholder="Title">
+    <input type="text" name="task" id="new-todo" placeholder="Title" class="input-default form-control">
   </form>
 </div>
 
@@ -25,6 +27,7 @@
   </div>
 
   <div id="todo-list">
+    <img src="/pics/loader.gif" alt="Loading your todo list">
   </div>
 </div>
 

@@ -2,7 +2,7 @@ from google.appengine.ext import db
 
 
 class Publication(db.Model):
-    user = db.StringProperty(required=True)
+    user_name = db.StringProperty(required=True)
     title = db.StringProperty(required=True)
     link = db.StringProperty()
     authors = db.StringProperty(required=True,
@@ -10,37 +10,37 @@ class Publication(db.Model):
                                 )
 
     @classmethod
-    def create_publication(cls, user, title, link, authors):
-        return Publication(user=user,
+    def create_publication(cls, user_name, title, link, authors):
+        return Publication(user_name=user_name,
                            title=title,
                            link=link,
                            authors=authors
                            )
     
     @classmethod
-    def by_user(cls, user_name):
-        return Publication.all().filter('user =', user_name)
+    def by_user_name(cls, user_name):
+        return Publication.all().filter('user_name =', user_name)
 
 
 class Award(db.Model):
-    user = db.StringProperty(required=True)
+    user_name = db.StringProperty(required=True)
     title = db.StringProperty(required=True)
     details = db.TextProperty(required=True)
 
     @classmethod
-    def creare_award(cls, user, title, details):
-        return Award(user=user,
+    def creare_award(cls, user_name, title, details):
+        return Award(user_name=user_name,
                      title=title,
                      details=details
                      )
 
     @classmethod
-    def by_user(cls, user_name):
-        return Award.all().filter('user =', user_name)
+    def by_user_name(cls, user_name):
+        return Award.all().filter('user_name =', user_name)
 
 
 class Work(db.Model):
-    user = db.StringProperty(required=True)
+    user_name = db.StringProperty(required=True)
     title = db.StringProperty(required=True)
     employer = db.StringProperty(required=True)
     start_date = db.StringProperty(required=True)
@@ -48,8 +48,10 @@ class Work(db.Model):
     details = db.TextProperty()
     
     @classmethod
-    def creat_work(cls, user, title, employer, start_date, end_date, details):
-        return Work(user=user,
+    def creat_work(cls, user_name,
+                   title, employer,
+                   start_date, end_date, details):
+        return Work(user_name=user_name,
                     title=title,
                     employer=employer,
                     start_date=start_date,
@@ -58,12 +60,12 @@ class Work(db.Model):
                     )
     
     @classmethod
-    def by_user(cls, user_name):
-        return Work.all().filter('user =', user_name)
+    def by_user_name(cls, user_name):
+        return Work.all().filter('user_name =', user_name)
 
 
 class Education(db.Model):
-    user = db.StringProperty(required=True)
+    user_name = db.StringProperty(required=True)
     degree = db.StringProperty(required=True)
     majors = db.ListProperty(str, required=True)
     school = db.StringProperty(required=True)
@@ -72,9 +74,9 @@ class Education(db.Model):
     courses = db.ListProperty(str, required=True)
     
     @classmethod
-    def create_edu(cls, user, degree,
+    def create_edu(cls, user_name, degree,
                    school, majors, gpa, graduation, courses):
-        return Education(user=user,
+        return Education(user_name=user_name,
                          degree=degree,
                          school=school,
                          majors=majors,
@@ -84,5 +86,26 @@ class Education(db.Model):
                          )
 
     @classmethod
-    def by_user(cls, user):
-        return Education.all().filter('user =', user)
+    def by_user_name(cls, user_name):
+        return Education.all().filter('user_name =', user_name)
+
+
+class ToDo(db.Model):
+    user_name = db.StringProperty(required=True)
+    task = db.StringProperty(required=True)
+    status = db.BooleanProperty(required=True)
+    date = db.DateTimeProperty(auto_now_add=True)
+
+    @classmethod
+    def by_id(cls, id):
+        return ToDo.get_by_id(id)
+
+    @classmethod
+    def by_user_name(cls, user_name):
+        return ToDo.all().filter('user_name =', user_name)
+
+    @classmethod
+    def create_todo(cls, user_name, task,):
+        return ToDo(user_name=user_name,
+                    task=task,
+                    status=False)

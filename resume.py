@@ -14,10 +14,10 @@ class Resume(base.RequestHandler):
                 u = self.user
 
             if u is not None:
-                education = list(tables.Education.by_user(u.user_name))
-                awards = list(tables.Award.by_user(u.user_name))
-                works = list(tables.Work.by_user(u.user_name))
-                publications = tables.Publication.by_user(u.user_name)
+                education = list(tables.Education.by_user_name(u.user_name))
+                awards = list(tables.Award.by_user_name(u.user_name))
+                works = list(tables.Work.by_user_name(u.user_name))
+                publications = tables.Publication.by_user_name(u.user_name)
                 if u.user_name == self.user.user_name:
                     self.render("resume.html",
                                 edu=education,
@@ -54,7 +54,7 @@ class UpdateEducation(base.RequestHandler):
             'gpa': gpa,
             'courses': courses
         }
-        edu = tables.Education.create_edu(user=self.user.user_name,
+        edu = tables.Education.create_edu(user_name=self.user.user_name,
                                           degree=degree,
                                           school=school,
                                           majors=majors,
@@ -75,7 +75,7 @@ class UpdatePublication(base.RequestHandler):
                        'link': link,
                        'authors': authors
                        }
-        publication = (tables.Publication.create_publication(user=self.user.user_name,
+        publication = (tables.Publication.create_publication(user_name=self.user.user_name,
                                                              title=title,
                                                              link=link,
                                                              authors=authors))
@@ -90,7 +90,7 @@ class UpdateAward(base.RequestHandler):
         output_json = {'title': title,
                        'details': details
                        }
-        award = tables.Award.creare_award(user=self.user.user_name,
+        award = tables.Award.creare_award(user_name=self.user.user_name,
                                           title=title,
                                           details=details
                                           )
@@ -110,7 +110,7 @@ class UpdateWork(base.RequestHandler):
                        'start_date': start_date,
                        'end_date': end_date,
                        }
-        work = tables.Work.creat_work(user=self.user.user_name,
+        work = tables.Work.creat_work(user_name=self.user.user_name,
                                       title=title,
                                       employer=employer,
                                       start_date=start_date,
@@ -127,10 +127,10 @@ class GetJSON(base.RequestHandler):
         if not user_name:
             user_name = self.user.user_name
         if user_name:
-            educations = list(tables.Education.by_user(user_name))
-            work = list(tables.Work.by_user(user_name))
-            award = list(tables.Work.by_user(user_name))
-            publication = list(tables.Publication.by_user(user_name))
+            educations = list(tables.Education.by_user_name(user_name))
+            work = list(tables.Work.by_user_name(user_name))
+            award = list(tables.Work.by_user_name(user_name))
+            publication = list(tables.Publication.by_user_name(user_name))
             education_list = []
             for e in educations:
                 edu = {
