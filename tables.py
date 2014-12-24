@@ -43,8 +43,8 @@ class Work(db.Model):
     user_name = db.StringProperty(required=True)
     title = db.StringProperty(required=True)
     employer = db.StringProperty(required=True)
-    start_date = db.StringProperty(required=True)
-    end_date = db.StringProperty(required=True)
+    start_date = db.DateProperty(required=True)
+    end_date = db.DateProperty(required=True)
     details = db.TextProperty()
     
     @classmethod
@@ -61,7 +61,7 @@ class Work(db.Model):
     
     @classmethod
     def by_user_name(cls, user_name):
-        return Work.all().filter('user_name =', user_name)
+        return Work.all().filter('user_name =', user_name).order('end_date')
 
 
 class Education(db.Model):
@@ -70,7 +70,7 @@ class Education(db.Model):
     majors = db.ListProperty(str, required=True)
     school = db.StringProperty(required=True)
     gpa = db.StringProperty()
-    graduation = db.StringProperty(required=True)
+    graduation = db.DateProperty(required=True)
     courses = db.ListProperty(str, required=True)
     
     @classmethod
@@ -87,7 +87,7 @@ class Education(db.Model):
 
     @classmethod
     def by_user_name(cls, user_name):
-        return Education.all().filter('user_name =', user_name)
+        return Education.all().filter('user_name =', user_name).order('graduation')
 
 
 class ToDo(db.Model):
@@ -109,3 +109,21 @@ class ToDo(db.Model):
         return ToDo(user_name=user_name,
                     task=task,
                     status=False)
+
+
+class Summary(db.Model):
+    user_name = db.StringProperty(required=True)
+    summary = db.TextProperty(required=True)
+
+    @classmethod
+    def create_summary(cls, user_name, summary):
+        return Summary(user_name=user_name,
+                       summary=summary)
+
+    @classmethod
+    def by_id(cls, sid):
+        return Summary.get_by_id(sid)
+
+    @classmethod
+    def by_user_name(cls, user_name):
+        return Summary.all().filter('user_name =', user_name).get()

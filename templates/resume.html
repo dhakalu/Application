@@ -18,14 +18,12 @@
     <hr>
     {% endif %}
 
-    <div id="self_details">
-      I am a good guy
-    </div>
+    <div id="self_details"></div>
   
     <div id="self_add" title="Add your self summary!">
       <form id="self_add_form">
-	<textarea id="self_summary" name="self_summary" placeholder="" class="form-control default-input"></textarea>
-	<input type="submit" id="self_summary_btn" value="Add">
+	<textarea form="self_add_form" id="self_summary" name="self_summary" placeholder="" class="form-control default-input"></textarea>
+	<input type="submit" id="self_summary_btn" class="btn btn-success" value="Add">
       </form>
     </div>
   </div>
@@ -39,8 +37,7 @@
      </div>
      {% endif %}
 
-    <div id="edu_details">
-    </div>
+    <div id="edu_details"></div>
 
      <div id="add_edu" title="Add Academic Details">
        <form id="add_edu_form">
@@ -48,7 +45,7 @@
 	<input type="text" name="majors" id="majors" class="form-control default-input" placeholder="Majors seperate by comma">
 	<input type="text" name="school" id="school" class="form-control default-input" placeholder="Institution">
 	<input type="text" name="gpa" id="gpa" class="form-control default-input" placeholder="GPA">
-	<input name="graduation" id="graduation" class="form-control default-input" placeholder="Graduation Date/ Expected Graduation">
+	<input name="graduation" id="graduation" class="form-control default-input date-input" placeholder="Graduation Date/ Expected Graduation">
 	<textarea name="courses" id="courses" class="form-control default-input" placeholder="Seperate Subjects with coma"></textarea>
 	</form>
      </div>
@@ -70,8 +67,9 @@
 	<form id="add_work_form">
 	  <input type="text" name="work_title" id="work_title" placeholder="Title" class="form-control default-input">
 	  <input type="tetxt" name="employer" id="employer" placeholder="Employer" class="form-control default-input">
-	  <input type="text" name="start_date" id="end_date" placeholder="From" class="form-control default-input">
-	  <input type="text" name="end_date" i="end_date" placeholder="End Date" class="form-control default-input">  
+	  <input type="text" name="start_date" id="end_date" placeholder="From" class=" date-input form-control default-input">
+	  <input type="text" name="end_date" i="end_date" placeholder="End Date" class="date-input form-control default-input">
+	  <textarea form="add_work_form" name="details" id="details" placeholder="Details" class="form-control"></textarea>
 	</form>
       </div>
 
@@ -118,12 +116,22 @@
       </div>
       
   </div>
+
+  <h3>Technical Skills</h3>
+  <div>
+    
+  </div>
+
 </div>
 <br>
 
 {% if loged_user %}
 <div id="menu">
     <button id="add_section_bttn">Add a costume field</button>
+</div>
+
+<div id="add_section_form">
+  
 </div>
 {% endif %}
 
@@ -139,6 +147,7 @@
     </div>
     <div class="degree"></div>
     <div class="majors"></div>
+    <div class="graduation"></div>
     <div class="gpa"></div>
     <div class="courses"></div>
     <hr>
@@ -181,6 +190,14 @@
     <div class="details"> </div>
   </div>
   <hr>
+</div>
+
+<!-- Summary Frame -->
+<div id="summary_frame">
+  <div>
+    <div class="summary">
+    </div>
+  </div>
 </div>
 	
 {% endblock %}

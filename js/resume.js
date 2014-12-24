@@ -8,6 +8,7 @@ $(document).ready(function(){
 	    'publication': 0,
 	    'work' : 0
 	};
+	var old_self_summary = '';
 	$.ajax({
 	    url: '/resume_json',
 	    type: 'GET',
@@ -19,7 +20,7 @@ $(document).ready(function(){
 	    var education = results.education;
 	    var works = results.works;
 	    var publications = results.publications;
-	    
+	    var self_summary = results.summary;
 	    // load all awards
 	    for (var i = old_data.award; i < awards.length; i++){
 		var this_award = awards[i];
@@ -38,7 +39,15 @@ $(document).ready(function(){
 		$('#award_details').prepend($new_award);
 	    }
 
-	    // locd all education
+	    // Load self Summary
+	    if (old_self_summary != self_summary.summary){
+		console.log("Diffrent");
+		var $new_summary = $($('#summary_frame').html());
+		$new_summary.find('.summary').text(self_summary.summary);
+		$('#self_details').html($new_summary);
+	    }
+	    
+	    // load all education
 	    for (var i = old_data.education; i < education.length; i++){
 		var this_edu = education[i];
 		var this_institution = this_edu.institution;
@@ -46,6 +55,7 @@ $(document).ready(function(){
 		var this_courses = this_edu.courses;
 		var this_majors = this_edu.majors;
 		var this_gpa = this_edu.gpa;
+		var this_graduation = this_edu.graduation;
 		var edu_html_str = $('#education_frame').html();
 		var $new_edu = $(edu_html_str);
 		$new_edu.find('.institution').html(this_institution);
@@ -62,6 +72,7 @@ $(document).ready(function(){
 		}
 		$new_edu.find('.majors').text(majorHtml);
 		$new_edu.find('.gpa').text(this_gpa);
+		$new_edu.find('.graduation').text(this_graduation);
 		var coursesHtml = '';
 		for (var j=0; j<this_courses.length; j++){
 		    coursesHtml +='<button class="option-box">' +  this_courses[j] + '</button>';
@@ -102,10 +113,10 @@ $(document).ready(function(){
 		$new_work.find('.edit').html($edit_btn);
 		$new_work.find('.employer').text(this_work.employer);
 		$new_work.find('.duration').text(this_work.start_date + '-' + this_work.end_date);
+		$new_work.find('.details').text(this_work.details);
 		$('#work_details').prepend($new_work);
 	    }// end of loading work 
 	    
-	    // Load all Publications
 	   old_data.work = works.length;
 	   old_data.publication = publications.length;
 	   old_data.award = awards.length;
@@ -114,6 +125,7 @@ $(document).ready(function(){
     }// end of load page
 
     
+    // Add Self Summary
     $('#self_add').hide();
     if ($('#self_details').is(':empty')){
 	$('#edit_self_bttn').text('Add Summary');
@@ -127,10 +139,27 @@ $(document).ready(function(){
 	}else{
 	    $('#self_add').slideDown();
 	    $('#self_summary').val($.trim($('#self_details').text()));
+	    $('#self_summary_btn').val('Done');
 	    $('#self_details').html('');
 	}
     });
 
+    $('#self_add_form').submit(function(event){
+	event.preventDefault();
+	var formData = $('#self_add_form').serialize();
+	console.log(formData);
+	$.ajax({
+	    url: '/updateselfsummary',
+	    type: 'POST',
+	    data: formData,
+	    dataType: 'json'
+	})
+	.done(function(data){
+	    $('#self_add').hide();
+	    $('#self_add_form')[0].reset();
+	    loadPage();
+	}); // end of selfsummary update request
+    });
     // Add Education 
     $('#add_edu').dialog({
 	dialogClass: "no-close",
@@ -188,6 +217,7 @@ $(document).ready(function(){
 		},
 		click : function(){
 		    var formData = $('#add_work_form').serialize();
+		    console.log(formData);
 		    console.log(formData);
 		    $.ajax({
 			url: '/updatework',
@@ -337,4 +367,22 @@ $(document).ready(function(){
 	}
     }).click(function(){
     });
+
+    // Date picker
+    $('.date-input').datepicker({
+	changeMonth: true,
+	changeYear: true,
+	minDate : '-120y'
+    });
+    
 }); // end of ready function
+
+
+
+/*
+  All form validations goes here!
+ 
+ */
+
+//Validate self_add_formOB
+

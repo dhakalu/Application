@@ -39,5 +39,6 @@ app = webapp2.WSGIApplication([
     ('/updateresume', resume.UpdateEducation),
     ('/updatework', resume.UpdateWork),
     ('/updateaward', resume.UpdateAward),
-    ('/updatepublication', resume.UpdatePublication)
+    ('/updatepublication', resume.UpdatePublication),
+    ('/updateselfsummary', resume.UpdateSelfSummary)
     ], debug=True)

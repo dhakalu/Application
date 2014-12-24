@@ -2,6 +2,7 @@ import user
 import base
 import json
 import tables
+import datetime
 
 
 class Resume(base.RequestHandler):
@@ -39,13 +40,40 @@ class Resume(base.RequestHandler):
             self.redirect("/")
 
 
+class UpdateSelfSummary(base.RequestHandler):
+    def post(self):
+        output_json = {}
+        summary = self.request.get('self_summary')
+        if summary:
+            if self.user:
+                x = tables.Summary.by_user_name(self.user.user_name)
+                if x:
+                    x.summary = summary
+                    x.put()
+                else:
+                    summary = tables.Summary.create_summary(
+                        user_name=self.user.user_name, summary=summary)
+                    summary.put()
+                output_json['status'] = 'OK'
+            else:
+                output_json['status'] = 'ERR'
+                output_json['error'] = 'You are not loged in!'
+        else:
+            output_json['staus'] = 'ERR'
+            output_json['error'] = 'Self summary cannot be empty'
+        self.render_json(json.dumps(output_json))
+
+
 class UpdateEducation(base.RequestHandler):
     def post(self):
         degree = self.request.get('degree')
         school = self.request.get('school')
         gpa = self.request.get('gpa')
         majors = self.request.get('majors').split(',')
-        graduation = self.request.get('graduation')
+        date = self.request.get('graduation').split('/')
+        graduation = datetime.date(int(date[2]),
+                                   int(date[0]),
+                                   int(date[1]))
         courses = self.request.get('courses').split(',')
         output_json = {
             'status': True,
@@ -102,13 +130,20 @@ class UpdateWork(base.RequestHandler):
     def post(self):
         title = self.request.get('work_title')
         employer = self.request.get('employer')
-        start_date = self.request.get('start_date')
-        end_date = self.request.get('end_date')
+        st_date = self.request.get('start_date').split('/')
+        start_date = datetime.date(int(st_date[2]),
+                                   int(st_date[0]),
+                                   int(st_date[1]))
+        e_date = self.request.get('end_date').split('/')
+        end_date = datetime.date(int(e_date[2]),
+                                 int(e_date[0]),
+                                 int(e_date[1]))
         details = self.request.get('details')
         output_json = {'title': title,
                        'employer': employer,
-                       'start_date': start_date,
-                       'end_date': end_date,
+                       'start_date': str(start_date),
+                       'end_date': str(end_date),
+                       'details': details
                        }
         work = tables.Work.creat_work(user_name=self.user.user_name,
                                       title=title,
@@ -127,10 +162,16 @@ class GetJSON(base.RequestHandler):
         if not user_name:
             user_name = self.user.user_name
         if user_name:
+            summary = tables.Summary.by_user_name(user_name)
             educations = list(tables.Education.by_user_name(user_name))
             work = list(tables.Work.by_user_name(user_name))
             award = list(tables.Award.by_user_name(user_name))
             publication = list(tables.Publication.by_user_name(user_name))
+            summary_dict = {}
+            if summary:
+                summary_dict['id'] = summary.key().id()
+                summary_dict['user'] = summary.user_name
+                summary_dict['summary'] = summary.summary
             education_list = []
             for e in educations:
                 edu = {
@@ -138,7 +179,7 @@ class GetJSON(base.RequestHandler):
                     'degree': e.degree,
                     'majors': e.majors,
                     'gpa': e.gpa,
-                    'graduation': e.graduation,
+                    'graduation': str(e.graduation),
                     'courses': e.courses
                 }
                 education_list.append(edu)
@@ -147,8 +188,8 @@ class GetJSON(base.RequestHandler):
                 wk = {
                     'title': w.title,
                     'employer': w.employer,
-                    'start_date': w.start_date,
-                    'end_date': w.end_date,
+                    'start_date': str(w.start_date),
+                    'end_date': str(w.end_date),
                     'details': w.details
                 }
                 work_list.append(wk)
@@ -173,6 +214,7 @@ class GetJSON(base.RequestHandler):
             output = {
                 'results': {
                     'user': user_name,
+                    'summary': summary_dict,
                     'education': education_list,
                     'works': work_list,
                     'awards': award_list,
