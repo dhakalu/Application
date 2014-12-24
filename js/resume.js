@@ -1,10 +1,12 @@
 $(document).ready(function(){
+    loadPage();
     
     function loadPage(){
 	var old_data = {
 	    'award': 0,
 	    'education': 0,
-	    'publication': 0
+	    'publication': 0,
+	    'work' : 0
 	};
 	$.ajax({
 	    url: '/resume_json',
@@ -15,45 +17,102 @@ $(document).ready(function(){
 	    var results = data.results;
 	    var awards = results.awards;
 	    var education = results.education;
+	    var works = results.works;
 	    var publications = results.publications;
 	    
 	    // load all awards
 	    for (var i = old_data.award; i < awards.length; i++){
-		
+		var this_award = awards[i];
+		var award_html_str = $('#award_frame').html();
+		var $new_award = $(award_html_str);
+		$new_award.find('.title').text(this_award.title);
+		var $edit_btn = $('<button class="edit_btn"></button>').button({
+		    icons: {
+			primary: "ui-icon-pencil"
+		    }
+
+		});
+		$new_award.find('.edit').html($edit_btn);
+		$new_award.find('.details').text(this_award.details);
+		console.log($new_award.html());
+		$('#award_details').prepend($new_award);
 	    }
 
 	    // locd all education
 	    for (var i = old_data.education; i < education.length; i++){
-		var $new_edu = $($('#education_frame').html());
-		$new_edu.find('.institution').text(education[i].institution);
-		$new_edu.find('.edit_btn').button({
-		    icons: {
-			primary : "ui-icon-pencil"
+		var this_edu = education[i];
+		var this_institution = this_edu.institution;
+		var this_degree = this_edu.degree;
+		var this_courses = this_edu.courses;
+		var this_majors = this_edu.majors;
+		var this_gpa = this_edu.gpa;
+		var edu_html_str = $('#education_frame').html();
+		var $new_edu = $(edu_html_str);
+		$new_edu.find('.institution').html(this_institution);
+		var $edit_btn = $('<button class="edit_btn"></button>').button({
+		    icons : {
+			primary: "ui-icon-pencil"
 		    }
 		});
-		var majorHtml = "";
-		for (var j=0; j<education[i].majors.length; j++){
-		    majorHtml += '<span>' + education[i].majors[j] + '</span>';
+		$new_edu.find('.edit').html($edit_btn);
+		$new_edu.find('.degree').text(this_degree);
+		var majorHtml = '';
+		for (var j=0; j<this_majors.length; j++){
+		    majorHtml += this_majors[j] + ' ';
 		}
-		console.log(majorHtml);
-		$new_edu.find('.majors').append($(majorHtml));
-		$new_edu.find('.gpa').text("Cool");
-		var coursesHtml = "";
-		for ( var j=0; j<education[i].courses.length; j++){
-		    coursesHtml += '<button class="option-box">'+education[i].courses[j]+'</button>';
+		$new_edu.find('.majors').text(majorHtml);
+		$new_edu.find('.gpa').text(this_gpa);
+		var coursesHtml = '';
+		for (var j=0; j<this_courses.length; j++){
+		    coursesHtml +='<button class="option-box">' +  this_courses[j] + '</button>';
 		}
-		$new_edu.find('.courses').append($(coursesHtml));
+		$new_edu.find('.courses').html($(coursesHtml));
 		$('#edu_details').prepend($new_edu);
-	    }
 
-	    // load all publications
-	    for (var i = old_data.publication; i < publications.length; i++){
-		
-	    }
-	});
-    }
+	    }// end of loading education
+	   
+	     for (var i = old_data.publication; i<publications.length; i++){
+		var this_pub = publications[i];
+		var pub_html_str = $('#publication_frame').html();
+		var $new_pub = $(pub_html_str);
+		$new_pub.find('.title').text(this_pub.title);
+		var $edit_btn = $('<button class="edit_btn"></button>').button({
+		    icons: {
+			primary: "ui-icon-pencil"
+		    }
 
-    setInterval(loadPage(), 3000);
+		});
+		$new_pub.find('.edit').html($edit_btn);
+		$new_pub.find('.authors').text(this_pub.authors);
+		$('#publications_details').prepend($new_pub);
+	    } // end of loading publictaions
+
+ 
+	    // load all works
+	    for (var i = old_data.work; i< works.length; i++){
+		var this_work = works[i];
+		var work_html_str = $('#work_frame').html();
+		var $new_work = $(work_html_str);
+		$new_work.find('.title').text(this_work.title);
+		var $edit_btn = $('<button class="edit_btn"></button').button({
+		    icons: {
+			primary: "ui-icon-pencil"
+		    }
+		});
+		$new_work.find('.edit').html($edit_btn);
+		$new_work.find('.employer').text(this_work.employer);
+		$new_work.find('.duration').text(this_work.start_date + '-' + this_work.end_date);
+		$('#work_details').prepend($new_work);
+	    }// end of loading work 
+	    
+	    // Load all Publications
+	   old_data.work = works.length;
+	   old_data.publication = publications.length;
+	   old_data.award = awards.length;
+	   old_data.education = education.length;
+	});// end of ajax request
+    }// end of load page
+
     
     $('#self_add').hide();
     if ($('#self_details').is(':empty')){
@@ -94,8 +153,8 @@ $(document).ready(function(){
 			 dataType: 'json'
 		     }).done(function(data){
 			 if (data.status){
-			     console.log(data);
-			    $('#edu_details').prepend('<div>'+data+'</div>');
+			     loadPage();
+			   $(this).dialog('colse');
 			 }
 		     });
 		 }
@@ -136,7 +195,8 @@ $(document).ready(function(){
 			data: formData,
 			dataType: 'json'
 		    }).done(function(data){
-			console.log(data);
+			loadPage();
+			$(this).dialog('close');
 		    });
 		}
 	    },
@@ -176,7 +236,8 @@ $(document).ready(function(){
 			data: formData,
 			dataType: 'json'
 		    }).done(function(data){
-			console.log(data);
+			loadPage();
+			$(this).dialog('close');
 		    });
 		}
 	    },
@@ -215,7 +276,8 @@ $(document).ready(function(){
 			data: formData,
 			dataType: 'json'
 		    }).done(function(data){
-			console.log(data);
+			loadPage();
+			$(this).dialog('close');
 		    });
 		}
 	    },

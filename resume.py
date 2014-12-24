@@ -129,7 +129,7 @@ class GetJSON(base.RequestHandler):
         if user_name:
             educations = list(tables.Education.by_user_name(user_name))
             work = list(tables.Work.by_user_name(user_name))
-            award = list(tables.Work.by_user_name(user_name))
+            award = list(tables.Award.by_user_name(user_name))
             publication = list(tables.Publication.by_user_name(user_name))
             education_list = []
             for e in educations:

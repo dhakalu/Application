@@ -39,28 +39,8 @@
      </div>
      {% endif %}
 
-     <div id="edu_details">
-       {% for e in edu %}
-	 <div class="text-title">{{e.school}}</div>
-	 <div>{{e.degree}}</div>
-	 <div>
-	   {% for major in e.majors %}
-	   <span>{{ major }}</span>
-	   {% endfor %}
-	 </div>
-	 <div>
-	   {% if e.gpa %}
-	   GPA: {{e.gpa}}
-	   {% endif %}
-	 </div>
-	 <div>
-	   {% for course in e.courses %}
-	    <button class="option-box"> {{course}} </button> 
-	   {% endfor %}
-	 </div>
-	 <hr>
-       {% endfor %}
-     </div>
+    <div id="edu_details">
+    </div>
 
      <div id="add_edu" title="Add Academic Details">
        <form id="add_edu_form">
@@ -84,18 +64,7 @@
       </div>
       {% endif %}
       
-      <div id="work_details">
-	
-	{% for work in works %}
-	  <div class="text-title">{{work.title}}</div>
-	  <div>
-	    <div> {{work.employer}}</div>
-	    <div> {{work.start_date}} - {{work.end_date}} </div>
-	  </div>
-	  <hr>
-	  {% endfor %}
-	
-      </div>
+      <div id="work_details"> </div>
       
       <div id="add_work_dialog" title="Add Job Details">
 	<form id="add_work_form">
@@ -118,19 +87,7 @@
       </div>
       {% endif %}
       
-      <div id="award_deatils">
-	
-	 {% for award in awards %}
-	 <div class="text-title">
-	  {{ award.title }}
-	 </div>
-	 <div>
-	   {{ award.details }}
-	   <hr>
-	 </div>
-	 {% endfor %}
-	
-      </div>
+      <div id="award_details"> </div>
       
       <div id="award_form" title="Add Award">
 	<form id="add_award">
@@ -150,20 +107,7 @@
       </div>
       {% endif %}
       
-      <div id="publications_details">
-	
-	  {% for publication in publications %}
-	  <div class="text-title">
-	   <a href="{{publication.link}}
-"></a> {{publication.title}}
-	  </div>
-	  <div>
-	    {{publication.authors}}
-	    <hr>
-	  </div>
-	  {% endfor %}
-	
-      </div>
+      <div id="publications_details"> </div>
       
       <div id="add_publication" title="Add Publication">
 	<form id="add_public_form">
@@ -184,4 +128,59 @@
 {% endif %}
 
 
+
+
+<!-- Frame for education -->
+<div id="education_frame">
+  <div>
+    <div class="row">
+      <div class="col-md-10 text-title institution"></div>
+      <div class="col-md-2 edit"></div>
+    </div>
+    <div class="degree"></div>
+    <div class="majors"></div>
+    <div class="gpa"></div>
+    <div class="courses"></div>
+    <hr>
+  </div>
+</div>
+
+<!-- Frame for work -->
+<div id="work_frame">
+  <div>
+    <div class="row">
+      <div class="title text-title col-md-10"></div>
+      <div class="edit col-md-2"></div>
+    </div>
+    <div class="employer"> </div>
+    <div class="duration"> </div>
+    <div class="details"></div>
+    <hr>
+  </div>
+</div>
+	 
+<!-- Frame for publictions --> 
+<div id="publication_frame">
+  <div>
+    <div class="row">
+      <div class="text-title title col-md-10"> </div>
+      <div class="edit col-md-2"></div>
+    </div>
+    <div class="authors"></div>
+  </div>
+  <hr>
+</div>
+
+<!-- Frame for award -->
+<div id="award_frame">
+  <div>
+    <div class="row">
+      <div class=" title text-title col-md-10"></div>
+      <div class="edit col-md-2"></div>
+     </div>
+    <div class="details"> </div>
+  </div>
+  <hr>
+</div>
+	
 {% endblock %}
