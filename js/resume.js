@@ -19,19 +19,31 @@ $(document).ready(function(){
 	    
 	    // load all awards
 	    for (var i = old_data.award; i < awards.length; i++){
-		var new_edu = '<div>';
-		var title_bar  = '<div class="row">';
-		title_bar += '<div class="text-title col-md-10"></div>';
-		title_bar += '<div class="col-md-2 edit"></div>';
-		title_bar += '</div>';
-		new_edu += title_bar;
-		new_edu += 'div class="degree"></div>';
-		new_edu += '</div>';
+		
 	    }
 
 	    // locd all education
 	    for (var i = old_data.education; i < education.length; i++){
-		
+		var $new_edu = $($('#education_frame').html());
+		$new_edu.find('.institution').text(education[i].institution);
+		$new_edu.find('.edit_btn').button({
+		    icons: {
+			primary : "ui-icon-pencil"
+		    }
+		});
+		var majorHtml = "";
+		for (var j=0; j<education[i].majors.length; j++){
+		    majorHtml += '<span>' + education[i].majors[j] + '</span>';
+		}
+		console.log(majorHtml);
+		$new_edu.find('.majors').append($(majorHtml));
+		$new_edu.find('.gpa').text("Cool");
+		var coursesHtml = "";
+		for ( var j=0; j<education[i].courses.length; j++){
+		    coursesHtml += '<button class="option-box">'+education[i].courses[j]+'</button>';
+		}
+		$new_edu.find('.courses').append($(coursesHtml));
+		$('#edu_details').prepend($new_edu);
 	    }
 
 	    // load all publications
