@@ -1,3 +1,6 @@
+body{
+    overflow-x: hidden;
+}
 .ui-accordion-content {  
     width: 100%;  
     background-color: #f3f3f3;  

@@ -90,7 +90,7 @@
       <div id="award_form" title="Add Award">
 	<form id="add_award">
 	  <input type="text" id="title" name="title" placeholder="Title" class="form-control default-input">
-	  <textarea id="award_details" id="detail" placeholder="Details" class="form-control"></textarea>
+	  <textarea form="add_award" name="details" id="about_award" placeholder="Details" class="form-control"></textarea>
 	</form>
 	
       </div>
@@ -119,7 +119,21 @@
 
   <h3>Technical Skills</h3>
   <div>
-    
+    {% if loged_user %}
+    <div>
+      <button id="add_tech_skill_btn">Add Skill</button>
+    </div>
+    {% endif %}
+    <div id="tech_skill_dialog">
+      <form id="add_technical_skills">
+	<input type="text" name="skill_title" id="skill_title" placeholder="Title" class="form-control default-input">
+	<div id="skill_level">
+	  <input type="radio" id="radio1" name="radio"><label for="radio1">Familiar</label>
+	  <input type="radio" id="radio2" name="radio" checked="checked"><label for="radio2">Medium</label>
+	  <input type="radio" id="radio3" name="radio"><label for="radio3">Proficient</label>
+	</div>
+      </form>
+   </div>
   </div>
 
 </div>

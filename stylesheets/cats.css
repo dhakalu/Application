@@ -1,0 +1,28 @@
+body{
+    overflow-y: hidden;
+}
+
+.left-bar{
+    padding: 15px;
+}
+
+.col-md-3 {
+    padding-left: 30px;
+    height: 90%;
+    overflow: scroll;
+}
+
+.sidebar_images{
+    border: 2px solid white;
+    margin: 5px;
+    opacity: 0.4;
+}
+
+.sidebar_images:hover{
+    opacity: 1;
+}
+
+#selected_cat {
+    width: 100%;
+    height :400px;
+}

@@ -44,7 +44,8 @@ $(document).ready(function(){
 			});
 			$updateHtml.find('.remove').html($delete_btn);
 			$updateHtml.find('.mark_done_btn').attr('id','mark_done_' + todo_task[i].id);
-			$updateHtml.find('.mark_done_btn').attr('onclick','mark_done');
+			$updateHtml.find('.edit_btn').attr('id','edit_' + todo_task[i].id);
+			$updateHtml.find('.remove_btn').attr('id', 'remove_' + todo_task[i].id);
 			$updateHtml.hide();
 			$('#todo-list').prepend($updateHtml);
 			$updateHtml.show('clip',250).effect('highlight',1000);
@@ -56,6 +57,21 @@ $(document).ready(function(){
 	}, 3000);
      };
     
+     // Function that marks the job as done
+    $('body').on('click', '.mark_done_btn', function(){
+	var id = $(this).attr('id').split('_')[2];
+	var formData = 'mark_done=' + id;
+	$.ajax({
+		    url: '/updatetodo',
+		    type: 'POST',
+		    data: formData,
+		    dataType: 'json'
+		}).done(function(data){
+		    $('#todo-form')[0].reset();
+		    $('#add-new-todo').dialog('close');
+		});
+    });// end of making done
+
     $('#add-to-list').button({
 	icons: {
 	    primary: "ui-icon-circle-plus"
@@ -88,7 +104,8 @@ $(document).ready(function(){
 		    data: formData,
 		    dataType: 'json'
 		}).done(function(data){
-		    console.log(data);
+		    $('#todo-form')[0].reset();
+		    $('#add-new-todo').dialog('close');
 		});
 	    } // end of clisk
 	}, // end of add bttn

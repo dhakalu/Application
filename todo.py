@@ -12,33 +12,65 @@ class ToDoPage(base.RequestHandler):
 
 
 class Update(base.RequestHandler):
+    user_name = None
+    error = {}
+    data = {}
+    has_error = False
+    output_json = {}
+
     def post(self):
-        task = self.request.get('task')
-        user_name = self.user.user_name
-        error = {}
-        data = {}
-        has_error = False
-        output_json = {}
-        if task:
-            data['task'] = task
-            if user_name:
-                data['user_name'] = user_name
-                t = tables.ToDo.create_todo(user_name=user_name, task=task)
-                t.put()
+        if self.user:
+            self.user_name = self.user.user_name
+            task = self.request.get('task')
+            mark_done = self.request.get('mark_done')
+            edit = self.request.get('edit')
+            delete = self.request.get('delet')
+            if mark_done:
+                self.mark_done(mark_done)
+            elif edit:
+                self.edit(edit)
+            elif delete:
+                self.delete(delete)
+            elif task:
+                self.create_todo(task, self.user_name)
             else:
                 has_error = True
-                error['no_user'] = 'You are not loged in.'
+                self.error['invalid_request'] = 'Request is not valid'
         else:
             has_error = True
-            error['no_task'] = 'Task cannot be empty.'
+            self.error['no_user'] = 'You are not loged in.'
         
         if has_error:
-            output_json['status'] = 'ERR'
+            self.output_json['status'] = 'ERR'
         else:
-            output_json['status'] = 'OK'
-        output_json['data'] = data
-        output_json['error'] = error
-        self.render_json(json.dumps(output_json))
+            self.output_json['status'] = 'OK'
+        self.output_json['data'] = self.data
+        self.output_json['error'] = self.error
+        self.render_json(json.dumps(self.output_json))
+    
+    def create_todo(self, task, user_name):
+        t = tables.ToDo.create_todo(user_name=user_name, task=task)
+        t.put()
+        self.data['user_name'] = user_name
+        self.data['tas'] = task
+
+    def mark_done(self, todo_id):
+        todo = tables.ToDo.by_id(int(todo_id))
+        if todo:
+            todo.status = True
+            todo.put()
+            self.output_json['status'] = 'OK'
+        else:
+            self.has_error = True
+            self.output_json['status'] = 'ERR'
+            self.output_json['error'] = 'No such task'
+
+    def delete(self, todo_id):
+        todo = tables.ToDo.by_id(todo_id)
+        todo.delete()
+
+    def edit(self, todo_id):
+        pass
 
 
 class GetJSON(base.RequestHandler):

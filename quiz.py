@@ -23,8 +23,14 @@ class SettingsPage(base.RequestHandler):
     def get(self):
         self.render("settings.html")
        
+
+class CatPage(base.RequestHandler):
+    def get(self):
+        self.render("cats.html")
+
 app = webapp2.WSGIApplication([
     ('/', MainPage),
+    ('/catclicker', CatPage),
     ('/faqs', FaqPage),
     ('/todo', todo.ToDoPage),
     ('/todo_json', todo.GetJSON),
