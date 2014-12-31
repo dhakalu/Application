@@ -128,6 +128,33 @@ class UpdateWork(base.RequestHandler):
         self.render_json(json.dumps(output_json))
 
 
+class UpdateTechnicalSkill(base.RequestHandler):
+    def post(self):
+        output_json = {}
+        skill_medium = self.request.get('medium')
+        skill_familiar = self.request.get('familiar')
+        skill_pro = self.request.get('proficient')
+        title = self.request.get('title')
+        if skill_medium:
+            level = 'medium'
+        elif skill_familiar:
+            level = 'familiar'
+        elif skill_pro:
+            level = 'proficirnt'
+        else:
+            output_json['status'] = 'ERR',
+            output_json['error'] = 'Level Required'
+        if title and level:
+            skill = tables.TechnicalSkill.create_skill(
+                user_name=self.user.user_name,
+                title=title,
+                level=level
+            )
+            skill.put()
+            output_json['status'] = 'OK'
+        self.render_json(json.dumps(output_json))
+
+
 class EditEducation(base.RequestHandler):
     def post(self):
         output_json = {}
@@ -279,6 +306,75 @@ class DeleteEducation(base.RequestHandler):
         self.render_json(json.dumps(output_json))
 
 
+class DeleteWork(base.RequestHandler):
+    def post(self):
+        output_json = {}
+        work_id = self.request.get('id')
+        if work_id and work_id.isdigit():
+            if self.user:
+                work_id = int(work_id)
+                this_work = tables.Work.by_id(work_id)
+                if this_work.user_name == self.user.user_name:
+                    this_work.delete()
+                    output_json['status'] = 'OK'
+                else:
+                    output_json['status'] = 'ERR'
+                    output_json['error'] = 'You do not have the permission'
+            else:
+                output_json['status'] = 'ERR'
+                output_json['error'] = 'You are not loged in'
+        else:
+            output_json['status'] = 'ERR'
+            output_json['error'] = 'Id is invalid'
+        self.render_json(json.dumps(output_json))
+
+
+class DeletePublication(base.RequestHandler):
+    def post(self):
+        output_json = {}
+        publication_id = self.request.get('id')
+        if publication_id and publication_id.isdigit():
+            if self.user:
+                publication_id = int(publication_id)
+                this_publiction = tables.Publication.by_id(publication_id)
+                if this_publiction.user_name == self.user.user_name:
+                    this_publiction.delete()
+                    output_json['status'] = 'OK'
+                else:
+                    output_json['status'] = 'ERR'
+                    output_json['error'] = 'You do not have the permission'
+            else:
+                output_json['status'] = 'ERR'
+                output_json['error'] = 'You are not loged in'
+        else:
+            output_json['status'] = 'ERR'
+            output_json['error'] = 'Id is invalid'
+        self.render_json(json.dumps(output_json))
+
+
+class DeleteAward(base.RequestHandler):
+    def post(self):
+        output_json = {}
+        award_id = self.request.get('id')
+        if award_id and award_id.isdigit():
+            if self.user:
+                award_id = int(award_id)
+                this_award = tables.Award.by_id(award_id)
+                if this_award.user_name == self.user.user_name:
+                    this_award.delete()
+                    output_json['status'] = 'OK'
+                else:
+                    output_json['status'] = 'ERR'
+                    output_json['error'] = 'You do not have the permission'
+            else:
+                output_json['status'] = 'ERR'
+                output_json['error'] = 'You are not loged in'
+        else:
+            output_json['status'] = 'ERR'
+            output_json['error'] = 'Id is invalid'
+        self.render_json(json.dumps(output_json))
+
+
 class GetJSON(base.RequestHandler):
     def get(self):
         user_name = self.request.get('u')
@@ -288,6 +384,7 @@ class GetJSON(base.RequestHandler):
             work = list(tables.Work.by_user_name(user_name))
             award = list(tables.Award.by_user_name(user_name))
             publication = list(tables.Publication.by_user_name(user_name))
+            skills = list(tables.TechnicalSkill.by_user_name(user_name))
             summary_dict = {}
             if summary:
                 summary_dict['id'] = summary.key().id()
@@ -335,7 +432,14 @@ class GetJSON(base.RequestHandler):
                     'authors': p.authors
                 }
                 publictaion_list.append(pub)
-
+            skill_list = []
+            for s in skills:
+                skill = {
+                    'id': s.key().id(),
+                    'title': s.title,
+                    'level': s.level
+                }
+                skill_list.append(skill)
             output = {
                 'results': {
                     'user': user_name,
@@ -343,7 +447,8 @@ class GetJSON(base.RequestHandler):
                     'education': education_list,
                     'works': work_list,
                     'awards': award_list,
-                    'publications': publictaion_list
+                    'publications': publictaion_list,
+                    'skills': skill_list
                 }
             }
             self.render_json(json.dumps(output))

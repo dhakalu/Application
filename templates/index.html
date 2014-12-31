@@ -1,50 +1,50 @@
 <html>
-<head>
-    <title>Quiz App</title>
-    <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.1/css/bootstrap.min.css">
-    {% block header %}
-    {% endblock %}
-<script src="https://ajax.googleapis.com/ajax/libs/jquery/1.11.1/jquery.min.js" ></script>
-<script src="/js/quiz.js"></script>
-</head>
-<body>
-  <div class="row">
-    <div class="col-md-3">
-    </div>
-    <div class="col-md-6">
-      <div id="question">
-      </div>
-     <hr>
-      <div id="answer_box">
-	<form id="question_form" method="POST" onsubmit="return false">
-	  <input type="radio" name="answer" id='opt_1' value="val"> <span id="ans_1"></span><br>
-	  <input type="radio" name="answer" id='opt_2' value="val2"> <span id="ans_2"></span><br>
-	  <input type="radio" name="answer" id="opt_3" value="val3"> <span id="ans_3"></span><br>
-	  <input type="radio" name="answer" id="opt_4"value="val4"> <span id="ans_4"></span><br>
-	  <br>
-	  <input type="submit" value="Submit" id="ans_submit_bttn" class="btn btn-sucess">
-	</form>
-	<div id='results'>
-	  <div id='feed_back'>
-	    <b></b>
-	  </div>
-	  <div id="score">
-	  </div>
-	</div>
-	
-      </div>
-      <hr>
-      <div id="question_nav">
-	<span><button id="prev_bttn" class="btn btn-primary">Previous</button></span>
-	<span><button id="next_bttn" class="btn btn-primary">Next</button></span>
-      </div>
-      <div>
-	{% block question %}
+    <head>
+	<title>Quiz App</title>
+	<link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.1/css/bootstrap.min.css">
+	{% block header %}
 	{% endblock %}
-      </div>
-    </div>
-    <div class="col-md-3">
-    </div>
-  </div>
-</body>
+	<script src="https://ajax.googleapis.com/ajax/libs/jquery/1.11.1/jquery.min.js" ></script>
+	<script src="/js/quiz.js"></script>
+    </head>
+    <body>
+	<div class="row">
+	    <div class="col-md-3">
+	    </div>
+	    <div class="col-md-6">
+		<div id="question">
+		</div>
+		<hr>
+		<div id="answer_box">
+		    <form id="question_form" method="POST" onsubmit="return false">
+			<input type="radio" name="answer" id='opt_1' value="val"> <span id="ans_1"></span><br>
+			<input type="radio" name="answer" id='opt_2' value="val2"> <span id="ans_2"></span><br>
+			<input type="radio" name="answer" id="opt_3" value="val3"> <span id="ans_3"></span><br>
+			<input type="radio" name="answer" id="opt_4"value="val4"> <span id="ans_4"></span><br>
+			<br>
+			<input type="submit" value="Submit" id="ans_submit_bttn" class="btn btn-sucess">
+		    </form>
+		    <div id='results'>
+			<div id='feed_back'>
+			    <b></b>
+			</div>
+			<div id="score">
+			</div>
+		    </div>
+		    
+		</div>
+		<hr>
+		<div id="question_nav">
+		    <span><button id="prev_bttn" class="btn btn-primary">Previous</button></span>
+		    <span><button id="next_bttn" class="btn btn-primary">Next</button></span>
+		</div>
+		<div>
+		    {% block question %}
+		    {% endblock %}
+		</div>
+	    </div>
+	    <div class="col-md-3">
+	    </div>
+	</div>
+    </body>
 </html>

@@ -35,7 +35,7 @@
 			 console.log(passwordErr);
 		     }
 		 }else{
-		     $(location).attr('url','/resume');
+		     $(location).attr('href','/resume');
 		 }	
 	     }); // end of ajax request
      }); // end of submit 

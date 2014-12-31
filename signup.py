@@ -75,34 +75,24 @@ class SignUp(base.RequestHandler):
         email = self.request.get('email')
         email_confirm = self.request.get('email_confirm')
         password = base.hash_str(self.request.get('password'))
-        output = {'first_name': first_name,
-                  'last_name': last_name,
-                  'email': email,
-                  'email_confirm': email_confirm,
-                  }
-
+        output_json = {}
         # check validity of user name
         valid_name = self.is_valid_name(user_name)
         if not valid_name[0]:
             has_error = True
-            output['user_name_error'] = valid_name[1]
+            output_json['user_name_error'] = valid_name[1]
 
         # check validity of email
         valid_email = self.is_valid_email(email)
         if not valid_email[0]:
             has_error = True
-            output['email_error'] = valid_email[1]
+            output_json['email_error'] = valid_email[1]
         elif email != email_confirm:
             has_error = True
-            output['email_error'] = 'Emails did not match.'
+            output_json['email_error'] = 'Emails did not match.'
 
         if has_error:
-            output_str = {
-                'result': output,
-                'status': 'ERR'
-            }
-            self.response.headers['Content-Type'] = 'text/html; charset=utf-8'
-            self.render_json(json.dumps(output_str))
+            output_json['status'] = 'ERR'
         else:
             u = user.User.create_user(first_name=first_name,
                                       last_name=last_name,
@@ -116,8 +106,8 @@ class SignUp(base.RequestHandler):
             u.put()
             self.login(u)
             self.send_confirmation_email(u)
-            self.redirect('/welcome')
-            return
+            output_json['status'] = 'OK'
+        self.render_json(json.dumps(output_json))
 
 
 class Login(base.RequestHandler):

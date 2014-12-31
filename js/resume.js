@@ -4,7 +4,8 @@ $(document).ready(function(){
 	    'award': 0,
 	    'education': 0,
 	    'publication': 0,
-	    'work' : 0
+	    'work': 0,
+	    'skill': 0
 	},
 	old_self_summary : '',
 	get_json : function(){
@@ -28,21 +29,40 @@ $(document).ready(function(){
 		var eduId = $(this).attr('id').split('_')[1];
 		octupus.editEducation(eduId);
 	    });
+	    
 	    $('body').on('click', '.delete_edu_btn', function(){
 		var eduId = $(this).attr('id').split('_')[1];
 		octupus.deleteEducation(eduId);
 	    });
+	    
 	    $('body').on('click', '.edit_award_btn', function(){
 		var awardId = $(this).attr('id').split('_')[1];
 		octupus.editAward(awardId);
 	    });
+	    
+	    $('body').on('click', '.delete_award_btn', function(){
+		var awardId = $(this).attr('id').split('_')[1];
+		octupus.deleteAward(awardId);
+	    });
+	    
 	    $('body').on('click', '.edit_work_btn', function(){
 		var work_id = $(this).attr('id').split('_')[1];
 		octupus.editWork(work_id);
 	    });
+	    
+	    $('body').on('click', '.delete_work_btn', function(){
+		var workId = $(this).attr('id').split('_')[1];
+		octupus.deleteWork(workId);
+	    });
+	    
 	    $('body').on('click', '.edit_publication_btn', function(){
 		var publicationId = $(this).attr('id').split('_')[1];
 		octupus.editPublication(publicationId);
+	    });
+	    
+	    $('body').on('click', '.delete_publication_btn', function(){
+		var publicationId = $(this).attr('id').split('_')[1];
+		octupus.deletePublication(publicationId);
 	    });
 
 	    $('#self_add_form').submit(function(event){
@@ -98,7 +118,7 @@ $(document).ready(function(){
 	    $new_edu.find('.graduation').text(this_graduation);
 	    var coursesHtml = '';
 	    for (var j=0; j<this_courses.length; j++){
-		coursesHtml +='<button class="option-box">' +  this_courses[j] + '</button>';
+		coursesHtml +='<a class="option-box">' +  this_courses[j] + '</a>';
 	    }
 	    $new_edu.find('.courses').html($(coursesHtml));
 	    $new_edu.attr('id', 'edu_' + this.edu.id);
@@ -124,8 +144,17 @@ $(document).ready(function(){
 		    primary: "ui-icon-pencil"
 		}
 	    });
+	    var $delete_award_btn = $('<button class="edit_btn delete_award_btn"></button>')
+		.button({
+		    icons: {
+			primary: "ui-icon-close"
+		    }
+		});
+	    
+	    $new_award.find('.delete').html($delete_award_btn);
 	    $new_award.find('.edit').html($edit_award_btn);
 	    $new_award.find('.edit_btn').attr('id', 'edit_' + this.award.id);
+	    $new_award.find('.delete_award_btn').attr('id', 'delete_' + this.award.id);
 	    $new_award.find('.details').text(this.award.details);
 	    $new_award.attr('id','award_' + this.award.id);
 	    $('#award_details').prepend($new_award);
@@ -152,8 +181,16 @@ $(document).ready(function(){
 		    primary: "ui-icon-pencil"
 		}
 	    });
+	    var $delete_publication_btn = $('<button class="delete_publication_btn edit_btn"></button>')
+	    .button({
+		    icons: {
+			primary: "ui-icon-close"
+		    }
+		});
+	    $new_pub.find('.delete').html($delete_publication_btn);
 	    $new_pub.find('.edit').html($edit_btn);
 	    $new_pub.find('.edit_btn').attr('id', 'edit_' + this.pub.id);
+	    $new_pub.find('.delete_publication_btn').attr('id','delete_' +  this.pub.id);
 	    $new_pub.find('.authors').text(this.pub.authors);
 	    $new_pub.attr('id', 'publication_'+ this.pub.id);
 	    $('#publications_details').prepend($new_pub);
@@ -179,8 +216,16 @@ $(document).ready(function(){
 		    primary: "ui-icon-pencil"
 		}
 	    });
+	    var $delete_work_btn = $('<button class="edit_btn delete_work_btn"></button>')
+	    .button({
+		    icons: {
+			primary: "ui-icon-close"
+		    }
+		});
+	    $new_work.find('.delete').html($delete_work_btn);
 	    $new_work.find('.edit').html($edit_btn);
 	    $new_work.find('.edit_btn').attr('id',  'edit_' + this.work.id);
+	    $new_work.find('.delete_btn').attr('id', 'delete_' + this.work.id);
 	    $new_work.find('.employer').text(this.work.employer);
 	    $new_work.find('.duration').text(this.work.start_date + '-' + this.work.end_date);
 	    $new_work.find('.details').text(this.work.details);
@@ -205,9 +250,31 @@ $(document).ready(function(){
     };
 
     var technicalSkillView = {
-	init : function(json_data){
+	init : function(skills, old_data){
+	    for( var i = old_data.skill; i< skills.length; i++){
+		this.skill = skills[i];
+		this.render();
+	    }
+	    old_data.skill = skills.length;
+	    octupus.updateOldData(old_data);
+	},
+	render: function(){
+	    var new_skill_str = $('#skill_frame').html(); 
+	    var $new_skill = $(new_skill_str);
+	    console.log($new_skill.html());
+	    $new_skill.find('.option-box').text(this.skill.title
+
+);
+	    $('#skills_details').append($new_skill);
 	}
+	
     };
+
+    $('.delete_skill').button({
+	icons:{
+	    primary: "ui-icon-remove"
+	}
+    });
 
     /* ======= FORM VIEWS ====*/
     var addSelfSummaryFormView = {
@@ -225,7 +292,7 @@ $(document).ready(function(){
   
     var addEducationFormView = {
 	init: function(){
-	    this.$dialog = $('#add_edu'); 
+	    this.$dialog = $('#add_edu');
 	    this.$dialog.dialog({
 		dialogClass: "no-close",
 		autoOpen: false,
@@ -618,12 +685,12 @@ $(document).ready(function(){
     
     var addTechnicalSkillFormView = {
 	init : function(){
-	    this.$dialog = $('#tech_skill_dialog');
+	    this.$dialog = $('#add_skill_dialog');
 	    this.$dialog.dialog({
 		title : 'Add your skill',
 		autoOpen: false,
 		modal: true,
-		dialogClass: 'no-colse form-dialog',
+		dialogClass: 'no-close form-dialog',
 		resizeable: false,
 		draggable: false,
 		minWidth: 400,
@@ -634,7 +701,7 @@ $(document).ready(function(){
 			    primary: "ui-icon-plus"
 			},
 			click: function(){
-			    var formData = $('#add_technical_skills').serialize();
+			    var formData = $('#add_skill_form').serialize();
 			    octupus.submitAddTechnicalSkillForm(formData);
 			}
 		    },
@@ -649,15 +716,17 @@ $(document).ready(function(){
 		    }
 		]
 	    });
-	   $('#skill_level').buttonset();
+	    $('#exp_level').buttonset();
 	},
 	 close: function(){
 	     this.$dialog.dialog('close');
 	 },
 	 open: function(){
+	     $('#add_skill_form')[0].reset();
 	     this.$dialog.dialog('open');
 	 }
     };
+
    
     /* =====Accordion View ======= */
     var resumeAccordionView = {
@@ -745,13 +814,13 @@ $(document).ready(function(){
 
     var addTechnicalSkillButtonView = {
 	init: function(){
-	    $('#add_tech_skill_btn').button({
+	    $('#add_skill_btn').button({
 		icons: {
 		    primary: "ui-icon-plus"
 		}
 	    })
 	    .click(function(){
-		$('#tech_skill_dialog').dialog('open');
+		addTechnicalSkillFormView.open();
 	    });
 	}
     };
@@ -785,10 +854,12 @@ $(document).ready(function(){
 	init: function(passed_function){
 	    this.$dialog =  $('#delete_alert_box');
 	    this.$dialog.dialog({
+		title: 'Plese verify your action',
 		medal: true,
 		draggable: false,
 		resizeable: false,
 		autoOpen: false,
+		dialogClass: 'no-close success-dialog',
 		buttons: [
 		    {
 			text: "Delete",
@@ -819,6 +890,127 @@ $(document).ready(function(){
 	    this.$dialog.dialog('open');
 	}
     };
+    
+    var deleteWorkAlertView = {
+	init: function(){
+	    this.$dialog =  $('#delete_work_alert_box');
+	    this.$dialog.dialog({
+		medal: true,
+		draggable: false,
+		resizeable: false,
+		autoOpen: false,
+		dialogClass: 'no-close success-dialog',
+		buttons: [
+		    {
+			text: "Delete",
+			icons: {
+			    primary: "ui-icon-close"
+			},
+			click: function(){
+			    octupus.sendDeleteWorkRequest(deleteWorkAlertView.workId);
+			}
+		    },
+		    {
+			text: "Cancel",
+			icons: {
+			    primary: "ui-icon-close"
+			},
+			click: function(){
+			    deleteWorkAlertView.close();
+			}
+		    }
+		]
+	    });
+	},
+	close: function(){
+	    this.$dialog.dialog('close');
+	},
+	open: function(workId){
+	    this.workId = workId;
+	    this.$dialog.dialog('open');
+	}
+    }; 
+    
+    var deleteAwardAlertView = {
+	init: function(passed_function){
+	    this.$dialog =  $('#delete_award_alert_box');
+	    this.$dialog.dialog({
+		medal: true,
+		draggable: false,
+		resizeable: false,
+		autoOpen: false,
+		dialogClass: 'no-close success-dialog',
+		buttons: [
+		    {
+			text: "Delete",
+			icons: {
+			    primary: "ui-icon-close"
+			},
+			click: function(){
+			    octupus.sendDeleteAwardRequest(deleteAwardAlertView.awardId);
+			}
+		    },
+		    {
+			text: "Cancel",
+			icons: {
+			    primary: "ui-icon-close"
+			},
+			click: function(){
+			    deleteAwardAlertView.close();
+			}
+		    }
+		]
+	    });
+	},
+	close: function(){
+	    this.$dialog.dialog('close');
+	},
+	open: function(awardId){
+	    this.awardId = awardId;
+	    this.$dialog.dialog('open');
+	}
+    };
+
+    var deletePublicationAlertView = {
+	init: function(){
+	    this.$dialog =  $('#delete_publication_alert_box');
+	    this.$dialog.dialog({
+		medal: true,
+		draggable: false,
+		resizeable: false,
+		autoOpen: false,
+		dialogClass: 'no-close success-dialog',
+		buttons: [
+		    {
+			text: "Delete",
+			icons: {
+			    primary: "ui-icon-close"
+			},
+			click: function(){
+			    console.log(deletePublicationAlertView.publicationId);
+			    octupus.sendDeletePublicationRequest(deletePublicationAlertView.publicationId);
+			}
+		    },
+		    {
+			text: "Cancel",
+			icons: {
+			    primary: "ui-icon-close"
+			},
+			click: function(){
+			    deletePublicationAlertView.close();
+			}
+		    }
+		]
+	    });
+	},
+	close: function(){
+	    this.$dialog.dialog('close');
+	},
+	open: function(publicationId){
+	    this.publicationId = publicationId;
+	    this.$dialog.dialog('open');
+	}
+    };
 
     var octupus = {
 	init: function(){
@@ -838,7 +1030,6 @@ $(document).ready(function(){
 	    editEducationFormView.init();
 	    editWorkFormView.init();
 	    editPublicationFormView.init();
-	    
 	    // initialize the buttons
 	    
 	    addEducationButtonView.init();
@@ -850,7 +1041,9 @@ $(document).ready(function(){
 	    //initialize Alert Dialogs
 	    
 	    deleteEducationAlertView.init();
-	    
+	    deletePublicationAlertView.init();
+	    deleteAwardAlertView.init();
+	    deleteWorkAlertView.init();
 	},
 
 	submitAddTechnicalSkillForm: function(formData){
@@ -859,8 +1052,9 @@ $(document).ready(function(){
 		type: 'POST',
 		data: formData,
 		dataType: 'json'
-	    })
-		.done(function(data){
+	    }).done(function(data){
+		console.log(data);
+		    addTechnicalSkillFormView.close();
 		    technicalSkillView.init(data);
 		});
 	},
@@ -936,11 +1130,19 @@ $(document).ready(function(){
 	    var works = results.works;
 	    var publications = results.publications;
 	    var self_summary = results.summary;
+	    var skills =  results.skills;
 	    selfSummaryView.init(self_summary, old_self_summary);
 	    educationView.init(education, old_data);
 	    workView.init(works, old_data);
 	    awardView.init(awards, old_data);
 	    publicationView.init(publications, old_data);
+	    technicalSkillView.init(skills, old_data);
+	},
+	resetEducationDiv: function(){
+	    var old_data = model.old_data;
+	    old_data.education = 0;
+	    this.updateOldData(old_data);
+	    $('#edu_details').html('');
 	},
 
 	updateOldData: function(newData){
@@ -1004,6 +1206,7 @@ $(document).ready(function(){
 	   }).done(function(data){
 	      if (data.status == 'OK'){
 		  editEducationFormView.close();
+		  octupus.resetEducationDiv();
 	      }
 	   }); 
 	},
@@ -1032,9 +1235,23 @@ $(document).ready(function(){
 		}
 	    });
 	},
+
 	deleteEducation: function(eduId){
 	    deleteEducationAlertView.open(eduId);
 	},
+
+	deleteWork: function(workId){
+	    deleteWorkAlertView.open(workId);
+	},
+
+	deletePublication: function(publicationId){
+	    deletePublicationAlertView.open(publicationId);
+	},
+	
+	deleteAward: function(awardId){
+	    deleteAwardAlertView.open(awardId);
+	},
+
 	sendDeleteEduRequest: function(eduId){
 	    $.ajax({
 		url: '/deleteeducation?id=' + eduId,
@@ -1044,8 +1261,51 @@ $(document).ready(function(){
 		deleteEducationAlertView.close();
 		if(data.status == 'ERR'){
 		    alert(data.error);
+		}else{
+		    octupus.resetEducationDiv();
 		}
 	    });
+	},
+	
+	sendDeleteWorkRequest: function(workId){
+	    $.ajax({
+		url: '/deletework?id=' + workId,
+		type: 'POST',
+		dataType: 'json'
+	    }).done(function(data){
+		deleteWorkAlertView.close();
+		if(data.status == 'ERR'){
+		    alert(data.error);
+		}
+	    });
+	},
+
+	sendDeleteAwardRequest: function(awardId){
+	    $.ajax({
+		url: '/deleteaward?id=' + awardId,
+		type: 'POST',
+		dataType: 'json'
+	    }).done(function(data){
+		deleteAwardAlertView.close();
+		if(data.status == 'ERR'){
+		    alert(data.error);
+		}
+	    });
+
+	},
+
+	sendDeletePublicationRequest: function(publicationId){
+	    $.ajax({
+		url: '/deletepublication?id=' + publicationId,
+		type: 'POST',
+		dataType: 'json'
+	    }).done(function(data){
+		deletePublicationAlertView.close();
+		if(data.status == 'ERR'){
+		    alert(data.error);
+		}
+	    });
+
 	}
     };
     setInterval(model.get_json, 3000);

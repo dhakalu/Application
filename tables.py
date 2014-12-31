@@ -52,7 +52,7 @@ class Work(db.Model):
     title = db.StringProperty(required=True)
     employer = db.StringProperty(required=True)
     start_date = db.StringProperty(required=True)
-    end_date = db.StringProperty(required=True)
+    end_date = db.StringProperty()
     details = db.TextProperty()
     
     @classmethod
@@ -105,6 +105,27 @@ class Education(db.Model):
     def by_user_name(cls, user_name):
         return Education.all().filter('user_name =',
                                       user_name).order('graduation')
+
+
+class TechnicalSkill(db.Model):
+    user_name = db.StringProperty(required=True)
+    title = db.StringProperty(required=True)
+    level = db.StringProperty(required=True)
+
+    @classmethod
+    def create_skill(cls, user_name, title, level):
+        return TechnicalSkill(user_name=user_name,
+                              title=title,
+                              level=level
+                              )
+
+    @classmethod
+    def by_id(cls, skill_id):
+        return TechnicalSkill.get_by_id(skill_id)
+    
+    @classmethod
+    def by_user_name(cls, user_name):
+        return TechnicalSkill.all().filter('user_name =', user_name)
 
 
 class ToDo(db.Model):
