@@ -4,11 +4,18 @@ import base
 import signup
 import resume
 import todo
+import user
 
 
 class MainPage(base.RequestHandler):
-    def get(self):
-        if self.user:
+    def get(self, usr=None):
+        if usr:
+            u = user.User.by_name(usr)
+            if u:
+                self.redirect('/' + usr + '/resume')
+            else:
+                self.render('404.html')
+        elif self.user:
             self.render("faq.html")
         else:
             self.render("mainpage.html")
@@ -28,10 +35,14 @@ class CatPage(base.RequestHandler):
     def get(self):
         self.render("cats.html")
 
+
+class VideoPage(base.RequestHandler):
+    def get(self):
+        self.render("videos.html")
+
 app = webapp2.WSGIApplication([
     ('/', MainPage),
     ('/catclicker', CatPage),
-    ('/faqs', FaqPage),
     ('/todo', todo.ToDoPage),
     ('/todo_json', todo.GetJSON),
     ('/updatetodo', todo.Update),
@@ -41,10 +52,16 @@ app = webapp2.WSGIApplication([
     ('/logout', signup.Logout),
     ('/welcome', signup.ConfirmUserSignup),
     ('/resume', resume.Resume),
+    (r'/resume/(.*)', resume.Resume),
     ('/resume_json', resume.GetJSON),
     ('/updateresume', resume.UpdateEducation),
     ('/updatework', resume.UpdateWork),
     ('/updateaward', resume.UpdateAward),
     ('/updatepublication', resume.UpdatePublication),
-    ('/updateselfsummary', resume.UpdateSelfSummary)
+    ('/updateselfsummary', resume.UpdateSelfSummary),
+    ('/editpublication', resume.EditPublication),
+    ('/editeducation', resume.EditEducation),
+    ('/editwork', resume.EditWork),
+    ('/editaward', resume.EditAward),
+    ('/deleteeducation', resume.DeleteEducation)
     ], debug=True)

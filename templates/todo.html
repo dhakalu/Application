@@ -1,50 +1,50 @@
 {% extends "base.html" %}
 
 {% block header %}
-  <script src="/js/todo.js"></script>
-  <link rel="stylesheet" href="/stylesheets/todo.css">
+<script src="/js/todo.js"></script>
+<link rel="stylesheet" href="/stylesheets/todo.css">
 {% endblock %}
 
 
-  <!--- Left bar -->
-  {% block left_bar %}
- 
-  {% endblock %}
+<!--- Left bar -->
+{% block left_bar %}
+
+{% endblock %}
 
 <!--- main page -->
 {% block body %}
 <button id="add-to-list">Add to list</button>
 <hr>
 <div id="add-new-todo" title="Add item to do list">
-  <form onsubmit="return false" id="todo-form">
-    <input type="text" name="task" id="new-todo" placeholder="Title" class="input-default form-control">
-  </form>
+    <form onsubmit="return false" id="todo-form">
+	<input type="text" name="task" id="new-todo" placeholder="Title" class="input-default form-control">
+    </form>
 </div>
 
 <div id="tobedone-task">
-  <div class="row title-curved">
-    Tasks that needs to be done
-  </div>
+    <div class="row title-curved">
+	Tasks that needs to be done
+    </div>
+    
+    <div id="todo-list">
 
-  <div id="todo-list">
-
-  </div>
+    </div>
 </div>
 
 <hr>
 
 <div id="completed-task">
-  <div class="row title-curved">
-    Tasks Completed
-   </div>
-  
-  <div id="completed-list">
-  </div>
+    <div class="row title-curved">
+	Tasks Completed
+    </div>
+    
+    <div id="completed-list">
+    </div>
 </div>
 
 {% endblock %}
 
 {% block right_bar %} 
-  <!--- right bar --->
+<!--- right bar --->
 {% endblock %}
 

@@ -13,15 +13,18 @@ $(document).ready(function(){
 	    data: formData,
 	    dataType: 'json'
 	}).done(function(data){
-	    if (!data.status){
+	    if (data.status == 'ERR'){
+		console.log(data);
 		var errorHtml = '<div class="text-error"><b>';
-		if (data.data.name_error){
-		    errorHtml += data.data.name_error;
-		} else if (data.data.password_error){
-		    errorHtml += data.data.password_error;
+		if (data.name_error){
+		    errorHtml += data.name_error;
+		} else if (data.password_error){
+		    errorHtml += data.password_error;
 		}
 		errorHtml += '</b></div>';
 		$('#login_status').html(errorHtml);		
+	    }else if(data.status == 'OK'){
+		$(location).attr('href','/resume');
 	    }
 	});
     });

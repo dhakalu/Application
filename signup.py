@@ -117,44 +117,36 @@ class SignUp(base.RequestHandler):
             self.login(u)
             self.send_confirmation_email(u)
             self.redirect('/welcome')
+            return
 
 
 class Login(base.RequestHandler):
     def post(self):
-        has_error = False
         user_name = self.request.get('login_name')
         password = base.hash_str(self.request.get('login_pass'))
-        output = {}
+        output_json = {}
         u = user.User.by_name(user_name)
         if u:
             if self.validate_password(u, password):
                 self.login(u)
-                self.redirect('/profile')
+                self.redirect('/resume')
             else:
-                has_error = True
-                output['password_error'] = 'The password is incorrect'
+                output_json['status'] = 'ERR'
+                output_json['password_error'] = 'Incorrect Password!'
         else:
             u = user.User.by_email(user_name)
             if u:
                 if self.validate_password(u, password):
                     self.login(u)
-                    self.redirect('/profile')
+                    output_json['status'] = 'OK'
                 else:
-                    has_error = True
-                    output['password_error'] = ('The password is incorrect \n'
-                                                + password)
+                    output_json['status'] = 'ERR'
+                    output_json['password_error'] = 'Incorrect password!'
             else:
-                has_error = True
-                output['name_error'] = ('There is no accout with' +
-                                        ' that email or username.' +
-                                        'Please signup first')
-                
-        if has_error:
-            output_str = {'status': False,
-                          'data': output
-                          }
-            self.render_json(json.dumps(output_str))
-
+                output_json['status'] = 'ERR'
+                output_json['name_error'] = 'Invalid username!'
+        self.render_json(json.dumps(output_json))
+    
     def validate_password(self, user, password):
         return user.password == password
 

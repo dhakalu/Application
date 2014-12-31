@@ -1,0 +1,23 @@
+<div id="member_{{member.key().id()}}">
+    <div>
+   <div class="row">
+     <div class="col-md-10">
+       <span class="member-name"></span>{{member.name}} , <span class="member-position">{{member.position}}</span>
+     </div>
+    <div class="col-md-2 edit">
+      <button class="btn sucess-btn edit_member_btn" id="{{member.key().id()}}">Edit </button>
+    </div>
+  </div>
+   <hr>
+  <div class="row">
+         <img src="{{member.image}}" class="member-image img-responsive">
+      </div>
+      <div class="col-md-9 text-justify">
+        <p class="member-details">
+          {{member.bio}}
+        </p>
+      </div>
+    </div>
+    <hr>
+ </div>
+</div>

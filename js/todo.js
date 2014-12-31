@@ -71,7 +71,7 @@ $(document).ready(function(){
 		    $('#add-new-todo').dialog('close');
 		});
     });// end of making done
-
+    
     $('#add-to-list').button({
 	icons: {
 	    primary: "ui-icon-circle-plus"

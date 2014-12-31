@@ -21,6 +21,10 @@ class Publication(db.Model):
     def by_user_name(cls, user_name):
         return Publication.all().filter('user_name =', user_name)
 
+    @classmethod
+    def by_id(cls, publication_id):
+        return Publication.get_by_id(publication_id)
+
 
 class Award(db.Model):
     user_name = db.StringProperty(required=True)
@@ -33,6 +37,10 @@ class Award(db.Model):
                      title=title,
                      details=details
                      )
+        
+    @classmethod
+    def by_id(cls, award_id):
+        return Award.get_by_id(award_id)
 
     @classmethod
     def by_user_name(cls, user_name):
@@ -43,8 +51,8 @@ class Work(db.Model):
     user_name = db.StringProperty(required=True)
     title = db.StringProperty(required=True)
     employer = db.StringProperty(required=True)
-    start_date = db.DateProperty(required=True)
-    end_date = db.DateProperty(required=True)
+    start_date = db.StringProperty(required=True)
+    end_date = db.StringProperty(required=True)
     details = db.TextProperty()
     
     @classmethod
@@ -60,6 +68,10 @@ class Work(db.Model):
                     )
     
     @classmethod
+    def by_id(cls, work_id):
+        return Work.get_by_id(work_id)
+
+    @classmethod
     def by_user_name(cls, user_name):
         return Work.all().filter('user_name =', user_name).order('end_date')
 
@@ -70,7 +82,7 @@ class Education(db.Model):
     majors = db.ListProperty(str, required=True)
     school = db.StringProperty(required=True)
     gpa = db.StringProperty()
-    graduation = db.DateProperty(required=True)
+    graduation = db.StringProperty(required=True)
     courses = db.ListProperty(str, required=True)
     
     @classmethod
@@ -86,8 +98,13 @@ class Education(db.Model):
                          )
 
     @classmethod
+    def by_id(cls, edu_id):
+        return Education.get_by_id(edu_id)
+
+    @classmethod
     def by_user_name(cls, user_name):
-        return Education.all().filter('user_name =', user_name).order('graduation')
+        return Education.all().filter('user_name =',
+                                      user_name).order('graduation')
 
 
 class ToDo(db.Model):

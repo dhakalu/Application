@@ -8,134 +8,192 @@
 {% block body%}
 <!-- The main page -->
 <div id="resume_accordion">
-  <!-- Self Summary Section -->
-  <h3>Self Summary</h3>
-  <div>
-    {% if loged_user %}
-    <div summary_menu>
-      <button id="edit_self_bttn"></button>
+    <!-- Self Summary Section -->
+    <h3>Self Summary</h3>
+    <div>
+	{% if loged_user %}
+	<div summary_menu>
+	    <button id="edit_self_bttn">Edit Summary</button>
+	</div>
+	<hr>
+	{% endif %}
+	
+	<div id="self_details"></div>
+	
+	<div id="self_add" title="Add your self summary!">
+	    <form id="self_add_form">
+		<textarea form="self_add_form" id="self_summary" name="self_summary" placeholder="" class="form-control default-input"></textarea>
+		<input type="submit" id="self_summary_btn" class="btn btn-success" value="Add">
+	    </form>
+	</div>
     </div>
-    <hr>
-    {% endif %}
-
-    <div id="self_details"></div>
-  
-    <div id="self_add" title="Add your self summary!">
-      <form id="self_add_form">
-	<textarea form="self_add_form" id="self_summary" name="self_summary" placeholder="" class="form-control default-input"></textarea>
-	<input type="submit" id="self_summary_btn" class="btn btn-success" value="Add">
-      </form>
+    <!--Education Section -->
+    <h3>Education</h3>
+    <div>
+	{% if loged_user %}
+	<div id="add_edu_menu">
+	    <button id="add_education">Add Education</button>
+	    <hr>
+	</div>
+	{% endif %}
+	
+	<div id="edu_details"></div>
+	
+	<div id="add_edu" title="Add Academic Details">
+	    <form id="add_edu_form">
+		<input type="text" name="degree" class="form-control default-input" placeholder="Degree e.g BSc">
+		<input type="text" name="majors" class="form-control default-input" placeholder="Majors seperate by comma">
+		<input type="text" name="school" class="form-control default-input" placeholder="Institution">
+		<input type="text" name="gpa" class="form-control default-input" placeholder="GPA">
+		<input name="graduation" class="form-control default-input date-input" 
+		       placeholder="Graduation Date/ Expected Graduation">
+		<textarea name="courses" class="form-control default-input" placeholder="Seperate Subjects with coma"></textarea>
+	    </form>
+	</div>
+	
+	<div id="edit_edu" title="Change Academic">
+	    <form id="edit_edu_form">
+		<input type="text" name="degree" id="degree" class="form-control default-input">
+		<input type="text" name="majors" id="majors" class="form-control default-input">
+		<input type="text" name="school" id="school" class="form-control default-input">
+		<input type="text" name="gpa" id="gpa" class="form-control default-input">
+		<input type="text" name="graduation" id="graduation" class="form-control default-input date-input">
+		<textarea name="courses" id="courses" class="form-control default-input"></textarea>
+	    </form>
+	</div>
+	
     </div>
-  </div>
-  <!--Education Section -->
-   <h3>Education</h3>
-   <div>
-     {% if loged_user %}
-     <div id="add_edu_menu">
-       <button id="add_education">Add Education</button>
-       <hr>
-     </div>
-     {% endif %}
-
-    <div id="edu_details"></div>
-
-     <div id="add_edu" title="Add Academic Details">
-       <form id="add_edu_form">
-	<input type="text" name="degree" id="degree" class="form-control default-input" placeholder="Degree e.g BSc">
-	<input type="text" name="majors" id="majors" class="form-control default-input" placeholder="Majors seperate by comma">
-	<input type="text" name="school" id="school" class="form-control default-input" placeholder="Institution">
-	<input type="text" name="gpa" id="gpa" class="form-control default-input" placeholder="GPA">
-	<input name="graduation" id="graduation" class="form-control default-input date-input" placeholder="Graduation Date/ Expected Graduation">
-	<textarea name="courses" id="courses" class="form-control default-input" placeholder="Seperate Subjects with coma"></textarea>
-	</form>
-     </div>
-    </div>
-   
-   <!-- work experience section goes here -->
+    
+    <!-- work experience section goes here -->
     <h3>Work Experience</h3>
     <div>
-      {% if loged_user %}
-      <div "work_menu">
-	<button id="add_work"> Add Work</button>
-	<hr>
-      </div>
-      {% endif %}
-      
-      <div id="work_details"> </div>
-      
-      <div id="add_work_dialog" title="Add Job Details">
-	<form id="add_work_form">
-	  <input type="text" name="work_title" id="work_title" placeholder="Title" class="form-control default-input">
-	  <input type="tetxt" name="employer" id="employer" placeholder="Employer" class="form-control default-input">
-	  <input type="text" name="start_date" id="end_date" placeholder="From" class=" date-input form-control default-input">
-	  <input type="text" name="end_date" i="end_date" placeholder="End Date" class="date-input form-control default-input">
-	  <textarea form="add_work_form" name="details" id="details" placeholder="Details" class="form-control"></textarea>
-	</form>
-      </div>
-
+	{% if loged_user %}
+	<div "work_menu">
+	    <button id="add_work"> Add Work</button>
+	    <hr>
+	</div>
+	{% endif %}
+	
+	<div id="work_details"> </div>
+	
+	<div id="add_work_dialog" title="Add Job Details">
+	    <form id="add_work_form">
+		<input type="text" name="work_title" id="work_title" placeholder="Title" class="form-control default-input">
+		<input type="tetxt" name="employer" id="employer" placeholder="Employer" class="form-control default-input">
+		<input type="text" name="start_date" id="end_date" placeholder="From" class=" date-input form-control default-input">
+		<input type="text" name="end_date" i="end_date" placeholder="End Date" class="date-input form-control default-input">
+		<textarea form="add_work_form" name="details" id="details" placeholder="Details" class="form-control"></textarea>
+	    </form>
+	</div>
+	
+	<div id="edit_work" title="Edit Job Details">
+	    <form id="edit_work_form">
+		<input type="text" name="work_title" id="work_title" class="form-control default-input">
+		<input type="tetxt" name="employer" id="employer" class="form-control default-input">
+		<input type="text" name="start_date" id="start_date" class="date-input form-control default-input">
+		<input type="text" name="end_date" id="end_date" class="date-input form-control default-input">
+		<textarea form="edit_work_form" name="details" id="work_details" class="form-control"></textarea>
+	    </form>
+	</div>
+	
     </div>
     
     <h3>Awards</h3>
     <div>
-      
-      {% if loged_user %}
-      <div id="award_menu">
-	<button id="add_award_btn">Add Award</button>
-	<hr>
-      </div>
-      {% endif %}
-      
-      <div id="award_details"> </div>
-      
-      <div id="award_form" title="Add Award">
-	<form id="add_award">
-	  <input type="text" id="title" name="title" placeholder="Title" class="form-control default-input">
-	  <textarea form="add_award" name="details" id="about_award" placeholder="Details" class="form-control"></textarea>
-	</form>
 	
-      </div>
-      
+	{% if loged_user %}
+	<div id="award_menu">
+	    <button id="add_award_btn">Add Award</button>
+	    <hr>
+	</div>
+	{% endif %}
+	
+	<div id="award_details"> </div>
+	
+	<div id="award_form" title="Add Award">
+	    <form id="add_award">
+		<input type="text" name="title" placeholder="Title" class="form-control default-input">
+		<textarea form="add_award" name="details" placeholder="Details" class="form-control"></textarea>
+	    </form>
+	</div>
+	
+	<div id="edit_award" title="Edit Award Details">
+	    <form id="edit_award_form">
+		<input type="text" id="award_title" name="title" class="form-control default-input">
+		<textarea form="edit_award_form" name="details" id="about_award" class="form-control"></textarea>  
+	    </form>
+	</div>
+	
     </div>
+    
+    
     
     <h3>Publications</h3>
     <div>
-      {% if loged_user %}
-      <div id="publication_menu">
-	<button id="add_publication_bttn"> Add Publication</button><hr>
-      </div>
-      {% endif %}
-      
-      <div id="publications_details"> </div>
-      
-      <div id="add_publication" title="Add Publication">
-	<form id="add_public_form">
-	  <input type="text" id="title" name="title" class="form-control default-input" placeholder="Title">
-	  <input type="text" id="titlr" name="link" class="form-control default-input" placeholder="link">
-	  <input type="text" id="authors" name="authors" class="form-control" placeholder="Authors">
-	</form>
-      </div>
-      
-  </div>
-
-  <h3>Technical Skills</h3>
-  <div>
-    {% if loged_user %}
-    <div>
-      <button id="add_tech_skill_btn">Add Skill</button>
-    </div>
-    {% endif %}
-    <div id="tech_skill_dialog">
-      <form id="add_technical_skills">
-	<input type="text" name="skill_title" id="skill_title" placeholder="Title" class="form-control default-input">
-	<div id="skill_level">
-	  <input type="radio" id="radio1" name="radio"><label for="radio1">Familiar</label>
-	  <input type="radio" id="radio2" name="radio" checked="checked"><label for="radio2">Medium</label>
-	  <input type="radio" id="radio3" name="radio"><label for="radio3">Proficient</label>
+	{% if loged_user %}
+	<div id="publication_menu">
+	    <button id="add_publication_bttn"> Add Publication</button><hr>
 	</div>
-      </form>
-   </div>
-  </div>
-
+	{% endif %}
+	
+	<div id="publications_details"> </div>
+	
+	<div id="add_publication" title="Add Publication">
+	    <form id="add_public_form">
+		<input type="text" name="title" class="form-control default-input" placeholder="Title">
+		<input type="text" name="link" class="form-control default-input" placeholder="link">
+		<input type="text" name="authors" class="form-control" placeholder="Authors">
+	    </form>
+	</div>
+	
+	<div id="edit_publication" title="Edit Publication">
+	    <form id="edit_public_form">
+		<input type="text" name="pub_title" id="title" class="form-control default-input">
+		<input type="text" name="link" id="link"class="form-control default-input">
+		<input type="text" name="authors" id="authors" class="form-control">
+	</div>
+	
+    </div>
+    
+    <h3>Technical Skills</h3>
+    <div>
+	{% if loged_user %}
+	<div>
+	    <button id="add_tech_skill_btn">Add Skill</button>
+	</div>
+	{% endif %}
+	
+	<div id="tech_skill_dialog">
+	    <form id="add_technical_skills">
+		<input type="text" name="skill_title" placeholder="Title"
+		       class="form-control default-input">
+		<div id="skill_level">
+		    <input type="radio" id="radio1" name="radio"><label for="radio1">Familiar</label>
+		    <input type="radio" id="radio2" name="radio" checked="checked"><label for="radio2">Medium</label>
+		    <input type="radio" id="radio3" name="radio"><label for="radio3">Proficient</label>
+		</div>
+	    </form>
+	</div>
+	
+	<div id="edit_tech_skill">
+	    <form id="edit_tech_skill_form_">
+		<input type="text" name="skill_title" 
+		       id="skill_title" class="form-control default-input">
+		<div id="skill_level">
+		    <input type="radio" id="radio1" name="radio">
+		    <label for="radio1">Familiar</label>
+		    <input type="radio" id="radio2" name="radio"
+			   checked="checked">
+		    <label for="radio2">Medium</label>
+		    <input type="radio" id="radio3" name="radio">
+		    <label for="radio3">Proficient</label>
+		</div>
+	    </form>
+	</div>
+	
+	
+    </div>
+    
 </div>
 <br>
 
@@ -145,7 +203,7 @@
 </div>
 
 <div id="add_section_form">
-  
+    
 </div>
 {% endif %}
 
@@ -157,7 +215,10 @@
   <div>
     <div class="row">
       <div class="col-md-10 text-title institution"></div>
-      <div class="col-md-2 edit"></div>
+      <div class="col-md-2">
+	  <span class="edit"></span>
+	  <span class="delete"></span>
+      </div>
     </div>
     <div class="degree"></div>
     <div class="majors"></div>
@@ -186,7 +247,7 @@
 <div id="publication_frame">
   <div>
     <div class="row">
-      <div class="text-title title col-md-10"> </div>
+     <a href="" class="link"> <div class="text-title title col-md-10"> </div></a>
       <div class="edit col-md-2"></div>
     </div>
     <div class="authors"></div>
@@ -209,9 +270,16 @@
 <!-- Summary Frame -->
 <div id="summary_frame">
   <div>
-    <div class="summary">
+    <div>
+	<p class="summary"></p>
     </div>
   </div>
+</div>
+
+<div id="delete_alert_box">
+    <div>
+	Are you sure you want to delete this field?
+    </div>
 </div>
 	
 {% endblock %}

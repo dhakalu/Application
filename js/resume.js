@@ -8,8 +8,10 @@ $(document).ready(function(){
 	},
 	old_self_summary : '',
 	get_json : function(){
+	    var url = $(location).attr('pathname');
+	    var u = url.split('/')[2];
 	    $.ajax({
-		url: '/resume_json',
+		url: '/resume_json?u=' + u,
 		type: 'GET',
 		dataType: 'json'
 	    }).done(function(data){
@@ -18,30 +20,74 @@ $(document).ready(function(){
 	}
     };
     
+    model.get_json();
+    /* ==== EVENT LISTENERS */
+    var view = {
+	init :function(){
+	    $('body').on('click', '.edit_edu_btn', function(){
+		var eduId = $(this).attr('id').split('_')[1];
+		octupus.editEducation(eduId);
+	    });
+	    $('body').on('click', '.delete_edu_btn', function(){
+		var eduId = $(this).attr('id').split('_')[1];
+		octupus.deleteEducation(eduId);
+	    });
+	    $('body').on('click', '.edit_award_btn', function(){
+		var awardId = $(this).attr('id').split('_')[1];
+		octupus.editAward(awardId);
+	    });
+	    $('body').on('click', '.edit_work_btn', function(){
+		var work_id = $(this).attr('id').split('_')[1];
+		octupus.editWork(work_id);
+	    });
+	    $('body').on('click', '.edit_publication_btn', function(){
+		var publicationId = $(this).attr('id').split('_')[1];
+		octupus.editPublication(publicationId);
+	    });
+
+	    $('#self_add_form').submit(function(event){
+		event.preventDefault();
+		var formData = $('#self_add_form').serialize();
+		octupus.submitSelfSummaryForm(formData);
+	    });
+	    
+	}
+    };
+    
+   
     var educationView = {
 	init : function(education, old_data){
 	     for (var i = old_data.education; i < education.length; i++){
-		 var this_edu = education[i];
-		 educationView.render(this_edu);
-		 }
-	    
-	    },
-	render: function(this_edu){
-	    var this_institution = this_edu.institution;
-	    var this_degree = this_edu.degree;
-	    var this_courses = this_edu.courses;
-	    var this_majors = this_edu.majors;
-	    var this_gpa = this_edu.gpa;
-	    var this_graduation = this_edu.graduation;
+		 this.edu = education[i];
+		 this.render();
+	     }
+	    old_data.education = education.length;
+	    octupus.updateOldData(old_data);
+	},
+	render: function(){
+	    var this_institution = this.edu.institution;
+	    var this_degree = this.edu.degree;
+	    var this_courses = this.edu.courses;
+	    var this_majors = this.edu.majors;
+	    var this_gpa = this.edu.gpa;
+	    var this_graduation = this.edu.graduation;
 	    var edu_html_str = $('#education_frame').html();
 	    var $new_edu = $(edu_html_str);
 	    $new_edu.find('.institution').html(this_institution);
-	    var $edit_btn = $('<button class="edit_btn"></button>').button({
+	    var $edit_btn = $('<button class="edit_edu_btn edit_btn"></button>').button({
 		icons : {
 		    primary: "ui-icon-pencil"
 		}
 	    });
+	    var $delete_edu_btn = $('<buuton class="edit_btn delete_edu_btn"></button>').button({
+		icons: {
+		    primary: "ui-icon-close"
+		}
+	    });
+	    $new_edu.find('.delete').html($delete_edu_btn);
+	    $new_edu.find('.delete_edu_btn').attr('id', 'delete_'+ this.edu.id);
 	    $new_edu.find('.edit').html($edit_btn);
+	    $new_edu.find('.edit_btn').attr('id', 'edit_' + this.edu.id);
 	    $new_edu.find('.degree').text(this_degree);
 	    var majorHtml = '';
 	    for (var j=0; j<this_majors.length; j++){
@@ -55,6 +101,7 @@ $(document).ready(function(){
 		coursesHtml +='<button class="option-box">' +  this_courses[j] + '</button>';
 	    }
 	    $new_edu.find('.courses').html($(coursesHtml));
+	    $new_edu.attr('id', 'edu_' + this.edu.id);
 	    $('#edu_details').prepend($new_edu);
 	}
     };
@@ -62,21 +109,25 @@ $(document).ready(function(){
     var awardView = {
 	init : function(awards, old_data){
 	    for (var i = old_data.award; i < awards.length; i++){
-		var this_award = awards[i];
-		awardView.render(this_award);
+		this.award = awards[i];
+		this.render();
 	    }
+	    old_data.award = awards.length;
+	    octupus.updateOldData(old_data);
 	},
-	render: function(this_award){
+	render: function(){
 	    var award_html_str = $('#award_frame').html();
 	    var $new_award = $(award_html_str);
-	    $new_award.find('.title').text(this_award.title);
+	    $new_award.find('.title').text(this.award.title);
 	    var $edit_award_btn = $('<button class="edit_btn edit_award_btn"></button>').button({
 		icons: {
 		    primary: "ui-icon-pencil"
 		}
 	    });
 	    $new_award.find('.edit').html($edit_award_btn);
-	    $new_award.find('.details').text(this_award.details);
+	    $new_award.find('.edit_btn').attr('id', 'edit_' + this.award.id);
+	    $new_award.find('.details').text(this.award.details);
+	    $new_award.attr('id','award_' + this.award.id);
 	    $('#award_details').prepend($new_award);
 	}
 	
@@ -84,49 +135,57 @@ $(document).ready(function(){
     
     var publicationView = {
 	init : function( publications,old_data){
-	      for (var i = old_data.publication; i<publications.length; i++){
-		  var this_pub = publications[i];
-		  publicationView.render(this_pub);
-		}
+	    for (var i = old_data.publication; i<publications.length; i++){
+		this.pub = publications[i];
+		this.render();
+	    }
+	    old_data.publication = publications.length;
+	    octupus.updateOldData(old_data);
 	},
-	render: function(this_pub){
+	render: function(){
 	    var pub_html_str = $('#publication_frame').html();
-		var $new_pub = $(pub_html_str);
-		$new_pub.find('.title').text(this_pub.title);
-		var $edit_btn = $('<button class="edit_btn"></button>').button({
-		    icons: {
-			primary: "ui-icon-pencil"
-		    }
-
-		});
-		$new_pub.find('.edit').html($edit_btn);
-		$new_pub.find('.authors').text(this_pub.authors);
-		$('#publications_details').prepend($new_pub);
-	    } 
-
+	    var $new_pub = $(pub_html_str);
+	    $new_pub.find('.link').attr('href', this.pub.link);
+	    $new_pub.find('.title').text(this.pub.title);
+	    var $edit_btn = $('<button class="edit_btn edit_publication_btn"></button>').button({
+		icons: {
+		    primary: "ui-icon-pencil"
+		}
+	    });
+	    $new_pub.find('.edit').html($edit_btn);
+	    $new_pub.find('.edit_btn').attr('id', 'edit_' + this.pub.id);
+	    $new_pub.find('.authors').text(this.pub.authors);
+	    $new_pub.attr('id', 'publication_'+ this.pub.id);
+	    $('#publications_details').prepend($new_pub);
+	} 
+	
     };
     
     var workView = {
 	init: function(works, old_data){
 	    for (var i = old_data.work; i< works.length; i++){
-		var this_work = works[i];
-		workView.render(this_work);
-	   } 
+		this.work = works[i];
+		this.render();
+	    } 
+	    old_data.work = works.length;
+	    octupus.updateOldData(old_data);
 	},
 	render: function(){
-	    	var work_html_str = $('#work_frame').html();
-		var $new_work = $(work_html_str);
-		$new_work.find('.title').text(this_work.title);
-		var $edit_btn = $('<button class="edit_btn"></button').button({
-		    icons: {
-			primary: "ui-icon-pencil"
-		    }
-		});
-		$new_work.find('.edit').html($edit_btn);
-		$new_work.find('.employer').text(this_work.employer);
-		$new_work.find('.duration').text(this_work.start_date + '-' + this_work.end_date);
-		$new_work.find('.details').text(this_work.details);
-		$('#work_details').prepend($new_work);
+	    var work_html_str = $('#work_frame').html();
+	    var $new_work = $(work_html_str);
+	    $new_work.find('.title').text(this.work.title);
+	    var $edit_btn = $('<button class="edit_btn edit_work_btn"></button').button({
+		icons: {
+		    primary: "ui-icon-pencil"
+		}
+	    });
+	    $new_work.find('.edit').html($edit_btn);
+	    $new_work.find('.edit_btn').attr('id',  'edit_' + this.work.id);
+	    $new_work.find('.employer').text(this.work.employer);
+	    $new_work.find('.duration').text(this.work.start_date + '-' + this.work.end_date);
+	    $new_work.find('.details').text(this.work.details);
+	    $new_work.attr('id', 'work_' + this.work.id);
+	    $('#work_details').prepend($new_work);
 	 
 	}
     };
@@ -134,64 +193,40 @@ $(document).ready(function(){
     var selfSummaryView = {
 	init: function(self_summary, old_self_summary){
 	    if (old_self_summary != self_summary.summary){
-		selfSummaryView.render(self_summary);
+		this.render(self_summary);
 	    }
+	    octupus.updateOldSelfSummary(self_summary);
 	},
 	render: function(self_summary){
 	    var $new_summary = $($('#summary_frame').html());
 	    $new_summary.find('.summary').text(self_summary.summary);
 	    $('#self_details').html($new_summary);
 	}
-    };      
-  
-    $('#edit_self_bttn').button().click(function(){
-	$(this).hide();
-	if ($('#self_details').is(':empty')){
-	    $('#self_add').slideDown();
-	}else{
-	    $('#self_add').slideDown();
-	    $('#self_summary').val($.trim($('#self_details').text()));
-	    $('#self_summary_btn').val('Done');
-	    $('#self_details').html('');
-	}
-    });
+    };
 
-    var selfAddFormView = {
-	init : function(){
-	    var $selfAddDiv = $('#self_add');
-	    var $editSelfBttn = $('#edit_self_bttn');
-	    var $selfDetails = $('#self_details');
-	    // Hide self add form
-	    $selfAddDiv.hide();
-	    if ($selfDetails.is(':empty')){
-		$editSelfBttn.text('Add Summary');
-	    }else{
-		$editSelfBttn.text('Edit Summary');
-	    }
+    var technicalSkillView = {
+	init : function(json_data){
 	}
     };
 
-   
-    $('#self_add_form').submit(function(event){
-	event.preventDefault();
-	var formData = $('#self_add_form').serialize();
-	console.log(formData);
-	$.ajax({
-	    url: '/updateselfsummary',
-	    type: 'POST',
-	    data: formData,
-	    dataType: 'json'
-	})
-	.done(function(data){
-	    $('#self_add').hide();
-	    $('#self_add_form')[0].reset();
-	}); // end of selfsummary update request
-    });
-    // Add Education 
-    
+    /* ======= FORM VIEWS ====*/
+    var addSelfSummaryFormView = {
+	init: function(){
+	    this.$dom = $('#self_add');
+	    this.hide();
+	},
+	hide: function(){
+	    this.$dom.hide();
+	},
+	show: function(){
+	    this.$dom.slideDown();
+	}
+    };
+  
     var addEducationFormView = {
 	init: function(){
-	    $('#add_edu').dialog({
+	    this.$dialog = $('#add_edu'); 
+	    this.$dialog.dialog({
 		dialogClass: "no-close",
 		autoOpen: false,
 		modal: true,
@@ -214,17 +249,90 @@ $(document).ready(function(){
 			    primary: "ui-icon-close"
 			},
 			click: function() {
-			    $(this).dialog( "close" );
+			    addEducationFormView.close();
 			}
 		    } 
 		]
 	    });
+	},
+	open: function() {
+	    this.$dialog.dialog('open');
+	},
+	close: function(){
+	    this.$dialog.dialog('close');
 	}
     };
     
+    var editEducationFormView = {
+	init: function(){
+	    this.$dialog = $('#edit_edu');
+	    this.$dialog.dialog({
+		dialogClass: "no-close",
+		autoOpen: false,
+		modal: true,
+		draggable: false,
+		dialogClass: 'form-dialog no-close',
+		buttons: [
+		    {
+			text: "Save Changes",
+			icons: {
+			    primary: "ui-icon-disk"
+			},
+			click : function(){
+			    var formData = $('#edit_edu_form').serialize();
+			    var eduId = editEducationFormView.getEduId();
+			    octupus.submitEditEducationForm(formData, eduId);
+			}
+		    },
+		    {
+			text: "Cancel",
+			icons: {
+			    primary: "ui-icon-close"
+			},
+			click: function() {
+			    editEducationFormView.close();
+			}
+		    } 
+		]
+	    });
+	},
+	open: function() {
+	    this.$dialog.dialog('open');
+	},
+	close: function(){
+	    this.$dialog.dialog('close');
+	},
+	renderEditForm: function($eduDom, eduId){
+	    this.eduId = eduId;
+	    editEducationFormView.open();
+	    var institution = $eduDom.find('.institution').text();
+	    var degree = $eduDom.find('.degree').text();
+	    var majors = $eduDom.find('.majors').text();
+	    var graduation = $eduDom.find('.graduation').text();
+	    var gpa = $eduDom.find('.gpa').text();
+	    var $coursesDom = $eduDom.find('.courses').find('button');
+	    var courses = '';
+	    for( var i=0; i< $coursesDom.length; i++){
+		var $thisBttn = $($coursesDom[i]);
+		courses += $thisBttn.text().trim();
+		courses += ', ';
+	    }
+	    this.$dialog.find('#degree').val(degree);
+	    this.$dialog.find('#majors').val(majors);
+	    this.$dialog.find('#school').val(institution);
+	    this.$dialog.find('#gpa').val(gpa);
+	    this.$dialog.find('#graduation').val(graduation);
+	    this.$dialog.find('#courses').val(courses);
+	},
+	getEduId: function(){
+	    return this.eduId;
+	}
+    };
+
     var addWorkFormView = {
 	init: function(){
-	     $("#add_work_dialog").dialog({	
+	    this.$dialog = $("#add_work_dialog");
+	    this.$dialog.dialog({	
 		 draggable: false,
 		 resizeable: false,
 		 modal: true,
@@ -234,7 +342,7 @@ $(document).ready(function(){
 		     {
 			 text: "Add",
 			 icons: {
-			     primary: "ui-icon-plus"
+			     primary: "ui-icon-disk"
 			 },
 			 click : function(){
 			     var formData = $('#add_work_form').serialize();
@@ -247,17 +355,83 @@ $(document).ready(function(){
 			     primary: "ui-icon-close"
 			 },
 			 click: function(){
-			     $(this).dialog('close');
+			      addWorkFormView.close();
 			 }
 		     }
 		 ]
 	     });
+	},
+	close: function(){
+	    this.$dialog.dialog('close');
+	},
+	open: function(){
+	    this.$dialog.dialog('open');
+	}
+    };
+
+    var editWorkFormView = {
+	init: function(){
+	    this.$dialog = $('#edit_work');
+	    this.$dialog.dialog({	
+		draggable: false,
+		resizeable: false,
+		modal: true,
+		autoOpen: false,
+		dialogClass: 'form-dialog no-close',
+		buttons: [
+		    {
+			text: "Save Changes",
+			icons: {
+			    primary: "ui-icon-disk"
+			},
+			click : function(){
+			    var formData = $('#edit_work_form').serialize();
+			    var workId = editWorkFormView.getWorkId();
+			    octupus.submitEditWorkForm(formData, workId);
+			}
+		    },
+		    {
+			text: "Cancel",
+			icons: {
+			    primary: "ui-icon-close"
+			},
+			click: function(){
+			    editWorkFormView.close();
+			}
+		    }
+		]
+	    });
+	},
+	open: function(){
+	    this.$dialog.dialog('open');
+	},
+	close: function(){
+	    this.$dialog.dialog('close');
+	},
+	renderEditForm: function($workDom, workId){
+	    this.workId = workId;
+	    editWorkFormView.open();
+	    var title = $workDom.find('.title').text();
+	    var employer = $workDom.find('.employer').text();
+	    var dates = $workDom.find('.duration').text().split('-');
+	    var start_date = dates[0];
+	    var end_date = dates[1];
+	    var details = $workDom.find('.details').text();
+	    this.$dialog.find('#work_title').val(title);
+	    this.$dialog.find('#employer').val(employer);
+	    this.$dialog.find('#start_date').val(start_date);
+	    this.$dialog.find('#end_date').val(end_date);
+	    this.$dialog.find('#work_details').val(details);
+	},
+	getWorkId: function(){
+	    return this.workId;
 	}
     };
     
     var addAwardFormView = {
 	init: function(){
-	     $('#award_form').dialog({
+	    this.$dialog = $('#award_form');
+	    this.$dialog.dialog({
 		 autoOpen: false,
 		 modal: true,
 		 draggable: false,
@@ -280,17 +454,76 @@ $(document).ready(function(){
 			     primary: "ui-icon-close"
 			 },
 			 click: function(){
-			     $(this).dialog('close');
+			     addAwardFormView.close();
 			 }
 		     }
 		 ]
 	     });
+	},
+	close: function(){
+	    this.$dialog.dialog('close');
+	},
+	open: function(){
+	    this.$dialog.dialog('open');
 	}
     };
-    
+
+    var editAwardFormView = {
+	init: function(){
+	    this.$dialog = $('#edit_award');
+	    this.$dialog.dialog({
+		autoOpen: false,
+		modal: true,
+		draggable: false,
+		resizeable: false,
+		dialogClass: 'form-dialog no-close',
+		buttons : [
+		    {
+			text: "Save Changes",
+			icons: {
+			    primary: "ui-icon-disk"
+			},
+			click: function(){
+			    var formData = $('#edit_award_form').serialize();
+			    var awardId = editAwardFormView.getAwardId();
+			    octupus.submitEditAwardForm(formData, awardId);
+			}
+		    },
+		    {
+			text: "Cancel",
+			icons: {
+			    primary: "ui-icon-close"
+			},
+			click: function(){
+			    editAwardFormView.close();
+			}
+		    }
+		]
+	    });
+	},
+	open: function(){
+	    this.$dialog.dialog('open');
+	},
+	close: function(){
+	    this.$dialog.dialog('close');
+	},
+	renderEditForm: function($awardDom, awardId){
+	    this.awardId = awardId;
+	    this.open();
+	    var title = $awardDom.find('.title').text();
+	    var details = $awardDom.find('.details').text();
+	    this.$dialog.find('#award_title').val(title);
+	    this.$dialog.find('#about_award').val(title);
+	},
+	getAwardId: function(){
+	    return this.awardId;
+	}
+    };
+
     var addPublicationFormView = {
 	init : function(){
-	    $('#add_publication').dialog({
+	   this.$dialog =  $('#add_publication');
+	   this.$dialog.dialog({
 		draggable: false,
 		resizeable: false,
 		autoOpen: false,
@@ -314,14 +547,119 @@ $(document).ready(function(){
 			    primary: "ui-icon-close"
 			},
 			click: function(){
-			    $(this).dialog('close');
+			   addPublicationFormView.close();
 			}
 		    }
 		]   
 	    });
+	},
+	close: function(){
+	    this.$dialog.dialog('close');
+	},
+	open: function(){
+	    this.$dialog.dialog('open');
 	}
     };
     
+    var editPublicationFormView = {
+	init: function(){
+	    this.$dialog =  $('#edit_publication');
+	    this.$dialog.dialog({
+		draggable: false,
+		resizeable: false,
+		autoOpen: false,
+		modal: true,
+		dialogClass: 'form-dialog no-close',
+		buttons: [
+		    {
+			text: "Save Chaneges",
+			icons: {
+			    primary: "ui-icon-disk"
+			},
+			click: function(){
+			    var formData = $('#edit_public_form').serialize();
+			    var publicationId = editPublicationFormView.getPublicationId();
+			    octupus.submitEditPublicationForm(formData, publicationId);
+		   
+			}
+		    },
+		    {
+			text: "Canel",
+			icons: {
+			    primary: "ui-icon-close"
+			},
+			click: function(){
+			   editPublicationFormView.close();
+			}
+		    }
+		]   
+	    });
+	},
+	close: function(){
+	    this.$dialog.dialog('close');
+	},
+	open: function(){
+	    this.$dialog.dialog('open');
+	},
+	renderEditForm: function($publicationDom, publicationId){
+	    this.open();
+	    this.publicationId = publicationId;
+	    var title = $publicationDom.find('.title').text();
+	    var authors = $publicationDom.find('.authors').text();
+	    var link = $publicationDom.find('.link').attr('href');
+	    this.$dialog.find('#title').val(title);
+	    this.$dialog.find('#link').val(link);
+	    this.$dialog.find('#authors').val(authors);
+	},
+	getPublicationId: function(){
+	    return this.publicationId;
+	}
+    };
+    
+    var addTechnicalSkillFormView = {
+	init : function(){
+	    this.$dialog = $('#tech_skill_dialog');
+	    this.$dialog.dialog({
+		title : 'Add your skill',
+		autoOpen: false,
+		modal: true,
+		dialogClass: 'no-colse form-dialog',
+		resizeable: false,
+		draggable: false,
+		minWidth: 400,
+		buttons: [
+		    {
+			text: "Add",
+			icons: {
+			    primary: "ui-icon-plus"
+			},
+			click: function(){
+			    var formData = $('#add_technical_skills').serialize();
+			    octupus.submitAddTechnicalSkillForm(formData);
+			}
+		    },
+		    {
+			text: "Cancel",
+			icons: {
+			    primary: "ui-icon-close"
+			},
+			click: function(){
+			    addTechnicalSkillFormView.close();
+			}
+		    }
+		]
+	    });
+	   $('#skill_level').buttonset();
+	},
+	 close: function(){
+	     this.$dialog.dialog('close');
+	 },
+	 open: function(){
+	     this.$dialog.dialog('open');
+	 }
+    };
+   
+    /* =====Accordion View ======= */
     var resumeAccordionView = {
 	init : function(){
 	     $('#resume_accordion').accordion({
@@ -330,6 +668,33 @@ $(document).ready(function(){
 	}
     };
     
+    /* ============Button Views ======== */
+    var selfSummaryAddButtonView = {
+	init: function(){
+	    this.$thisBttn =  $('#edit_self_bttn');
+	    this.$selfDetails = $('#self_details');
+	    this.$thisBttn.button({
+		icons: {
+		    primary: "ui-icon-pencil"
+		}
+	    }).click(function(){
+		selfSummaryAddButtonView.hide();
+		$('#self_add').slideDown();
+		$('#self_summary').val($.trim($('#self_details').text()));
+		$('#self_summary_btn').val('Done');
+		$('#self_details').hide();
+	    });
+	},
+	show: function(){
+	    this.$thisBttn.show();
+	},
+	hide: function(){
+	    this.$thisBttn.hide();
+	}
+    };
+    
+    selfSummaryAddButtonView.init();
+
     var addEducationButtonView = {
 	init :function(){
 	    $('#add_education').button({
@@ -402,63 +767,92 @@ $(document).ready(function(){
     // Date picker
     $('.date-input').datepicker({
 	changeMonth: true,
-	changeYear: true,
-	minDate : '-120y'
+        changeYear: true,
+        dateFormat: 'MM yy',
+	showButtonPanel: true,
+        onClose: function(dateText, inst) { 
+            var month = $("#ui-datepicker-div .ui-datepicker-month :selected").val();
+            var year = $("#ui-datepicker-div .ui-datepicker-year :selected").val();
+            $(this).datepicker('setDate', new Date(year, month, 1));
+        }
     });
-     // end of ready function
+    // end of ready function
+    
+    
+    // ============ALET BOXES =============//
 
-    var addTechnicalSkillFormView = {
-	init : function(){
-	    $('#tech_skill_dialog').dialog({
-		title : 'Add your skill',
-		autoOpen: false,
-		modal: true,
-		dialogClass: 'no-colse form-dialog',
-		resizeable: false,
+    var deleteEducationAlertView = {
+	init: function(passed_function){
+	    this.$dialog =  $('#delete_alert_box');
+	    this.$dialog.dialog({
+		medal: true,
 		draggable: false,
-		minWidth: 400,
+		resizeable: false,
+		autoOpen: false,
 		buttons: [
 		    {
-			text: "Add",
+			text: "Delete",
 			icons: {
-			    primary: "ui-icon-plus"
+			    primary: "ui-icon-close"
 			},
-			click : function(){
-			    var formData = $('#add_technical_skills').serialize();
-			    octupus.submitAddTechnicalSkillForm(formData);
+			click: function(){
+			    octupus.sendDeleteEduRequest(deleteEducationAlertView.eduId);
+			}
+		    },
+		    {
+			text: "Cancel",
+			icons: {
+			    primary: "ui-icon-close"
+			},
+			click: function(){
+			    deleteEducationAlertView.close();
 			}
 		    }
 		]
 	    });
-	   $('#skill_level').buttonset();
-	}
-    };
-
-    var technicalSkillView = {
-	init : function(json_data){
+	},
+	close: function(){
+	    this.$dialog.dialog('close');
+	},
+	open: function(eduId){
+	    this.eduId = eduId;
+	    this.$dialog.dialog('open');
 	}
     };
 
     var octupus = {
 	init: function(){
-	    setInterval( model.get_json(), 3000);
+	    view.init();
 	    resumeAccordionView.init();
+
 	    // initialize the forms
 	    addEducationFormView.init();
 	    addPublicationFormView.init();
 	    addWorkFormView.init();
 	    addAwardFormView.init();
 	    addTechnicalSkillFormView.init();
-	    selfAddFormView.init();
+	    addSelfSummaryFormView.init();
+
+	    // Initialize the edit forms
+	    editAwardFormView.init();
+	    editEducationFormView.init();
+	    editWorkFormView.init();
+	    editPublicationFormView.init();
+	    
 	    // initialize the buttons
+	    
 	    addEducationButtonView.init();
 	    addWorkButtonView.init();
 	    addAwardButtonView.init();
 	    addPublicationButtonView.init();
 	    addTechnicalSkillButtonView.init();
-	    //initialize validations
+	  
+	    //initialize Alert Dialogs
+	    
+	    deleteEducationAlertView.init();
 	    
 	},
+
 	submitAddTechnicalSkillForm: function(formData){
 	    $.ajax({
 		url: '/updatetechnicalskill',
@@ -470,6 +864,22 @@ $(document).ready(function(){
 		    technicalSkillView.init(data);
 		});
 	},
+	
+	submitSelfSummaryForm: function(formData){
+	    $.ajax({
+		url: '/updateselfsummary',
+		type: 'POST',
+		data: formData,
+		dataType: 'json'
+	    })
+		.done(function(data){
+		    $('#self_add').hide();
+		    $('#self_add_form')[0].reset();
+		    selfSummaryAddButtonView.show();
+		    $('#self_details').show();
+		});
+	},
+
 	submitEduAddForm: function(formData){
 	    $.ajax({
 		url: '/updateresume',
@@ -482,6 +892,7 @@ $(document).ready(function(){
 		}
 	    });
 	},
+
 	submitAddWorkForm: function(formData){
 	    $.ajax({
 		url: '/updatework',
@@ -493,6 +904,7 @@ $(document).ready(function(){
 		$('#add_work_dialog').dialog('close');
 	    });
 	},
+
 	submitAddAwardForm: function(formData){
 	    $.ajax({
 		url: '/updateaward',
@@ -504,6 +916,7 @@ $(document).ready(function(){
 		$('#award_from').dialog('close');
 	    });
 	},
+
 	submitAddPublicationForm: function(formData){
 	    $.ajax({
 		url: "/updatepublication",
@@ -515,6 +928,7 @@ $(document).ready(function(){
 		$('#add_publication').dialog('close');
 	    });
 	},
+
 	updatePage: function(data, old_data, old_self_summary){
 	    var results = data.results;
 	    var awards = results.awards;
@@ -522,14 +936,21 @@ $(document).ready(function(){
 	    var works = results.works;
 	    var publications = results.publications;
 	    var self_summary = results.summary;
+	    selfSummaryView.init(self_summary, old_self_summary);
 	    educationView.init(education, old_data);
 	    workView.init(works, old_data);
 	    awardView.init(awards, old_data);
 	    publicationView.init(publications, old_data);
 	},
+
 	updateOldData: function(newData){
 	    model.old_data = newData;
 	},
+
+	updateOldSelfSummary: function(summary){
+	    model.old_self_summary = summary;
+	},
+
 	validateEducationForm: function(){
 	    $('#add_edu_form').validate({
 		rules: {
@@ -540,7 +961,93 @@ $(document).ready(function(){
 		    courses: 'required'
 		}
 	    });
+	},
+
+	editEducation: function(eduId){
+	    var $eduDom = $('#edu_' + eduId);
+	    editEducationFormView.renderEditForm($eduDom, eduId);
+	},
+
+	editWork: function(workId){
+	    var $workDom = $('#work_' + workId);
+	    editWorkFormView.renderEditForm($workDom, workId);
+	},
+
+	editAward: function(awardId){
+	    var $awardDom = $('#award_' + awardId);
+	    editAwardFormView.renderEditForm($awardDom, awardId);
+	},
+
+	editPublication: function(publicationId){
+	    var $publicationDom = $('#publication_' + publicationId);
+	    editPublicationFormView.renderEditForm($publicationDom, publicationId);
+	},
+	
+	submitEditAwardForm: function(formData, awardId){
+	    $.ajax({
+		url: '/editaward?id=' + awardId,
+		data: formData,
+		type: 'POST',
+		dataType: 'json'
+	    }).done(function(data){
+		if (data.status == 'OK'){
+		    editAwardFormView.close();
+		}
+	    });
+	},
+	submitEditEducationForm: function(formData, eduId){
+	   $.ajax({
+	       url: '/editeducation?id=' + eduId,
+	       type: 'POST',
+	       data: formData,
+	       dataType: 'json'
+	   }).done(function(data){
+	      if (data.status == 'OK'){
+		  editEducationFormView.close();
+	      }
+	   }); 
+	},
+	submitEditWorkForm: function(formData, workId){
+	    $.ajax({
+		url: '/editwork?id=' + workId,
+		type: 'POST',
+		dataType:'json',
+		data: formData
+	    }).done(function(data){
+		if (data.status == 'OK'){
+		    editWorkFormView.close();
+		}
+	    });
+	},
+	submitEditPublicationForm: function(formData, publicationId){
+	    $.ajax({
+		url: '/editpublication?id=' + publicationId,
+		type: 'POST',
+		dataType: 'json',
+		data: formData
+	    })
+	    .done(function(data){
+		if(data.status == 'OK'){
+		    editPublicationFormView.close();
+		}
+	    });
+	},
+	deleteEducation: function(eduId){
+	    deleteEducationAlertView.open(eduId);
+	},
+	sendDeleteEduRequest: function(eduId){
+	    $.ajax({
+		url: '/deleteeducation?id=' + eduId,
+		type: 'POST',
+		dataType: 'json'
+	    }).done(function(data){
+		deleteEducationAlertView.close();
+		if(data.status == 'ERR'){
+		    alert(data.error);
+		}
+	    });
 	}
     };
+    setInterval(model.get_json, 3000);
     octupus.init();
 });
