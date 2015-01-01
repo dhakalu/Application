@@ -5,13 +5,28 @@
 <script src="/js/resume.js"></script>
 {% endblock %}
 
+{% block left_bar %}
+<!-- FOR LARGER SCREENS -->
+<button class="btn btn-default btn-lg dropdown-toggle  hidden-xs row center-block">
+    <span class="glyphicon glyphicon-download-alt" aria-hidden="true"></span> 
+    Download as PDF
+</button>
+<!-- FOR MOBILE SCREENS --->
+<button class="btn btn-default btn-sm dropdown-toggle visible-xs center-block" type="button" data-toggle="dropdown" aria-expanded="false"> 
+    <span class="glyphicon glyphicon-download-alt" aria-hidden="false"></span>
+    Download
+ </button>
+{% endblock %}
+
+
+
 {% block body%}
 <!-- The main page -->
 <div id="resume_accordion">
     <!-- Self Summary Section -->
     <h3>Self Summary</h3>
     <div>
-	{% if loged_user %}
+	{% if owner %}
 	<div summary_menu>
 	    <button id="edit_self_bttn" data-toggle="modal" data-target="#self_summary_form">Edit Summary</button>
 	</div>
@@ -30,7 +45,7 @@
     <!--Education Section -->
     <h3>Education</h3>
     <div>
-	{% if loged_user %}
+	{% if owner %}
 	<div id="add_edu_menu">
 	    <button id="add_education">Add Education</button>
 	    <hr>
@@ -67,7 +82,7 @@
     <!-- work experience section goes here -->
     <h3>Work Experience</h3>
     <div>
-	{% if loged_user %}
+	{% if owner %}
 	<div "work_menu">
 	    <button id="add_work"> Add Work</button>
 	    <hr>
@@ -101,7 +116,7 @@
     <h3>Awards</h3>
     <div>
 	
-	{% if loged_user %}
+	{% if owner %}
 	<div id="award_menu">
 	    <button id="add_award_btn">Add Award</button>
 	    <hr>
@@ -130,7 +145,7 @@
     
     <h3>Publications</h3>
     <div>
-	{% if loged_user %}
+	{% if owner %}
 	<div id="publication_menu">
 	    <button id="add_publication_bttns" data-toggle="modal" data-target="#add_publication_modal"> Add Publication</button><hr>
 	</div>
@@ -207,7 +222,7 @@
     </div>
     <h3>Technical Skills</h3>
     <div id="add_skill">
-	{% if loged_user %}
+	{% if owner %}
 	<div>
 	    <button id="add_skill_btn" data-toggle="modal" data-target="#add_technical_skill_modal">Add Skill</button>
 	</div>
@@ -294,7 +309,7 @@
 
 
 
-{% if loged_user %}
+{% if owner %}
 <div id="menu">
     <button id="add_section_bttn">Add a costume field</button>
 </div>

@@ -16,7 +16,7 @@ class MainPage(base.RequestHandler):
             else:
                 self.render('404.html')
         elif self.user:
-            self.render("faq.html")
+            self.render("faq.html", loged_user=self.user)
         else:
             self.render("mainpage.html")
 

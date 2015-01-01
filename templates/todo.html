@@ -21,27 +21,49 @@
     </form>
 </div>
 
-<div id="tobedone-task">
-    <div class="row title-curved">
+<div id="tobedone-task row">
+    <div class="title-top-curved">
 	Tasks that needs to be done
     </div>
-    
-    <div id="todo-list">
+    <div id="todo-list" class="box-top-menu">
 
     </div>
 </div>
 
 <hr>
 
-<div id="completed-task">
-    <div class="row title-curved">
+<div id="completed-task row">
+    <div class="title-top-curved">
 	Tasks Completed
     </div>
     
-    <div id="completed-list">
+    <div id="completed-list" class="box-top-menu">
     </div>
 </div>
 
+
+<!-- COMPLETED TASK FRAME -->
+
+<div id="completed_task_frame">
+	<div class="task-box row">
+	    <div class="col-md-9 col-sm-9 title">
+	    </div>
+	    <div class="btn-group options col-md-3 col-sm-3" role="group">
+		<button class="unmark_done_btn btn btn-default" type="button">
+		    <span class="glyphicon glyphicon-ok"></span>
+		</button>
+		<button class="btn btn-default remove_btn" type="btoon">
+		    <span class="glyphicon glyphicon-remove"></span>
+		</button>
+	    </div>
+	    </div>
+	</div>
+</div>
+
+
+<script>
+ $('#completed_task_frame').hide();
+</script>
 {% endblock %}
 
 {% block right_bar %} 

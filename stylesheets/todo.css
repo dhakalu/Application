@@ -1,26 +1,29 @@
 .task-box{
-    margin-top : 10px;
-    border : 1px solid;
     border-radius: 5px;
     padding: 5px;
     background: #fff;
+    margin: 0;
 }
 
 .title{
-    margin-left: 10px;
+    padding:0 5px;
+}
+
+.task-box:hover{
+    background: #f3f3f3;
+    ocupacy: 0.8;
+    cursor: pointer;
 }
 
 .mark_done_btn{
-    height:20px;
-    width: 30px;
+    width: 40px;
 }
 
 .edit_btn{
-    height:20px;
-    width: 30px;
+    width: 40px;
 }
 
 .remove_btn{
-    height:20px;
-    width: 30px;
+    width: 40px;
 }
+

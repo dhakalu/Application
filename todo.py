@@ -6,7 +6,7 @@ import json
 class ToDoPage(base.RequestHandler):
     def get(self):
         if self.user:
-            self.render('todo.html')
+            self.render('todo.html', loged_user=self.user)
         else:
             self.redirect('/')
 
@@ -19,12 +19,13 @@ class Update(base.RequestHandler):
     output_json = {}
 
     def post(self):
+        has_error = False
         if self.user:
             self.user_name = self.user.user_name
             task = self.request.get('task')
             mark_done = self.request.get('mark_done')
             edit = self.request.get('edit')
-            delete = self.request.get('delet')
+            delete = self.request.get('delete')
             if mark_done:
                 self.mark_done(mark_done)
             elif edit:
@@ -66,7 +67,7 @@ class Update(base.RequestHandler):
             self.output_json['error'] = 'No such task'
 
     def delete(self, todo_id):
-        todo = tables.ToDo.by_id(todo_id)
+        todo = tables.ToDo.by_id(int(todo_id))
         todo.delete()
 
     def edit(self, todo_id):
