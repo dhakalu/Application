@@ -8,11 +8,15 @@ class Resume(base.RequestHandler):
     def get(self, usr=None):
         if usr:
             u = user.User.by_name(usr)
-            if u:
-                if usr == self.user.user_name:
-                    self.render('resume.html', loged_user=self.user)
+            if u and self.user:
+                if u.user_name == self.user.user_name:
+                    self.render('resume.html',
+                                owner=self.user,
+                                loged_user=self.user)
                 else:
-                    self.render('resume.html')
+                    self.render('resume.html', loged_user=self.user)
+            elif u:
+                self.render('resume.html')
             else:
                 self.render('404.html')
         elif self.user:

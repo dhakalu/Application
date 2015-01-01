@@ -1,0 +1,86 @@
+img.bg {
+  /* Set rules to fill background */
+  min-height: 100%;
+  min-width: 1024px;
+  
+  /* Set up proportionate scaling */
+  width: 100%;
+  height: auto;
+  
+  /* Set up positioning */
+  position: fixed;
+  top: 0;
+  left: 0;
+}
+
+@media screen and (max-width: 1024px) { /* Specific to this particular image */
+  img.bg {
+    left: 50%;
+    margin-left: -512px;   /* 50% */
+  }
+
+
+}
+
+#login, #signup{
+    margin: 0;
+}
+
+.front-form{
+    width: 302px;
+}
+
+.box-all-curved{
+    border: 1px solid #e1e8ed;
+}
+
+.pass-holder{
+    padding-left: 15px;
+    padding-right: 15px;
+}
+
+.submit-holder{
+    padding: 0;
+    margin: 2px;
+}
+
+h4{
+   border-bottom: 1px solid #e1e8ed;
+   box-shadow: 0 1px 0 #fff;
+   color: #66757f;
+   display: block;
+   font-size: 16px;
+   font-weight: 300;
+   margin-bottom: 12px;
+   position: relative;
+   line-height: 22px;
+   text-shadow: 0 1px 0 rgba(255,255,255,0.6);
+}
+
+.text-small{
+    height: 13px;
+}
+
+.welcome-message-title{
+    color: #fff;
+    font-size: 38px;
+    line-height: 44px;
+    margin-bottom: 30px;
+    text-shadow: none;
+}
+
+.welcome-message-title h1{
+    font-weight: 700;
+}
+
+.welcome-message-body p {
+    color: #fff;
+    font-size: 21px;
+    line-height: 31px;
+    text-shadow: none;
+}
+
+.welcome-message-body h2{
+    color: #fff;
+    font-weight: 450;
+}
