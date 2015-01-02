@@ -1,4 +1,6 @@
 $(document).ready(function(){
+    var addNewTaskModal = $('#add_new_task_modal');
+    var editTaskModal = $('#edit_task_modal');
     var model = {
 	init: function(){
 	    this.old_data = [0,0];
@@ -24,24 +26,14 @@ $(document).ready(function(){
 	    }
 	},
 	render: function(){
-	    var updateHtml = '<div class="box-flat task-box row">';
-	    updateHtml += '<div class="col-md-9 title col-sm-9"></div>';
-	    updateHtml += '<div class="btn-group options col-md-3 col-sm-3" role="group"></div>';
-	    updateHtml += '</div>';
+	    var updateHtml = $('#todo_task_frame').html();
 	    var $updateHtml = $(updateHtml);
 	    $updateHtml.find('.title').text(this.task.task);
-	    var $done_btn = $('<button class="mark_done_btn btn btn-default" type="button"><span class="glyphicon glyphicon-ok"></span></button>');
-	    $updateHtml.find('.options').append($done_btn);
-	    var $edit_btn = $('<button class="edit_btn btn btn-default"><span class="glyphicon glyphicon-pencil"></span></button>');
-	    $updateHtml.find('.options').append($edit_btn);
-	    var $delete_btn = $('<button class="remove_btn btn btn-default"><span class="glyphicon glyphicon-remove"></span></button>');
-	    $updateHtml.find('.options').append($delete_btn);
 	    $updateHtml.find('.mark_done_btn').attr('id','mark_done_' + this.task.id);
 	    $updateHtml.find('.edit_btn').attr('id','edit_task_' + this.task.id);
 	    $updateHtml.find('.remove_btn').attr('id', 'remove_task_' + this.task.id);
-	    // $updateHtml.hide();
+	    $updateHtml.find('.task-box').attr('id', 'task_' + this.task.id);
 	    $('#todo-list').prepend($updateHtml);
-	    //$updateHtml.show('clip',250).effect('highlight',1000);
 	}
     };
    
@@ -65,63 +57,33 @@ $(document).ready(function(){
 	}
     };
 
-    var addToListButtonView = { 
-	init: function(){
-	    $('#add-to-list').button({
-		icons: {
-		    primary: "ui-icon-circle-plus"
-		}
-	    }).click(function(){
-		$('#add-new-todo').dialog('open');
-	    }); // end of button
-	}
-    };	
     
     var toolTipView = {
 	init: function(){
-	    $('[title]').tooltip({
-		tooltipClass : 'tooltip'
+	    $('[title]').tooltip();
+	}
+    };
+    
+    
+    var editFormView = {
+	init: function(){
+	    this.$dialog = $('#edit_task_modal');
+	    $('#submit_edit_task_btn').click(function(){
+		var formData = $('#edit_todo_form').serialize();
+		octupus.submitEditTaskRequest(editFormView.taskId, formData);
 	    });
+	},
+	render: function(taskId){
+	    this.taskId = taskId;
+	    this.$dialog.modal('toggle');
+	    console.log($('#task_' + taskId));
+	    var title = $('#task_' + taskId).find('.title').text();
+	    console.log(title);
+	    this.$dialog.find('#edit_todo_input').val(title);
 	}
     };
 
-    var addTaskFormView = {
-	init: function(){
-	    this.$dialog = $('#add-new-todo');
-	    this.$dialog.dialog({
-		draggable : false,
-		resizeable : false,
-		modal : true,
-		autoOpen : false,
-		dialogClass: 'no-close form-dialog',
-		buttons : [{
-		    text: 'Add',
-		    icons: {
-			primary : "ui-icon-plus"
-		    },
-		    click: function(){
-			var formData = $('#todo-form').serialize();
-			console.log(formData);
-			octupus.sendAddTaskRequest(formData);
-		    }
-		},
-			   {
-			       text: "Cancel",
-			       icons: {
-				   primary: "ui-icon-close"
-			       },
-			       click: function(){
-				   $('#add-new-todo').dialog('close');
-			       } //  end of click
-			   }// end of cancel bttn
-			   
-			  ]
-	    }); // end of dialog
-	},
-	close: function(){
-	    this.$dialog.dialog('close');
-	}
-    };
+    editFormView.init();
     
     var eventListeners = {
 	init: function(){	    
@@ -135,8 +97,7 @@ $(document).ready(function(){
 	    $('body').on('click','.edit_btn', function(){
 		var id=$(this).attr('id').split('_')[2];
 		console.log(id);
-		var formData = 'edit=' + id;
-		octupus.editTask();
+		octupus.editTask(id);
 	    });
 	    
 	    $('body').on('click', '.remove_btn', function(){
@@ -146,17 +107,32 @@ $(document).ready(function(){
 		console.log(formData);
 		octupus.sendUpdateTaskRequest(formData);
 	    });
+	    
+	    $('#submit_add_task_btn').click(function(){
+		var formData = $('#todo-form').serialize();
+		octupus.sendAddTaskRequest(formData);
+	    });
 	}
     };
     
+   
+    addNewTaskModal.on('shown.bs.modal', function() {
+	$('#add_todo_input').focus();
+    });
+    
+    editTaskModal.on('shown.bs.modal', function(){
+	$('#edit_todo_input').focus();
+    });
+
     var octupus = {
 	init: function(){
-	    addToListButtonView.init();
-	    addTaskFormView.init();
 	    toolTipView.init();
 	    model.init();
 	    model.getJson();
 	    eventListeners.init();
+	},
+	editTask: function(taskId){
+	    editFormView.render(taskId);
 	},
 	sendAddTaskRequest : function(formData){
 	    $.ajax({
@@ -167,7 +143,7 @@ $(document).ready(function(){
 	    }).done(function(data){
 		model.getJson();
 		$('#todo-form')[0].reset();
-		addTaskFormView.close();
+		$('#add_new_task_modal').modal('hide');
 	    });
 	},
 	sendUpdateTaskRequest: function(formData){
@@ -178,6 +154,18 @@ $(document).ready(function(){
 		dataType: 'json'
 	    }).done(function(data){
 		model.getJson();
+	    });
+	},
+	submitEditTaskRequest: function(taskId, formData){
+	    $.ajax({
+		url: '/updatetodo',
+		type: 'POST',
+		data: 'edit=' + taskId + '&' + formData,
+		dataType: 'json'
+	    }).done(function(data){
+		model.getJson();
+		$('#edit_todo_form')[0].reset();
+		$('#edit_task_modal').modal('hide');
 	    });
 	},
 	updatePage: function(todo_list, done_list){

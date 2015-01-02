@@ -71,7 +71,9 @@ class Update(base.RequestHandler):
         todo.delete()
 
     def edit(self, todo_id):
-        pass
+        todo = tables.ToDo.by_id(int(todo_id))
+        todo.task = self.request.get('edited_task')
+        todo.put()
 
 
 class GetJSON(base.RequestHandler):

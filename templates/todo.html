@@ -13,20 +13,64 @@
 
 <!--- main page -->
 {% block body %}
-<button id="add-to-list">Add to list</button>
+<button id="add_task_btn" class="btn btn-info" data-toggle="modal"
+	data-target="#add_new_task_modal">
+    <span class="glyphicon glyphicon-plus"></span>
+    Add to list
+</button>
 <hr>
-<div id="add-new-todo" title="Add item to do list">
-    <form onsubmit="return false" id="todo-form">
-	<input type="text" name="task" id="new-todo" placeholder="Title" class="input-default form-control">
-    </form>
+
+
+<!-- EDIT TASK MODAL -->
+
+
+<div class="modal fade in" id="edit_task_modal" role="dialog" data-backdrop="static">
+    <div class="modal-dialog">
+	<div class="modal-content">
+	    <div class="modal-header">
+		<h4 class="modal-title"> Edit Task </h4>
+	    </div>
+	    <div class="modal-body">
+		<form onsubmit="return false" id="edit_todo_form">
+		    <input type="text" name="edited_task" id="edit_todo_input" placeholder="Title" class="input-default form-control">
+		</form>
+	    </div>
+	    <div class="modal-footer">
+		<button type="button" class="btn btn-default" data-dismiss="modal">Close</button>
+		<button type="button" class="btn btn-primary" id="submit_edit_task_btn">Save Chaneges</button>
+	    </div>
+	</div>
+    </div>
 </div>
+
+
+<!-- ADD TASK MODAL -->
+<div class="modal fade in" id="add_new_task_modal" role="dialog" data-backdrop="static">
+    <div class="modal-dialog">
+	<div class="modal-content">
+	    <div class="modal-header">
+		<h4 class="modal-title"> Add Todo Task </h4>
+	    </div>
+	    <div class="modal-body">
+		<form onsubmit="return false" id="todo-form">
+		    <input type="text" name="task" id="add_todo_input" placeholder="Title" class="input-default form-control">
+		</form>
+	    </div>
+	    <div class="modal-footer">
+		<button type="button" class="btn btn-default" data-dismiss="modal">Close</button>
+		<button type="button" class="btn btn-primary" id="submit_add_task_btn">Add task</button>
+	    </div>
+	</div>
+    </div>
+</div>
+
 
 <div id="tobedone-task row">
     <div class="title-top-curved">
 	Tasks that needs to be done
     </div>
     <div id="todo-list" class="box-top-menu">
-
+	
     </div>
 </div>
 
@@ -45,24 +89,47 @@
 <!-- COMPLETED TASK FRAME -->
 
 <div id="completed_task_frame">
-	<div class="task-box row">
-	    <div class="col-md-9 col-sm-9 title">
+    <div>
+	<div>
+	    <div class="task-box row">
+		<div class="col-md-9 col-sm-9 title">
+		</div>
+		<div class="btn-group options col-md-3 col-sm-3" role="group">
+		    <button class="unmark_done_btn btn btn-default" type="button" title="Unmrk as done">
+			<span class="glyphicon glyphicon-ok"></span>
+		    </button>
+		    <button class="btn btn-default remove_btn" type="btoon" data-toggle="tooltip" data-placement="top" title="Remove this task">
+			<span class="glyphicon glyphicon-remove"></span>
+		    </button>
+		</div>
 	    </div>
-	    <div class="btn-group options col-md-3 col-sm-3" role="group">
-		<button class="unmark_done_btn btn btn-default" type="button">
-		    <span class="glyphicon glyphicon-ok"></span>
-		</button>
-		<button class="btn btn-default remove_btn" type="btoon">
-		    <span class="glyphicon glyphicon-remove"></span>
-		</button>
-	    </div>
+	</div>
+    </div>
+</div>
+
+<!-- TASK FRAME !-->
+<div id="todo_task_frame">
+	<div class="task-container">
+	    <div class="task-box row">
+		<div class="col-md-9 col-sm-9 title">
+		</div>
+		<div class="btn-group options col-md-3 col-sm-3" role="group">
+		    <button class="mark_done_btn btn btn-default" type="button">
+			<span class="glyphicon glyphicon-ok"</span>
+		    </button>
+		    <button class="edit_btn btn btn-default" type="button">
+			<span class="glyphicon glyphicon-pencil"></span>
+		    </button>
+		    <button class="remove_btn btn btn-default" type="button">
+			<span class="glyphicon glyphicon-remove"></span>
+		    </button>
+		</div>
 	    </div>
 	</div>
 </div>
-
-
 <script>
  $('#completed_task_frame').hide();
+ $('#todo_task_frame').hide();
 </script>
 {% endblock %}
 

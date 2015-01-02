@@ -1,4 +1,5 @@
 $(document).ready(function(){
+    $("#delete_work_alert_box").alert();
 
     // ========= ACTIVATE ALL POP OVERS ====//
     
@@ -439,7 +440,13 @@ $(document).ready(function(){
      $('#accordion').collapse();
    
     // Date picker
-    $('.datepicker').datepicker();
+    $('.datepicker').datepicker({
+	format: "MM yyyy",
+	startView: 1,
+	minViewMode: 1,
+	keyboardNavigation: false,
+	forceParse: false
+    });
     // end of ready function
     
     

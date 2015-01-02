@@ -15,7 +15,8 @@
     Download as PDF
 </button>
 <!-- FOR MOBILE SCREENS --->
-<button class="btn btn-default btn-sm dropdown-toggle visible-xs center-block" type="button" data-toggle="dropdown" aria-expanded="false"> 
+<button class="btn btn-default btn-sm dropdown-toggle visible-xs center-block" 
+	type="button" data-toggle="dropdown" aria-expanded="false"> 
     <span class="glyphicon glyphicon-download-alt" aria-hidden="false"></span>
     Download
  </button>
@@ -47,7 +48,9 @@
 	    <div class="modal-dialog">
 		<div class="modal-content">
 		    <div class="modal-header">
-			<button type="button" class="close" data-dismiss="modal" aria-label="Close"><span aria-hidden="true">&times;</span></button>
+			<button type="button" class="close" data-dismiss="modal" aria-label="Close">
+			    <span aria-hidden="true">&times;</span>
+			</button>
 			<h4 class="modal-title">Add Self Summary</h4>
 		    </div>
 		    <div class="modal-body">
@@ -75,7 +78,8 @@
     <div>
 	{% if owner %}
 	<div id="add_edu_menu">
-	    <button id="add_education_btn" class="btn btn-default" data-toggle="modal" data-target="#add_education_modal">
+	    <button id="add_education_btn" class="btn btn-default" 
+		    data-toggle="modal" data-target="#add_education_modal">
 		<span class="glyphicon glyphicon-plus"></span>
 		Add Education
 	    </button>
@@ -90,15 +94,18 @@
 	    <div class="modal-dialog">
 		<div class="modal-content">
 		    <div class="modal-header">
-			<button type="button" class="close" data-dismiss="modal" aria-label="Close"><span aria-hidden="true">&times;</span></button>
+			<button type="button" class="close" data-dismiss="modal" 
+				aria-label="Close">
+			    <span aria-hidden="true">&times;</span>
+			</button>
 			<h4 class="modal-title">Add Academic Record</h4>
 		    </div>
 		    <div class="modal-body">
 			<form id="add_education_form">
-			     <input type="text" name="degree" class="form-control default-input" placeholder="Degree e.g BSc">
+			    <input type="text" name="degree" class="form-control default-input" placeholder="Degree e.g BSc">
 			     <input type="text" name="majors" class="form-control default-input" 
-				    placeholder="Major/s"
-				    data-toggle="popover" data-trigger="focus" data-content="If you have more than one major. Please 
+				    placeholder="Major/s" data-toggle="popover" data-trigger="focus" 
+				    data-content="If you have more than one major. Please 
 				    seperate them with a comma." data-placement="top">
 			     <input type="text" name="school" class="form-control default-input" placeholder="Institution">
 			     <input type="text" name="gpa" class="form-control default-input" placeholder="GPA (Optional)">
@@ -106,13 +113,18 @@
 				    placeholder="Graduation Date/ Expected Graduation" data-provide="datepicker">
 			     <textarea name="courses" class="form-control default-input" 
 				       placeholder="Relevent Courseworks" data-toggle="popover" data-trigger="focus" 
-				       title="Importent Notice!" data-content="Please seperate subjects with commas"  data-placement="top">
+				       title="Importent Notice!" data-content="Please seperate subjects with commas" 
+				       data-placement="top">
 			     </textarea>
-			 </form>
+			</form>
 		    </div>
 		    <div class="modal-footer">
-			<button type="button" class="btn btn-default" data-dismiss="modal">Close</button>
-			<button type="button" class="btn btn-primary" id="submit_add_edu_btn">Add Academic Record</button>
+			<button type="button" class="btn btn-default" data-dismiss="modal">
+			    Close
+			</button>
+			<button type="button" class="btn btn-primary" id="submit_add_edu_btn">
+			    Add Academic Record
+			</button>
 		    </div>
 		</div>
 	    </div>
@@ -125,17 +137,30 @@
 	    <div class="modal-dialog">
 		<div class="modal-content">
 		    <div class="modal-header">
-			<button type="button" class="close" data-dismiss="modal" aria-label="Close"><span aria-hidden="true">&times;</span></button>
+			<button type="button" class="close" data-dismiss="modal" aria-label="Close">
+			    <span aria-hidden="true">&times;</span></button>
 			<h4 class="modal-title">Edit Academic Record</h4>
 		    </div>
 		    <div class="modal-body">
 			<form id="edit_education_form">
-			    <input type="text" name="degree" id="degree" class="form-control default-input" placeholder="Degree e.g BSc">
-			    <input type="text" name="majors" id="majors" class="form-control default-input" placeholder="Majors (Seperate by comma)">
-			    <input type="text" name="school" id="school" class="form-control default-input" placeholder="Institution">
-			    <input type="text" name="gpa" id="gpa" class="form-control default-input" placeholder="GPA (Optional)">
-			    <input type="text" name="graduation" id="graduation" class="form-control default-input date-input" placeholder="(Expected)/Graduation date">
-			    <textarea name="courses" id="courses" class="form-control default-input" placeholder="Revelent Course works (Seperate them by comma)"></textarea>
+			    <input type="text" name="degree" id="degree" class="form-control default-input" 
+				   placeholder="Degree e.g BSc">
+			    <input type="text" name="majors" id="majors" class="form-control default-input" 
+				   placeholder="Major" data-toggle="popover" data-trigger="focus" 
+				   data-content="If you have more than one major. Please 
+				   seperate them with a comma." data-placement="top">
+			    <input type="text" name="school" id="school" 
+				   class="form-control default-input" placeholder="Institution">
+			    <input type="text" name="gpa" id="gpa" class="form-control default-input" 
+				   placeholder="GPA (Optional)">
+			    <input type="text" name="graduation" id="graduation" 
+				   class="form-control default-input datepicker" placeholder="(Expected)/Graduation date">
+			    <textarea name="courses" id="courses" class="form-control default-input" 
+				      placeholder="Revelent Course works"  placeholder="Relevent Courseworks" 
+				      data-toggle="popover" data-trigger="focus" 
+				      title="Importent Notice!" data-content="Please seperate subjects with commas" 
+				      data-placement="top">
+			    </textarea>
 			</form>
 		    </div>
 		    <div class="modal-footer">
@@ -176,8 +201,11 @@
 			 <form id="add_work_form">
 			     <input type="text" name="work_title" placeholder="Title" class="form-control default-input">
 			     <input type="tetxt" name="employer"  placeholder="Employer" class="form-control default-input">
-			     <input type="text" name="start_date" placeholder="From" class=" date-input form-control default-input">
-			     <input type="text" name="end_date"  placeholder="End Date" class="date-input form-control default-input">
+			     <input type="text" name="start_date" placeholder="From" class=" datepicker form-control default-input">
+			     <input type="text" name="end_date"  placeholder="End Date" 
+				    class="datepicker form-control default-input"
+				    data-toggle="popover" data-trigger="focus" 
+				    data-content="Leave blank if this is your current job" data-placement="top">
 			     <textarea form="add_work_form" name="details" placeholder="Details" class="form-control"></textarea>
 			 </form>
 		    </div>
@@ -203,8 +231,8 @@
 			<form id="edit_work_form">
 			    <input type="text" name="work_title" id="work_title" class="form-control default-input">
 			    <input type="tetxt" name="employer" id="employer" class="form-control default-input">
-			    <input type="text" name="start_date" id="start_date" class="date-input form-control default-input">
-			    <input type="text" name="end_date" id="end_date" class="date-input form-control default-input">
+			    <input type="text" name="start_date" id="start_date" class="datepicker form-control default-input">
+			    <input type="text" name="end_date" id="end_date" class="datepicker form-control default-input">
 			    <textarea form="edit_work_form" name="details" id="work_details" class="form-control"></textarea>
 			</form>
 		    </div>
@@ -366,7 +394,7 @@
 </div>
     <br>
 
-<!-- Skill Add Form --!>
+<!-- Skill Add Form !-->
 
 <div class="modal fade in" id="add_technical_skill_modal" role="dialog" data-backdrop="static">
     <div class="modal-dialog">
@@ -402,7 +430,10 @@
 
 {% if owner %}
 <div id="menu">
-    <button id="add_section_bttn">Add a costume field</button>
+    <button id="add_section_bttn" class="btn btn-default">
+	<span class="glyphicon glyphicon-plus"></span>
+	Add a costume field
+    </button>
 </div>
 
 <div id="add_section_form">
@@ -415,30 +446,31 @@
 
 <!-- Frame for education -->
 <div id="education_frame">
-  <div>
-    <div class="row">
-      <div class="col-md-9 col-sm-9 col-xs-9 text-title institution"></div>
-      <div class="col-md-3 col-sm-3 col-xs-3">
-	  <div class="btn-group" role="group">
-	      <button type="button" class="btn btn-default edit_edu_btn">                      
-		  <span class="glyphicon glyphicon-pencil">
-		  </span>
-	      </button>
-	      <button type="button" class="btn btn-default delete_edu_btn">
-		  <span class="glyphicon glyphicon-remove">
-		  </span>
-	      </button>
-	      
-	  </div>
-      </div>
+    <div>
+	<div class="row">
+	    <div class="col-md-9 col-sm-9 col-xs-9 text-title institution"></div>
+	    {% if owner %}
+	    <div class="col-md-3 col-sm-3 col-xs-3">
+		<div class="btn-group" role="group">
+		    <button type="button" class="btn btn-default edit_edu_btn">                      
+			<span class="glyphicon glyphicon-pencil">
+			</span>
+		    </button>
+		    <button type="button" class="btn btn-default delete_edu_btn">
+			<span class="glyphicon glyphicon-remove">
+			</span>
+		    </button>		    
+		</div>
+	    </div>
+	    {% endif %}
+	</div>
+	<div class="degree"></div>
+	<div class="majors"></div>
+	<div class="graduation"></div>
+	<div class="gpa"></div>
+	<div class="courses tags"></div>
     </div>
-    <div class="degree"></div>
-    <div class="majors"></div>
-    <div class="graduation"></div>
-    <div class="gpa"></div>
-    <div class="courses tags"></div>
     <hr>
-  </div>
 </div>
 
 <!-- Frame for work -->
@@ -446,6 +478,7 @@
     <div>
 	<div class="row">
 	    <div class="title text-title col-md-9 col-sm-9 col-xs-9"></div>
+	    {% if owner %}
 	    <div class="col-md-3 col-sm-3 col-xs-3">
 		<div class="btn-group" role="group">
 		    <button type="button" class="btn btn-default edit_work_btn">                      
@@ -459,6 +492,7 @@
 		    
 		</div>
 	    </div>
+	{% endif %}
 	</div>
 	<div class="employer"> </div>
 	<div class="duration"> </div>
@@ -474,6 +508,7 @@
 	    <a href="" class="link">
 		<div class="text-title title col-md-9 col-sm-9 com-xs-9"></div>
 	    </a>
+	    {% if owner %}
 	    <div class="col-md-3 col-sm-3 col-xs-3">
 		<div class="btn-group" role="group">
 		    <button type="button" class="btn btn-default edit_publication_btn">                      
@@ -487,6 +522,7 @@
 		    
 		</div>
 	    </div>
+	    {% endif %}
 	</div>
 	<div class="authors"></div>
     </div>
@@ -498,6 +534,7 @@
     <div>
 	<div class="row">
 	    <div class=" title text-title col-md-9 col-sm-9 col-xs-9"></div>
+	    {% if owner %}
 	    <div class="col-md-3 col-sm-3 col-xs-3">
 		<div class="btn-group" role="group">
 		    <button type="button" class="btn btn-default edit_award_btn">                      
@@ -511,6 +548,7 @@
 		    
 </div>
 	    </div>
+	    {% endif %}
 	</div>
 	<div class="details"> </div>
     </div>
@@ -551,7 +589,7 @@
     </div>
 </div>
 
-<div id="delete_work_alert_box" title="Verify Deletion">
+<div id="delete_work_alert_box" role="alert" title="Verify Deletion">
     <div>
 	Clicking delete button will pernmanently remove this work experirnce form your resume. Are you sure you want to continue? 
     </div>

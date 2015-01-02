@@ -48,7 +48,7 @@
     background: darken(#43609C, 3%);
 }
 
-.navbar-search-form{
+ul.navbar-left.col-md-6.col-sm-6.navbar-search-form{
     margin-top: 8px;
 }
 
