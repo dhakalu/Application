@@ -4,16 +4,22 @@ body{
 .ui-accordion-content {  
     width: 100%;  
     background-color: #fff;  
-    color: #777;  
+    color: #555;  
     font-size: 10pt;  
     line-height: 16pt; 
-    border: 1px solid #aaaaaa;
+    border: 1px solid #ddd;
 }
 
 .ui-accordion-header {  
     background-color: #fff;
     margin: 0;
 }   
+
+.ui-accordion .ui-accordion-header{
+    margin: 3px 0 0 0;
+    padding-top: 10px;
+    padding-bottom: 10px;
+}
 
 .edit_btn {
     width: 30px;
@@ -65,4 +71,22 @@ body{
     padding: 2px;
     margin-top: -2px;
     margin-left: 3px;
+}
+
+.ui-state-default, .ui-widget-content .ui-state-default, .ui-widget-header .ui-state-default {
+    border: 1px solid #ddd;
+    background: #f5f5f5;
+    color: #333;
+    background-color: #f5f5f5; 
+    font-weight: normal;
+}
+
+.ui-corner-all, .ui-corner-top, .ui-corner-right, .ui-corner-tr{
+    border-top-left-radius: 3px;
+    border-top-right-radius: 3px;
+}
+
+.ui-corner-all, .ui-corner-bottom, .ui-corner-right, .ui-corner-br{
+    border-bottom-left-radius: 3px;
+    border-bottom-right-radius: 3px;
 }

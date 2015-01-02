@@ -3,6 +3,9 @@
 {% block header %}
 <link rel="stylesheet" href="/stylesheets/resume.css">
 <script src="/js/resume.js"></script>
+<script>
+
+</script>
 {% endblock %}
 
 {% block left_bar %}
@@ -28,55 +31,121 @@
     <div>
 	{% if owner %}
 	<div summary_menu>
-	    <button id="edit_self_bttn" data-toggle="modal" data-target="#self_summary_form">Edit Summary</button>
+	    <button id="edit_summary_btn" class="btn btn-default">
+		<span class="glyphicon glyphicon-pencil"></span>
+		Edit Summary
+	    </button>
 	</div>
 	<hr>
 	{% endif %}
 	
 	<div id="self_details"></div>
+
 	
-	<div id="self_add" title="Add your self summary!">
-	    <form id="self_add_form">
-		<textarea form="self_add_form" id="self_summary" name="self_summary" placeholder="" class="form-control default-input"></textarea>
-		<input type="submit" id="self_summary_btn" class="btn btn-success" value="Add">
-	    </form>
+<!-- Self Summary Modal -->
+	<div class="modal fade" id="self_summary_modal" tabindex="-1" role="dialog" data-backdrop="static">
+	    <div class="modal-dialog">
+		<div class="modal-content">
+		    <div class="modal-header">
+			<button type="button" class="close" data-dismiss="modal" aria-label="Close"><span aria-hidden="true">&times;</span></button>
+			<h4 class="modal-title">Add Self Summary</h4>
+		    </div>
+		    <div class="modal-body">
+			<form id="self_add_form">
+			    <textarea form="self_add_form" id="self_summary" name="self_summary" 
+				      placeholder="Add your summary" class="form-control default-input" 
+				      data-toggle="popover" data-trigger="focus" data-content="Its is place 
+				      to describe who you are, what your goal are." 
+				      data-placement="top">
+			    </textarea>
+			</form>
+		    </div>
+		    <div class="modal-footer">
+			<button type="button" class="btn btn-default" data-dismiss="modal">Close</button>
+			<button type="button" class="btn btn-primary" id="submit_self_summary_btn">Save changes</button>
+		    </div>
+		</div>
+	    </div>
 	</div>
+	<!--- END OF ADD SUMMARY MODAL -->
+
     </div>
     <!--Education Section -->
     <h3>Education</h3>
     <div>
 	{% if owner %}
 	<div id="add_edu_menu">
-	    <button id="add_education">Add Education</button>
+	    <button id="add_education_btn" class="btn btn-default" data-toggle="modal" data-target="#add_education_modal">
+		<span class="glyphicon glyphicon-plus"></span>
+		Add Education
+	    </button>
 	    <hr>
 	</div>
 	{% endif %}
 	
 	<div id="edu_details"></div>
 	
-	<div id="add_edu" title="Add Academic Details">
-	    <form id="add_edu_form">
-		<input type="text" name="degree" class="form-control default-input" placeholder="Degree e.g BSc">
-		<input type="text" name="majors" class="form-control default-input" placeholder="Majors seperate by comma">
-		<input type="text" name="school" class="form-control default-input" placeholder="Institution">
-		<input type="text" name="gpa" class="form-control default-input" placeholder="GPA">
-		<input name="graduation" class="form-control default-input date-input" 
-		       placeholder="Graduation Date/ Expected Graduation">
-		<textarea name="courses" class="form-control default-input" placeholder="Seperate Subjects with coma"></textarea>
-	    </form>
+	<!-- ADD EDUCATION MODAL -->
+	<div class="modal fade" id="add_education_modal" tabindex="-1" role="dialog" data-backdrop="static">
+	    <div class="modal-dialog">
+		<div class="modal-content">
+		    <div class="modal-header">
+			<button type="button" class="close" data-dismiss="modal" aria-label="Close"><span aria-hidden="true">&times;</span></button>
+			<h4 class="modal-title">Add Academic Record</h4>
+		    </div>
+		    <div class="modal-body">
+			<form id="add_education_form">
+			     <input type="text" name="degree" class="form-control default-input" placeholder="Degree e.g BSc">
+			     <input type="text" name="majors" class="form-control default-input" 
+				    placeholder="Major/s"
+				    data-toggle="popover" data-trigger="focus" data-content="If you have more than one major. Please 
+				    seperate them with a comma." data-placement="top">
+			     <input type="text" name="school" class="form-control default-input" placeholder="Institution">
+			     <input type="text" name="gpa" class="form-control default-input" placeholder="GPA (Optional)">
+			     <input name="graduation" class="form-control default-input datepicker" 
+				    placeholder="Graduation Date/ Expected Graduation" data-provide="datepicker">
+			     <textarea name="courses" class="form-control default-input" 
+				       placeholder="Relevent Courseworks" data-toggle="popover" data-trigger="focus" 
+				       title="Importent Notice!" data-content="Please seperate subjects with commas"  data-placement="top">
+			     </textarea>
+			 </form>
+		    </div>
+		    <div class="modal-footer">
+			<button type="button" class="btn btn-default" data-dismiss="modal">Close</button>
+			<button type="button" class="btn btn-primary" id="submit_add_edu_btn">Add Academic Record</button>
+		    </div>
+		</div>
+	    </div>
 	</div>
+	<!-- END ADD EDUCATION MODAL --!>
 	
-	<div id="edit_edu" title="Change Academic">
-	    <form id="edit_edu_form">
-		<input type="text" name="degree" id="degree" class="form-control default-input">
-		<input type="text" name="majors" id="majors" class="form-control default-input">
-		<input type="text" name="school" id="school" class="form-control default-input">
-		<input type="text" name="gpa" id="gpa" class="form-control default-input">
-		<input type="text" name="graduation" id="graduation" class="form-control default-input date-input">
-		<textarea name="courses" id="courses" class="form-control default-input"></textarea>
-	    </form>
+
+	<!-- EDIT EDUCATION MODAL -->
+	<div class="modal fade" id="edit_education_modal" tabindex="-1" role="dialog" data-backdrop="static">
+	    <div class="modal-dialog">
+		<div class="modal-content">
+		    <div class="modal-header">
+			<button type="button" class="close" data-dismiss="modal" aria-label="Close"><span aria-hidden="true">&times;</span></button>
+			<h4 class="modal-title">Edit Academic Record</h4>
+		    </div>
+		    <div class="modal-body">
+			<form id="edit_education_form">
+			    <input type="text" name="degree" id="degree" class="form-control default-input" placeholder="Degree e.g BSc">
+			    <input type="text" name="majors" id="majors" class="form-control default-input" placeholder="Majors (Seperate by comma)">
+			    <input type="text" name="school" id="school" class="form-control default-input" placeholder="Institution">
+			    <input type="text" name="gpa" id="gpa" class="form-control default-input" placeholder="GPA (Optional)">
+			    <input type="text" name="graduation" id="graduation" class="form-control default-input date-input" placeholder="(Expected)/Graduation date">
+			    <textarea name="courses" id="courses" class="form-control default-input" placeholder="Revelent Course works (Seperate them by comma)"></textarea>
+			</form>
+		    </div>
+		    <div class="modal-footer">
+			<button type="button" class="btn btn-default" data-dismiss="modal">Close</button>
+			<button type="button" class="btn btn-primary" id="submit_edit_edu_btn">Add Academic Record</button>
+		    </div>
+		</div>
+	    </div>
 	</div>
-	
+	<!-- END OF EDUCATION MODAL -->	
     </div>
     
     <!-- work experience section goes here -->
@@ -84,33 +153,70 @@
     <div>
 	{% if owner %}
 	<div "work_menu">
-	    <button id="add_work"> Add Work</button>
+	    <button id="add_work_btn" class="btn btn-default" data-toggle="modal" data-target="#add_work_modal">
+		<span class="glyphicon glyphicon-plus"></span>
+		Add Work
+	    </button>
 	    <hr>
 	</div>
 	{% endif %}
 	
 	<div id="work_details"> </div>
-	
-	<div id="add_work_dialog" title="Add Job Details">
-	    <form id="add_work_form">
-		<input type="text" name="work_title" id="work_title" placeholder="Title" class="form-control default-input">
-		<input type="tetxt" name="employer" id="employer" placeholder="Employer" class="form-control default-input">
-		<input type="text" name="start_date" id="end_date" placeholder="From" class=" date-input form-control default-input">
-		<input type="text" name="end_date" i="end_date" placeholder="End Date" class="date-input form-control default-input">
-		<textarea form="add_work_form" name="details" id="details" placeholder="Details" class="form-control"></textarea>
-	    </form>
+
+	<!-- ADD WORK MODAL -->
+
+	<div class="modal fade" id="add_work_modal" tabindex="-1" role="dialog" data-backdrop="static">
+	    <div class="modal-dialog">
+		<div class="modal-content">
+		    <div class="modal-header">
+			<button type="button" class="close" data-dismiss="modal" aria-label="Close"><span aria-hidden="true">&times;</span></button>
+			<h4 class="modal-title">Add Work</h4>
+		    </div>
+		    <div class="modal-body">
+			 <form id="add_work_form">
+			     <input type="text" name="work_title" placeholder="Title" class="form-control default-input">
+			     <input type="tetxt" name="employer"  placeholder="Employer" class="form-control default-input">
+			     <input type="text" name="start_date" placeholder="From" class=" date-input form-control default-input">
+			     <input type="text" name="end_date"  placeholder="End Date" class="date-input form-control default-input">
+			     <textarea form="add_work_form" name="details" placeholder="Details" class="form-control"></textarea>
+			 </form>
+		    </div>
+		    <div class="modal-footer">
+			<button type="button" class="btn btn-default" data-dismiss="modal">Close</button>
+			<button type="button" class="btn btn-primary" id="submit_add_work_btn">Add work</button>
+		    </div>
+		</div>
+	    </div>
 	</div>
+	<!-- END ADD WORK MODAL -->
+		
+	<!-- EDIT WORK MOODAL -->
 	
-	<div id="edit_work" title="Edit Job Details">
-	    <form id="edit_work_form">
-		<input type="text" name="work_title" id="work_title" class="form-control default-input">
-		<input type="tetxt" name="employer" id="employer" class="form-control default-input">
-		<input type="text" name="start_date" id="start_date" class="date-input form-control default-input">
-		<input type="text" name="end_date" id="end_date" class="date-input form-control default-input">
-		<textarea form="edit_work_form" name="details" id="work_details" class="form-control"></textarea>
-	    </form>
+	<div class="modal fade" id="edit_work_modal" tabindex="-1" role="dialog" data-backdrop="static">
+	    <div class="modal-dialog">
+		<div class="modal-content">
+		    <div class="modal-header">
+			<button type="button" class="close" data-dismiss="modal" aria-label="Close"><span aria-hidden="true">&times;</span></button>
+			<h4 class="modal-title">Edit Work</h4>
+		    </div>
+		    <div class="modal-body">
+			<form id="edit_work_form">
+			    <input type="text" name="work_title" id="work_title" class="form-control default-input">
+			    <input type="tetxt" name="employer" id="employer" class="form-control default-input">
+			    <input type="text" name="start_date" id="start_date" class="date-input form-control default-input">
+			    <input type="text" name="end_date" id="end_date" class="date-input form-control default-input">
+			    <textarea form="edit_work_form" name="details" id="work_details" class="form-control"></textarea>
+			</form>
+		    </div>
+		    <div class="modal-footer">
+			<button type="button" class="btn btn-default" data-dismiss="modal">Close</button>
+			<button type="button" class="btn btn-primary" id="submit_edit_work_btn">Add work</button>
+		    </div>
+		</div>
+	    </div>
 	</div>
-	
+
+	<!-- END OF WORK MODAL -->
     </div>
     
     <h3>Awards</h3>
@@ -118,26 +224,62 @@
 	
 	{% if owner %}
 	<div id="award_menu">
-	    <button id="add_award_btn">Add Award</button>
+	    <button id="add_award_btn" class="btn btn-default" data-toggle="modal" data-target="#add_award_modal">
+		<span class="glyphicon glyphicon-plus"></span>
+		Add Award
+	    </button>
 	    <hr>
 	</div>
 	{% endif %}
 	
 	<div id="award_details"> </div>
 	
-	<div id="award_form" title="Add Award">
-	    <form id="add_award">
-		<input type="text" name="title" placeholder="Title" class="form-control default-input">
-		<textarea form="add_award" name="details" placeholder="Details" class="form-control"></textarea>
-	    </form>
+	<!-- ADD AWARD MODAL -->
+
+	<div class="modal fade" id="add_award_modal" tabindex="-1" role="dialog" data-backdrop="static">
+	    <div class="modal-dialog">
+		<div class="modal-content">
+		    <div class="modal-header">
+			<button type="button" class="close" data-dismiss="modal" aria-label="Close"><span aria-hidden="true">&times;</span></button>
+			<h4 class="modal-title">Add award</h4>
+		    </div>
+		    <div class="modal-body">
+			<form id="add_award_form">
+			    <input type="text" name="title" placeholder="Title" class="form-control default-input">
+			    <textarea form="add_award_form" name="details" placeholder="Details" class="form-control"></textarea>
+			</form>
+		    </div>
+		    <div class="modal-footer">
+			<button type="button" class="btn btn-default" data-dismiss="modal">Close</button>
+			<button type="button" class="btn btn-primary" id="submit_add_award_btn">Add award</button>
+		    </div>
+		</div>
+	    </div>
 	</div>
+	<!-- END OF ADD AWARD MODAL -->
 	
-	<div id="edit_award" title="Edit Award Details">
-	    <form id="edit_award_form">
-		<input type="text" id="award_title" name="title" class="form-control default-input">
-		<textarea form="edit_award_form" name="details" id="about_award" class="form-control"></textarea>  
-	    </form>
+	<!-- EDIT AWARD MODAL -->
+	<div class="modal fade" id="edit_award_modal" tabindex="-1" role="dialog" data-backdrop="static">
+	    <div class="modal-dialog">
+		<div class="modal-content">
+		    <div class="modal-header">
+			<button type="button" class="close" data-dismiss="modal" aria-label="Close"><span aria-hidden="true">&times;</span></button>
+			<h4 class="modal-title">Edit Award</h4>
+		    </div>
+		    <div class="modal-body">
+			 <form id="edit_award_form">
+			     <input type="text" id="award_title" name="title" class="form-control default-input">
+			     <textarea form="edit_award_form" name="details" id="about_award" class="form-control"></textarea>  
+			 </form>
+		    </div>
+		    <div class="modal-footer">
+			<button type="button" class="btn btn-default" data-dismiss="modal">Close</button>
+			<button type="button" class="btn btn-primary" id="submit_edit_award_btn">Save changes</button>
+		    </div>
+		</div>
+	    </div>
 	</div>
+	<!-- END OF EDIT AWARD MODAL -->
 	
     </div>
     
@@ -147,22 +289,17 @@
     <div>
 	{% if owner %}
 	<div id="publication_menu">
-	    <button id="add_publication_bttns" data-toggle="modal" data-target="#add_publication_modal"> Add Publication</button><hr>
+	    <button id="add_publication_bttns" class="btn btn-default" data-toggle="modal" data-target="#add_publication_modal"> 
+		<span class="glyphicon glyphicon-plus"></span>
+		Add Publication
+	    </button><hr>
 	</div>
 	{% endif %}
 	
 	<div id="publications_details"> </div>
 	
-	<div id="add_publication" title="Add Publication">
-	     <form id="edit_public_form">
-		<input type="text" name="pub_title" id="title" class="form-control default-input" placeholder="Title">
-		<input type="text" name="link" id="link" class="form-control default-input" placeholder="Link">
-		<input type="text" name="authors" id="authors" class="form-control" placeholder="Authors">
-	    </form>
-	</div>
-
 	<!-- ADD PUBLICATION MODAL -->
-	<div class="modal fade" id="add_publication_modal" tabindex="-1" role="dialog">
+	<div class="modal fade" id="add_publication_modal" tabindex="-1" role="dialog" data-backdrop="static">
 	    <div class="modal-dialog">
 		<div class="modal-content">
 		    <div class="modal-header">
@@ -170,15 +307,15 @@
 			<h4 class="modal-title">Add Publication</h4>
 		    </div>
 		    <div class="modal-body">
-			 <form id="edit_public_form">
-			     <input type="text" name="pub_title" class="form-control default-input" placeholder="Title">
+			 <form id="add_publication_form">
+			     <input type="text" name="title" class="form-control default-input" placeholder="Title">
 			     <input type="text" name="link"  class="form-control default-input" placeholder="Link">
 			     <input type="text" name="authors"  class="form-control" placeholder="Authors">
 			 </form>
 		    </div>
 		    <div class="modal-footer">
 			<button type="button" class="btn btn-default" data-dismiss="modal">Close</button>
-			<button type="button" class="btn btn-primary">Save changes</button>
+			<button type="button" class="btn btn-primary" id="submit_add_publication_btn">Add publication</button>
 		    </div>
 		</div>
 	    </div>
@@ -186,16 +323,8 @@
 	
 	<!-- ADD PUBLICATION MODAL END -->
 	
-	<div id="edit_publication" title="Edit Publication">
-	    <form id="edit_public_form">
-		<input type="text" name="pub_title" id="title" class="form-control default-input" placeholder="Title">
-		<input type="text" name="link" id="link" class="form-control default-input" placeholder="Link">
-		<input type="text" name="authors" id="authors" class="form-control" placeholder="Authors">
-	    </form>
-	</div>
-
 	<!-- EDIT PUBLICATION MODAL -->
-	<div class="modal fade" id="edit_publication_modal" tabindex="-1" role="dialog" aria-hidden="true">
+	<div class="modal fade" id="edit_publication_modal" data-backdrop="static">
 	    <div class="modal-dialog">
 		<div class="modal-content">
 		    <div class="modal-header">
@@ -203,7 +332,7 @@
 			<h4 class="modal-title">Edit publication</h4>
 		    </div>
 		    <div class="modal-body">
-			<form id="edit_public_form">
+			<form id="edit_publication_form">
 			    <input type="text" name="pub_title" id="title" class="form-control default-input">
 			    <input type="text" name="link" id="link" class="form-control default-input">
 			    <input type="text" name="authors" id="authors" class="form-control">
@@ -211,7 +340,7 @@
 		    </div>
 		    <div class="modal-footer">
 			<button type="button" class="btn btn-default" data-dismiss="modal">Close</button>
-			<button type="button" class="btn btn-primary">Save changes</button>
+			<button type="button" class="btn btn-primary" id="submit_edit_publication_btn">Save changes</button>
 		    </div>
 		</div>
 	    </div>
@@ -224,26 +353,13 @@
     <div id="add_skill">
 	{% if owner %}
 	<div>
-	    <button id="add_skill_btn" data-toggle="modal" data-target="#add_technical_skill_modal">Add Skill</button>
+	    <button id="add_skill_btn" data-toggle="modal" data-target="#add_technical_skill_modal" class="btn btn-default">
+		<span class="glyphicon glyphicon-plus"></span> 
+		Add Skill
+	    </button>
 	</div>
 	<hr>
 	{% endif %}
-	<div>
-	    <form id="add_skill_form">
-		<input type="text" name="title" class="form-control default-input" Placeholder="Title" >
-		<div class="btn-group" data-toggle="buttons">
-		    <label class="btn btn-primary">
-			<input type="radio" name="options" id="option1" autocomplete="off" checked>Familiar
-		    </label>
-		    <label class="btn btn-primary">
-			<input type="radio" name="options" id="option2" autocomplete="off"> Medium
-		    </label>
-		    <label class="btn btn-primary">
-			<input type="radio" name="options" id="option3" autocomplete="off"> Proficient
-		    </label>
-		</div>
-	    </form>
-	</div>
 	<div id="skills_details">
 	</div>
     </div>
@@ -252,7 +368,7 @@
 
 <!-- Skill Add Form --!>
 
-<div class="modal fade" id="add_technical_skill_modal" role="dialog">
+<div class="modal fade in" id="add_technical_skill_modal" role="dialog" data-backdrop="static">
     <div class="modal-dialog">
 	<div class="modal-content">
 	    <div class="modal-header">
@@ -276,38 +392,13 @@
 	    </div>
 	    <div class="modal-footer">
 		<button type="button" class="btn btn-default" data-dismiss="modal">Close</button>
-		<button type="button" class="btn btn-primary">Save changes</button>
+		<button type="button" class="btn btn-primary" id="submit_add_technical_skill_btn">Add technical skill</button>
 	    </div>
 	</div>
     </div>
 </div>
 
 <!-- Skill Add form ends -->
-
-
-<!-- Self Summary Modal -->
-<div class="modal fade" id="self_summary_form" tabindex="-1" role="dialog" aria-labelledby="myModalLabel" aria-hidden="true">
-    <div class="modal-dialog">
-	<div class="modal-content">
-	    <div class="modal-header">
-		<button type="button" class="close" data-dismiss="modal" aria-label="Close"><span aria-hidden="true">&times;</span></button>
-		<h4 class="modal-title" id="myModalLabel">Modal title</h4>
-	    </div>
-	    <div class="modal-body">
-		<form id="self_add_form">
-		    <textarea form="self_add_form" id="self_summary" name="self_summary" placeholder="" class="form-control default-input"></textarea>
-		    <input type="submit" id="self_summary_btn" class="btn btn-success" value="Add">
-		</form>
-	    </div>
-	    <div class="modal-footer">
-		<button type="button" class="btn btn-default" data-dismiss="modal">Close</button>
-		<button type="button" class="btn btn-primary">Save changes</button>
-	    </div>
-	</div>
-    </div>
-</div>
-
-
 
 {% if owner %}
 <div id="menu">
@@ -326,10 +417,19 @@
 <div id="education_frame">
   <div>
     <div class="row">
-      <div class="col-md-10 text-title institution"></div>
-      <div class="col-md-2">
-	  <span class="edit"></span>
-	  <span class="delete"></span>
+      <div class="col-md-9 col-sm-9 col-xs-9 text-title institution"></div>
+      <div class="col-md-3 col-sm-3 col-xs-3">
+	  <div class="btn-group" role="group">
+	      <button type="button" class="btn btn-default edit_edu_btn">                      
+		  <span class="glyphicon glyphicon-pencil">
+		  </span>
+	      </button>
+	      <button type="button" class="btn btn-default delete_edu_btn">
+		  <span class="glyphicon glyphicon-remove">
+		  </span>
+	      </button>
+	      
+	  </div>
       </div>
     </div>
     <div class="degree"></div>
@@ -345,10 +445,19 @@
 <div id="work_frame">
     <div>
 	<div class="row">
-	    <div class="title text-title col-md-10"></div>
-	    <div class="col-md-2">
-		<span class="edit"></span>
-		<span class="delete"></span>
+	    <div class="title text-title col-md-9 col-sm-9 col-xs-9"></div>
+	    <div class="col-md-3 col-sm-3 col-xs-3">
+		<div class="btn-group" role="group">
+		    <button type="button" class="btn btn-default edit_work_btn">                      
+			<span class="glyphicon glyphicon-pencil">
+			</span>
+		    </button>
+		    <button type="button" class="btn btn-default delete_work_btn">
+			<span class="glyphicon glyphicon-remove">
+			</span>
+		    </button>
+		    
+		</div>
 	    </div>
 	</div>
 	<div class="employer"> </div>
@@ -363,11 +472,20 @@
     <div>
 	<div class="row">
 	    <a href="" class="link">
-		<div class="text-title title col-md-10"></div>
+		<div class="text-title title col-md-9 col-sm-9 com-xs-9"></div>
 	    </a>
-	    <div class="col-md-2">
-		<span class="edit"></span>
-		<span class="delete"></span>
+	    <div class="col-md-3 col-sm-3 col-xs-3">
+		<div class="btn-group" role="group">
+		    <button type="button" class="btn btn-default edit_publication_btn">                      
+			<span class="glyphicon glyphicon-pencil">
+			</span>
+		    </button>
+		    <button type="button" class="btn btn-default delete_publication_btn">
+			<span class="glyphicon glyphicon-remove">
+			</span>
+		    </button>
+		    
+		</div>
 	    </div>
 	</div>
 	<div class="authors"></div>
@@ -379,10 +497,19 @@
 <div id="award_frame">
     <div>
 	<div class="row">
-	    <div class=" title text-title col-md-10"></div>
-	    <div class="col-md-2">
-		<span class="edit"></span>
-		<span class="delete"></span>
+	    <div class=" title text-title col-md-9 col-sm-9 col-xs-9"></div>
+	    <div class="col-md-3 col-sm-3 col-xs-3">
+		<div class="btn-group" role="group">
+		    <button type="button" class="btn btn-default edit_award_btn">                      
+			<span class="glyphicon glyphicon-pencil">
+			</span>
+		    </button>
+		    <button type="button" class="btn btn-default delete_award_btn">
+			<span class="glyphicon glyphicon-remove">
+			</span>
+		    </button>
+		    
+</div>
 	    </div>
 	</div>
 	<div class="details"> </div>
@@ -429,6 +556,4 @@
 	Clicking delete button will pernmanently remove this work experirnce form your resume. Are you sure you want to continue? 
     </div>
 </div>
-
-
 {% endblock %}

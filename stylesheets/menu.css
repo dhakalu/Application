@@ -1,7 +1,25 @@
-.nav-wrap:{
-    width: 1000px;
-    left: auto;
-    right: auto;
+.nav-wrap {
+
+    @media (min-width: 1200px) {
+	width:1000px;
+	margin-left:auto;
+	margin-right:auto;
+	margin-bottom:0px;
+    }
+   
+    /* Portrait tablet to landscape and desktop */
+    @media (min-width: 768px) and (max-width: 979px) {
+	width: 800px;
+	margin-left: auto;
+	margin-right: auto;
+    }
+
+    
+    /* Landscape phone to portrait tablet */
+    @media (max-width: 767px) { ... }
+    
+    /* Landscape phones and down */
+    @media (max-width: 480px) { ... }
 }
 
 
@@ -22,10 +40,19 @@
 .navbar-default .navbar-brand {
     color: #fff;
     font-weight: bold;
-    font-size: 32px;
+    margin-left: 40px;
 }
 
 .navbar-default .navbar-brand:hover{
     color: #fff;
     background: darken(#43609C, 3%);
+}
+
+.navbar-search-form{
+    margin-top: 8px;
+}
+
+.navbar-default .navbar-nav>.open>a, .navbar-default .navbar-nav>.open>a:hover, .navbar-default .navbar-nav>.open>a:focus{
+        color: #fff;
+	background-color: #4066B5;
 }
