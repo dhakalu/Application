@@ -36,9 +36,9 @@ class CatPage(base.RequestHandler):
         self.render("cats.html")
 
 
-class VideoPage(base.RequestHandler):
+class ListPage(base.RequestHandler):
     def get(self):
-        self.render("videos.html")
+        self.render("lists.html")
 
 app = webapp2.WSGIApplication([
     ('/', MainPage),
@@ -67,5 +67,6 @@ app = webapp2.WSGIApplication([
     ('/deleteeducation', resume.DeleteEducation),
     ('/deletework', resume.DeleteWork),
     ('/deleteaward', resume.DeleteAward),
-    ('/deletepublication', resume.DeletePublication)
+    ('/deletepublication', resume.DeletePublication),
+    ('/lists', ListPage)
     ], debug=True)

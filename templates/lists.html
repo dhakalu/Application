@@ -1,0 +1,96 @@
+{% extends "base.html" %}
+
+{%block header%}
+<script src="http://ajax.aspnetcdn.com/ajax/jquery.validate/1.13.1/jquery.validate.min.js"></script>
+<script src="http://ajax.aspnetcdn.com/ajax/jquery.validate/1.13.1/additional-methods.js"></script>
+<script src="/js/lists.js"></script>
+{%endblock%}
+
+{%block body %}
+<div role="tabpanel">
+    
+    <!-- Nav tabs -->
+    <ul class="nav nav-tabs" role="tablist">
+	<li role="presentation" class="active"><a href="#todo_tab" aria-controls="todo_panel" role="tab" data-toggle="tab">Todo</a></li>
+	<li role="presentation"><a href="#shopping_tab" aria-controls="shopping_panel" role="tab" data-toggle="tab">Shopping</a></li>
+	<li role="presentation"><a href="#courses_tab" aria-controls="courses_panel" role="tab" data-toggle="tab">Courses</a></li>
+    </ul>
+    
+    <!-- Tab panes -->
+    <div class="tab-content">
+
+	<!--Tab of todo list goes here-->
+	<div role="tabpanel" class="tab-pane active" id="todo_tab">
+	    <button class="btn btn-primary" id="add_task_btn">
+		<span class="glyphicon glyphicon-plus"></span>
+		Add New Task
+	    </button>
+	    <hr>
+	    
+	    <div class="modal fade" id="add_task_modal" data-backdrop="static">
+		<div class="modal-dialog">
+		    <div class="modal-content">
+			<div class="modal-header text-center">
+			    <button type="button" class="close" data-dismiss="modal" aria-label="Close"><span aria-hidden="true">&times;</span></button>
+			    <h4 class="text-bold">
+				Add task to the todo list
+			    </h4>
+			</div>
+			<div class="modal-body">
+			    <form id="add_task_form">
+				<input type="text" name="task" class="form-control default-input">
+				<hr>
+				<input type="submit" value="Add task" class="btn btn-primary">
+			    </form>
+			</div>
+		    </div>
+		</div>
+	    </div>
+
+	</div>
+
+	<!--SHOPPING LIST TAB-->
+	<div role="tabpanel" class="tab-pane" id="shopping_tab">
+	    <button id="create_shopping_btn" class="btn btn-primary">
+		<span class="glyphicon glyphicon-plus">
+		</span>
+		Create a new Shopping List
+	    </button>
+	    <hr>
+	    
+	    <div class="modal fade" id="add_shopping_modal" data-backdrop="static">
+		<div class="modal-dialog">
+		    <div class="modal-content">
+			<div class="modal-header text-center">
+			    <button type="button" class="close" data-dismiss="modal" aria-label="Close"><span aria-hidden="true">&times;</span></button>
+			    <h4 class="text-bold">
+				Create a new shopping list
+			    </h4>
+			</div>
+			<div class="modal-body">
+			    <form id="add_task_form">
+				<input type="text" name="item" class="form-control default-input">
+				<hr>
+				<button class="btn btn-default" id="add_items_btn">
+				    <span class="glyphicon glyphicon-plus">
+				    </span>
+				    Add Items
+			    </form>
+			</div>
+		    </div>
+		</div>
+	    </div>
+	</div>
+	
+	<!--->
+	<div role="tabpanel" class="tab-pane" id="courses_tab">
+	    <button class="btn btn-primary" id="add_course_btn">
+		<span class="glyphicon glyphicon-plus"></span>
+		Add New Course
+	    </button>
+	    <hr>
+	</div>
+    </div>
+    
+</div>
+{% endblock %}
