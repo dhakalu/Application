@@ -7,10 +7,7 @@ $(document).ready(function(){
 	$('[data-toggle="popover"]').popover();
     });
 
-    // ===
-    $(function () {
-	$('[data-toggle="tooltip"]').tooltip();
-    });
+    
 
     // ============FRAMES ============//
     var $workFrame = $('#work_frame');
@@ -28,28 +25,7 @@ $(document).ready(function(){
     var $addTechnicalSkillModal = $('#add_technical_skill_modal');
     var $addAwardModal = $('#add_award_modal');
     var $addPublicationModal = $('#add_publication_modal');;
-    
-    $('#submit_add_edu_btn').click(function(){
-	var formData = $('#add_education_form').serialize();
-	octupus.submitEduAddForm(formData);
-	console.log('subbmitted');
-    });
-    
-    $('#submit_add_award_btn').click(function(){
-	var formData = $('#add_award_form').serialize();
-	octupus.submitAddAwardForm(formData);
-    });
-
-    $('#submit_add_work_btn').click(function(){
-	var formData = $('#add_work_form').serialize();
-	octupus.submitAddWorkForm(formData);
-    });
-    
-    $('#submit_add_publication_btn').click(function(){
-	var formData = $('#add_publication_form').serialize();
-	octupus.submitAddPublicationForm(formData);
-    });
-    
+        
     var model = {
 	old_data : {
 	    'award': 0,
@@ -132,7 +108,49 @@ $(document).ready(function(){
 	    
 	}
     };
+
+    var $addEducationForm = $('#add_education_form');
+    var educationModalView = {
+	init: function(){
+	    $addEducationModal.on('shown.bs.modal', function(){
+		console.log("Opened");
+		$addEducationForm.validate({
+		    rules: {
+			degree: 'required',
+			majors: 'required',
+			school: 'required',
+			graduation: 'required'
+		    },
+		    messages: {
+			degree: {
+			    required: "Degree is required field."
+			},
+			majors: {
+			    required: "We want you to mention your concentration."
+			},
+			school: {
+			    required: "Where did you study? This is a required field."
+			},
+			graduation: {
+			    required: "Please mention the date you graduated or the date you are planning to graduate."
+			}
+		    },
+		    submitHandler: function(){
+			event.preventDefault();
+			var formData = $('#add_education_form').serialize();
+			octupus.submitEduAddForm(formData);
+		    }
+		});
+	    });
+	    
+	    $addEducationModal.on('hidden.bs.modal', function(){
+		$addEducationForm[0].reset();
+	    });
+	}
+    };
     
+
+    educationModalView.init();
    
     var educationView = {
 	init : function(education, old_data){
@@ -172,6 +190,37 @@ $(document).ready(function(){
 	    $('#edu_details').prepend($new_edu);
 	}
     };
+    
+    var $addAwardForm = $('#add_award_form');
+   
+    var addAwardModalView = {
+	init: function(){
+	    $addAwardModal.on('shown.bs.modal', function(e){
+		console.log("OPENED");
+		$addAwardForm.validate({
+		    rules: {
+			title: 'required',
+			details: 'required'
+			},
+		    messages: {
+			title: {
+			    required: 'Title of the award is required'
+			},
+			details: {
+			    required: 'This helps to know employer about your accompolishment'
+			}
+		    },
+		    submitHandler: function(){
+			event.preventDefault();
+			var formData = $addAwardForm.serialize();
+			octupus.submitAddAwardForm(formData);
+		    }
+		});
+	    });
+	}
+    };
+    
+    addAwardModalView.init();
 
     var awardView = {
 	init : function(awards, old_data){
@@ -194,7 +243,36 @@ $(document).ready(function(){
 	}
 	
     };
+
+    var $addPublicationForm = $('#add_publication_form');
+   
+    var addPublicationModalView = {
+	init: function(){
+	    $addPublicationModal.on('shown.bs.modal', function(){
+		$addPublicationForm.validate({
+		    rules: {
+			title: 'required',
+			authors: 'required'
+		    },
+		    messages: {
+			title: {
+			    required: "Title of your publication is requoired",
+			},
+			authors:{
+			    required:  "Authors of your publication is required"
+			}
+		    },
+		    submitHandler: function(){
+			var formData = $addPublicationForm.serialize();
+			octupus.submitAddPublicationForm(formData);
+
+		    }
+		});
+	    });
+	}
+    };
     
+    addPublicationModalView.init();
     var publicationView = {
 	init : function( publications,old_data){
 	    for (var i = old_data.publication; i<publications.length; i++){
@@ -218,6 +296,44 @@ $(document).ready(function(){
 	
     };
     
+
+    var $addWorkForm = $('#add_work_form');
+    
+    var addWorkModalView = {
+	init: function(){
+	    $addWorkModal.on('shown.bs.modal', function(){
+		$addWorkForm.validate({
+		    rules: {
+			work_title: 'required',
+			employer: 'required',
+			start_date: 'required',
+			 details: 'required'
+		    },
+		    messages: {
+			work_title: {
+			    required: 'Work position is required.'
+			},
+			employer: {
+			    required : 'Place where you worked is required'
+			},
+			start_date: {
+			    required: "The date you satrted working is required."
+			},
+			details: {
+			    required: "Explanation of your roles is required."
+			}
+		    },
+		    submitHandler: function(){
+			var formData = $addWorkForm.serialize();
+			octupus.submitAddWorkForm(formData);
+		    }
+		});
+	    });
+	}
+    };
+
+    addWorkModalView.init();
+
     var workView = {
 	init: function(works, old_data){
 	    for (var i = old_data.work; i< works.length; i++){
@@ -297,21 +413,51 @@ $(document).ready(function(){
 	    }
 	}
     };
-    
+
+
+    var $editEducationModal = $('#edit_education_modal');
+    var $editEducationForm  = $('#edit_education_form');
     var editEducationFormView = {
 	init: function(){
-	    this.$dialog = $('#edit_education_modal');
 	    $('#submit_edit_edu_btn').click(function(){
-		var formData = $('#edit_education_form').serialize();
-		
-		octupus.submitEditEducationForm(formData, editEducationFormView.eduId);
+		;
+	    });
+
+	    $editEducationModal.on('shown.bs.modal', function(){
+		$editEducationForm.validate({
+		    rules: {
+			degree: 'required',
+			majors: 'required',
+			school: 'required',
+			graduation: 'required'
+		    },
+		    messages: {
+			degree: {
+			    required: "Degree is required field."
+			},
+			majors: {
+			    required: "We want you to mention your concentration."
+			},
+			school: {
+			    required: "Where did you study? This is a required field."
+			},
+			graduation: {
+			    required: "Please mention the date you graduated or the date you are planning to graduate."
+			}
+		    },
+		    submitHandler: function($addEducationForm){
+			event.preventDefault();
+			var formData = $editEducationForm.serialize();
+			octupus.submitEditEducationForm(formData, editEducationFormView.eduId);
+		    }
+		});
 	    });
 	},
 	open: function() {
-	    this.$dialog.modal('toggle');
+	    $editEducationModal.modal('toggle');
 	},
 	close: function(){
-	    this.$dialog.modal('hide');
+	    $editEducationModal.modal('hide');
 	},
 	renderEditForm: function($eduDom, eduId){
 	    this.eduId = eduId;
@@ -322,34 +468,61 @@ $(document).ready(function(){
 	    var graduation = $eduDom.find('.graduation').text();
 	    var gpa = $eduDom.find('.gpa').text();
 	    var $coursesDom = $eduDom.find('.courses').find('button');
+	    console.log($coursesDom);
 	    var courses = '';
 	    for( var i=0; i< $coursesDom.length; i++){
 		var $thisBttn = $($coursesDom[i]);
 		courses += $thisBttn.text().trim();
 		courses += ', ';
 	    }
-	    this.$dialog.find('#degree').val(degree);
-	    this.$dialog.find('#majors').val(majors);
-	    this.$dialog.find('#school').val(institution);
-	    this.$dialog.find('#gpa').val(gpa);
-	    this.$dialog.find('#graduation').val(graduation);
-	    this.$dialog.find('#courses').val(courses);
+	    console.log(courses);
+	    $editEducationModal.find('#degree').val(degree);
+	    $editEducationModal.find('#majors').val(majors);
+	    $editEducationModal.find('#school').val(institution);
+	    $editEducationModal.find('#gpa').val(gpa);
+	    $editEducationModal.find('#graduation').val(graduation);
+	    $editEducationModal.find('#courses').val(courses);
 	}
     };
-
+    
+    var $editWorkModal = $('#edit_work_modal');
+    var $editWorkForm = $('#edit_work_form');
     var editWorkFormView = {
 	init: function(){
-	    this.$dialog = $('#edit_work_modal');
-	    $('#submit_edit_work_btn').click(function(){
-		var formData = $('#edit_work_form').serialize();
-		octupus.submitEditWorkForm(formData, editWorkFormView.workId);
+	    $editWorkModal.on('shown.bs.modal', function(){
+		$editWorkForm.validate({
+		    rules: {
+			work_title: 'required',
+			employer: 'required',
+			start_date: 'required',
+			details: 'required'
+		    },
+		    messages: {
+			work_title: {
+			    required: 'Work position is required.'
+			},
+			employer: {
+			    required : 'Place where you worked is required'
+			},
+			start_date: {
+			    required: "The date you satrted working is required."
+			},
+			details: {
+			    required: "Explanation of your roles is required."
+			}
+		    },
+		    submitHandler: function(){
+			var formData = $editWorkForm.serialize();
+			octupus.submitEditWorkForm(formData, editWorkFormView.workId);
+		    }
+		});
 	    });
 	},
 	open: function(){
-	    this.$dialog.modal('toggle');
+	    $editWorkModal.modal('toggle');
 	},
 	close: function(){
-	    this.$dialog.modal('hide');
+	    $editWorkModal.modal('hide');
 	},
 	renderEditForm: function($workDom, workId){
 	    this.workId = workId;
@@ -360,57 +533,92 @@ $(document).ready(function(){
 	    var start_date = dates[0];
 	    var end_date = dates[1];
 	    var details = $workDom.find('.details').text();
-	    this.$dialog.find('#work_title').val(title);
-	    this.$dialog.find('#employer').val(employer);
-	    this.$dialog.find('#start_date').val(start_date);
-	    this.$dialog.find('#end_date').val(end_date);
-	    this.$dialog.find('#work_details').val(details);
+	    $editWorkModal.find('#work_title').val(title);
+	    $editWorkModal.find('#employer').val(employer);
+	    $editWorkModal.find('#start_date').val(start_date);
+	    $editWorkModal.find('#end_date').val(end_date);
+	    $editWorkModal.find('#work_details').val(details);
 	}
     };
     
+    var $editAwardForm = $('#edit_award_form');
+    var $editAwardModal = $('#edit_award_modal');
     var editAwardFormView = {
 	init: function(){
-	    this.$dialog = $('#edit_award_modal');
-	     $('#submit_edit_award_btn').click(function(){
-		var formData = $('#edit_award_form').serialize();
-		octupus.submitEditAwardForm(formData, editAwardFormView.awardId);
+	     $editAwardModal.on('shown.bs.modal', function(e){
+		$editAwardForm.validate({
+		    rules: {
+			title: 'required',
+			details: 'required'
+			},
+		    messages: {
+			title: {
+			    required: 'Title of the award is required'
+			},
+			details: {
+			    required: 'This helps to know employer about your accompolishment'
+			}
+		    },
+		    submitHandler: function(){
+			event.preventDefault();
+			var formData = $editAwardForm.serialize();
+			octupus.submitEditAwardForm(formData, editAwardFormView.awardId);
+		    }
+		});
 	    });
+	    
 	},
 	open: function(){
-	    this.$dialog.modal('toggle');
+	    $editAwardModal.modal('toggle');
 	},
 	close: function(){
-	    this.$dialog.modal('hide');
+	    $editAwardModal.modal('hide');
 	},
 	renderEditForm: function($awardDom, awardId){
 	    this.awardId = awardId;
 	    this.open();
 	    var title = $awardDom.find('.title').text();
 	    var details = $awardDom.find('.details').text();
-	    this.$dialog.find('#award_title').val(title);
-	    this.$dialog.find('#about_award').val(title);
+	    $editAwardModal.find('#award_title').val(title);
+	    $editAwardModal.find('#about_award').val(details);
 	},
 	getAwardId: function(){
 	    return this.awardId;
 	}
     };
     
+    var $editPublicationForm = $('#edit_publication_form');
+    var $editPublicationModal = $('#edit_publication_modal'); 
     var editPublicationFormView = {
 	init: function(){
-	    this.$dialog =  $('#edit_publication_modal');
 	     $('#submit_edit_publication_btn').click(function(){
-		var formData = $('#edit_publication_form').serialize();
-		octupus.submitEditPublicationForm(formData, editPublicationFormView.publicationId);
+		    });
+	    $editPublicationModal.on('shown.bs.modal', function(){
+		$editPublicationForm.validate({
+		    rules: {
+			title: 'required',
+			authors: 'required'
+		    },
+		    messages: {
+			title: {
+			    required: "Title of your publication is requoired"
+			},
+			authors:{
+			    required:  "Authors of your publication is required"
+			}
+		    },
+		    submitHandler: function(){
+			var formData = $editPublicationForm.serialize();
+			octupus.submitEditPublicationForm(formData, editPublicationFormView.publicationId);
+		    }
+		});
 	    });
 	},
 	close: function(){
-	    this.$dialog.modal('hide');
+	    $editPublicationModal.modal('hide');
 	},
 	open: function(){
-	    this.$dialog.modal({
-		backdrop: 'static',
-		keyboard: false
-	    });
+	    $editPublicationModal.modal('toggle');
 	},
 	renderEditForm: function($publicationDom, publicationId){
 	    this.open();
@@ -418,9 +626,9 @@ $(document).ready(function(){
 	    var title = $publicationDom.find('.title').text();
 	    var authors = $publicationDom.find('.authors').text();
 	    var link = $publicationDom.find('.link').attr('href');
-	    this.$dialog.find('#title').val(title);
-	    this.$dialog.find('#link').val(link);
-	    this.$dialog.find('#authors').val(authors);
+	    $editPublicationModal.find('#title').val(title);
+	    $editPublicationModal.find('#link').val(link);
+	    $editPublicationModal.find('#authors').val(authors);
 	},
 	getPublicationId: function(){
 	    return this.publicationId;

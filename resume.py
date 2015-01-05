@@ -56,7 +56,7 @@ class UpdateEducation(base.RequestHandler):
         gpa = self.request.get('gpa')
         majors = self.request.get('majors').split(',')
         graduation = self.request.get('graduation')
-        courses = self.request.get('courses').split(',')
+        courses = self.request.get('courses').strip().split(',')
         output_json = {
             'status': True,
             'degree': degree,
