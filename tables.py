@@ -165,3 +165,44 @@ class Summary(db.Model):
     @classmethod
     def by_user_name(cls, user_name):
         return Summary.all().filter('user_name =', user_name).get()
+
+
+class ShoppingList(db.Model):
+    user_name = db.StringProperty(required=True)
+    name = db.StringProperty(required=True)
+    items = db.StringProperty(required=True)
+    created = db.DateTimeProperty(auto_now_add=True)
+
+    @classmethod
+    def create(cls, user_name, name, items):
+        return ShoppingList(
+            user_name=user_name,
+            name=name,
+            items=items
+        )
+
+    @classmethod
+    def by_id(cls, list_id):
+        return ShoppingList.get_by_id(list_id)
+
+    @classmethod
+    def get_by_user_name(cls, user_name):
+        return ShoppingList.all().filter('user_name =',
+                                         user_name).order('-created')
+
+
+class Major(db.Model):
+    user_name = db.StringProperty(required=True)
+    subjects = db.StringProperty(required=True)
+    completed = db.BooleanProperty(required=True)
+
+    @classmethod
+    def create_major(cls, user_name, subjects):
+        return Major(user_name=user_name,
+                     subjects=subjects,
+                     completed=False
+                     )
+
+    @classmethod
+    def get_by_user_name(cls, user_name):
+        return Major.all().filter('user_name = ', user_name)

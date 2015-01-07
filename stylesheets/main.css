@@ -10,6 +10,15 @@ body {
 	box-sizing:border-box;
 }
 
+.tag-box {
+    padding: 5px 7px 5px 20px;
+    background: #23cdac;
+    border: 1px solid #1ca187;
+    color: white;
+    box-shadow: none;
+    margin: 3px;
+}
+
 textarea{
     resize: none;
 }

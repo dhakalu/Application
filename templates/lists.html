@@ -1,6 +1,7 @@
 {% extends "base.html" %}
 
 {%block header%}
+<link rel="stylesheet" href="/stylesheets/lists.css">
 <script src="http://ajax.aspnetcdn.com/ajax/jquery.validate/1.13.1/jquery.validate.min.js"></script>
 <script src="http://ajax.aspnetcdn.com/ajax/jquery.validate/1.13.1/additional-methods.js"></script>
 <script src="/js/lists.js"></script>
@@ -46,7 +47,64 @@
 		    </div>
 		</div>
 	    </div>
+	    
+	    <div class="todo-lists">
+		<div id="todo_list_container">
+		    
+		</div>
+	    </div>
 
+	    <div class="completed-task header">
+		<div id="completed-list">
+		</div>
+	    </div>
+
+	    <!-- COMPLETED TASK   -->
+	    
+	    <div id="completed_task_frame">
+		<div>
+		    <div>
+			<div class="task-box row">
+			    <div class="col-md-9 col-sm-9 title name">
+			    </div>
+			    <div class="btn-group options col-md-3 col-sm-3" role="group">
+				<button class="unmark_done_btn btn btn-default" type="button" title="Unmrk as done">
+				    <span class="glyphicon glyphicon-ok"></span>
+				</button>
+				<button class="btn btn-default remove_task_btn" type="btoon" data-toggle="tooltip" data-placement="top" title="Remove this task">
+				    <span class="glyphicon glyphicon-remove"></span>
+				</button>
+			    </div>
+			</div>
+		    </div>
+		</div>
+		<hr>
+	    </div>
+
+	    
+	    <!-- TODO TASK FRAME -->
+
+	    <div id="todo_task_frame">
+			<div class="task-container">
+			    <div class="task-box row">
+				<div class="col-md-9 col-sm-9 title name">
+				</div>
+				<div class="btn-group options col-md-3 col-sm-3" role="group">
+				    <button class="mark_done_btn btn btn-default" type="button">
+					<span class="glyphicon glyphicon-ok"</span>
+				    </button>
+				    <button class="edit_task_btn btn btn-default" type="button">
+					<span class="glyphicon glyphicon-pencil"></span>
+				    </button>
+				    <button class="remove_task_btn btn btn-default" type="button">
+					<span class="glyphicon glyphicon-remove"></span>
+				    </button>
+				</div>
+			    </div>
+			</div>
+			<hr>
+		    </div>
+	    
 	</div>
 	
 	<!--SHOPPING LIST TAB-->
@@ -69,6 +127,7 @@
 			</div>
 			<div class="modal-body">
 			    <form id="add_shopping_form">
+				<input type="text" class="default-input form-control" id="shopping_list_name">
 				<input type="text" name="item" class="form-control default-input">
 			    </form>
 			    <button class="btn btn-default" id="add_items_btn">
@@ -87,16 +146,75 @@
 			</div>
 		    </div>
 		</div>
-	    </div> 
+	    </div>
+
+	    <div class="shopping-lists" id="shopping_lists">
+		
+		<div id="shopping_item_frame">
+		    <div class="item-container">
+			<div class="list-body">
+			    <div class="row">
+				<div class="col-md-9 col-sm-9 name">
+				</div>
+				<div class="btn-group options col-md-3 col-sm-3" role="group">
+				    <button class="mark_bought btn btn-default" type="button">
+					<span class="glyphicon glyphicon-ok"</span>
+				    </button>
+				    <button class="edit_item_btn btn btn-default" type="button">
+					<span class="glyphicon glyphicon-pencil"></span>
+				    </button>
+				    <button class="remove_item_btn btn btn-default" type="button">
+					<span class="glyphicon glyphicon-remove"></span>
+				    </button>
+			    </div>
+			    </div>
+			</div>
+		    </div>
+		    <hr>
+		</div>
+		
+	    </div>
 	</div>
-	    
-	    <!--->
+	
+	<!--->
 	    <div role="tabpanel" class="tab-pane" id="courses_tab">
 		<button class="btn btn-primary" id="create_course_btn">
 		<span class="glyphicon glyphicon-plus"></span>
 		Add New Course
 		</button>
-		<hr>    
+		<hr>
+		
+		<div class="courses-list">
+		    <div class="courses-list-container">
+			<div id="courses-list">
+			</div>
+		    </div>
+		</div>
+   
+		<!-- Course Frame -->
+
+		<div id="subject_frame">
+		    <div class="subject-container">
+			<div class="subject-box row">
+			    <div class="col-md-9 col-sm-9 title name">
+			    </div>
+			    <div class="btn-group options col-md-3 col-sm-3" role="group">
+				<button class="mark_completed_btn btn btn-default" type="button">
+				    <span class="glyphicon glyphicon-ok"</span>
+				</button>
+				<button class="edit_subject_btn btn btn-default" type="button">
+				    <span class="glyphicon glyphicon-pencil"></span>
+				</button>
+				<button class="remove_subject_btn btn btn-default" type="button">
+				    <span class="glyphicon glyphicon-remove"></span>
+				</button>
+			    </div>
+			</div>
+		    </div>
+		    <hr>
+		</div>
+		
+		<!-- COURSE MODAL -->
 		<div class="modal fade" role="modal" id="create_course_modal">
 		    <div class="modal-dialog">
 			<div class="modal-content">
@@ -121,6 +239,11 @@
 				    </span>
 				    Close
 				</button>
+				<button type="submit" form="add_course_form" class="btn btn-pri">
+				    <span class="glyphicon glyphicon-plus"></span>
+				    Create Course Log
+				    
+				</button>
 			    </div>
 			</div>
 		    </div>
@@ -129,5 +252,11 @@
     </div>
     
 </div>
+<script>
+    $('#completed_task_frame').hide();
+    $('#todo_task_frame').hide();
+    $('#shopping_item_frame').hide();
+    $
+</script>
 {% endblock %}
 	

@@ -5,6 +5,7 @@ import signup
 import resume
 import todo
 import user
+import lists
 
 
 class MainPage(base.RequestHandler):
@@ -29,8 +30,8 @@ class FaqPage(base.RequestHandler):
 class SettingsPage(base.RequestHandler):
     def get(self):
         self.render("settings.html")
-       
-
+ 
+      
 class CatPage(base.RequestHandler):
     def get(self):
         self.render("cats.html")
@@ -68,5 +69,8 @@ app = webapp2.WSGIApplication([
     ('/deletework', resume.DeleteWork),
     ('/deleteaward', resume.DeleteAward),
     ('/deletepublication', resume.DeletePublication),
-    ('/lists', ListPage)
+    ('/lists', ListPage),
+    ('/createshoppinglist', lists.CreateShoppingList),
+    ('/lists_get_json', lists.GetJson),
+    ('/createcourse', lists.CreateCourse)
     ], debug=True)
