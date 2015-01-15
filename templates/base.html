@@ -18,7 +18,7 @@
     </head>
     <body >
 	
-	<nav class="navbar navbar-default">
+	<nav class="navbar navbar-default navbar-fixed-top">
 	    <div class="container-fluid">
 	        <div class="nav-wrap">
 		    <!-- Brand and toggle get grouped for better mobile display -->
@@ -49,7 +49,7 @@
 			
 			<ul class="nav navbar-nav">
 			    <li><a href="/resume">Resume</a></li>
-			    <li><a href="/todo">ToDo</a></li>
+			    <li><a href="/lists">ToDo</a></li>
 			    <li class="dropdown">
 				<a href="#" class="dropdown-toggle" data-toggle="dropdown" 
 				   role="button" aria-expanded="false">Settings
@@ -76,27 +76,32 @@
 	    </div>
 	</nav>
 	
-	<!-- leftbar -->
-	<div class="col-md-3 hidden-xs col-sm-3 center-block">
-	    {% block left_bar %}
-	    {% endblock %}
+	<div class="container">
+	    <div class="row">
+		<!-- leftbar -->
+		<div class="col-md-2 hidden-xs col-sm-3 center-block">
+		    {% block left_bar %}
+		    {% endblock %}
+		</div>
+		
+		<!-- Main body -->
+		<div class="col-md-7 col-sm-9 col-xs-12">
+		    
+		    {% block body %}
+		    
+		    {% endblock %}
+		    
+		</div>
+		
+		<!-- Right Bar -->
+		<div class="col-md-2 hidden-sm hidden-xs">
+		    I am right
+		    {% block right_bar %}
+		    {% endblock %}
+		</div>
+	    </div>
 	</div>
-	
-	<!-- Main body -->
-	<div class="col-md-6 col-sm-9 col-xs-12">
-	    
-	    {% block body %}
-	    
-	    {% endblock %}
-	    
+	<div class="footer">
 	</div>
-	
-	<!-- Right Bar -->
-	<div class="col-md-2 hidden-sm hidden-xs">
-	    I AM RIGHT BAR
-	    {% block right_bar %}
-	    {% endblock %}
-	</div>
-	
     </body>
 </html>

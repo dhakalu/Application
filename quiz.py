@@ -39,7 +39,10 @@ class CatPage(base.RequestHandler):
 
 class ListPage(base.RequestHandler):
     def get(self):
-        self.render("lists.html")
+        if self.user:
+            self.render("lists.html", loged_user=self.user)
+        else:
+            self.render('/')
 
 app = webapp2.WSGIApplication([
     ('/', MainPage),
@@ -72,5 +75,6 @@ app = webapp2.WSGIApplication([
     ('/lists', ListPage),
     ('/createshoppinglist', lists.CreateShoppingList),
     ('/lists_get_json', lists.GetJson),
-    ('/createcourse', lists.CreateCourse)
+    ('/createcourse', lists.CreateCourse),
+    ('/updatecourse', lists.UpdateCourse)
     ], debug=True)

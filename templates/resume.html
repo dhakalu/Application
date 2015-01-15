@@ -10,7 +10,7 @@
 
 {% block left_bar %}
 <!-- FOR LARGER SCREENS -->
-<button class="btn btn-default btn-lg dropdown-toggle  hidden-xs row center-block">
+<button class="btn btn-default btn-md dropdown-toggle  hidden-xs row center-block">
     <span class="glyphicon glyphicon-download-alt" aria-hidden="true"></span> 
     Download as PDF
 </button>
@@ -446,31 +446,31 @@
 
 <!-- Frame for education -->
 <div id="education_frame">
-    <div>
-	<div class="row">
-	    <div class="col-md-9 col-sm-9 col-xs-9 text-title institution"></div>
-	    {% if owner %}
-	    <div class="col-md-3 col-sm-3 col-xs-3">
-		<div class="btn-group" role="group">
-		    <button type="button" class="btn btn-default edit_edu_btn">                      
-			<span class="glyphicon glyphicon-pencil">
-			</span>
-		    </button>
-		    <button type="button" class="btn btn-default delete_edu_btn">
-			<span class="glyphicon glyphicon-remove">
-			</span>
-		    </button>		    
+    <div class="edu-container">
+	    <div class="row">
+		<div class="col-md-9 col-sm-9 col-xs-9 text-title institution"></div>
+		{% if owner %}
+		<div class="col-md-3 col-sm-3 col-xs-3">
+		    <div class="btn-group" role="group">
+			<button type="button" class="btn btn-default edit_edu_btn">           
+			    <span class="glyphicon glyphicon-pencil">
+			    </span>
+			</button>
+			<button type="button" class="btn btn-default delete_edu_btn">
+			    <span class="glyphicon glyphicon-remove">
+			    </span>
+			</button>		    
+		    </div>
 		</div>
+		{% endif %}
 	    </div>
-	    {% endif %}
-	</div>
-	<div class="degree"></div>
-	<div class="majors"></div>
-	<div class="graduation"></div>
-	<div class="gpa"></div>
-	<div class="courses tags"></div>
-    </div>
-    <hr>
+	    <div class="degree"></div>
+	    <div class="majors"></div>
+	    <div class="graduation"></div>
+	    <div class="gpa"></div>
+	    <div class="courses"></div>
+	    <hr>
+	</div
 </div>
 
 <!-- Frame for work -->

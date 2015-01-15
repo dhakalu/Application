@@ -127,8 +127,11 @@
 			</div>
 			<div class="modal-body">
 			    <form id="add_shopping_form">
-				<input type="text" class="default-input form-control" id="shopping_list_name">
-				<input type="text" name="item" class="form-control default-input">
+				<input type="text" class="default-input form-control" id="shopping_list_name" placeholder="Name of your shopping list">
+				 <div class="form-group">
+				     <label>Items</label>
+				     <input type="text" name="item" class="form-control default-input">
+				 </div>
 			    </form>
 			    <button class="btn btn-default" id="add_items_btn">
 				<span class="glyphicon glyphicon-plus">
@@ -149,8 +152,11 @@
 	    </div>
 
 	    <div class="shopping-lists" id="shopping_lists">
-		
-		<div id="shopping_item_frame">
+				
+	    </div>
+	    
+	    <!-- Shopping list frame -->
+	    		<div id="shopping_item_frame">
 		    <div class="item-container">
 			<div class="list-body">
 			    <div class="row">
@@ -172,11 +178,10 @@
 		    </div>
 		    <hr>
 		</div>
-		
-	    </div>
-	</div>
+
+	</div> 
 	
-	<!--->
+	<!--Course Tab -->
 	    <div role="tabpanel" class="tab-pane" id="courses_tab">
 		<button class="btn btn-primary" id="create_course_btn">
 		<span class="glyphicon glyphicon-plus"></span>
@@ -186,7 +191,15 @@
 		
 		<div class="courses-list">
 		    <div class="courses-list-container">
-			<div id="courses-list">
+			<div id="courses_lists">
+			    <div class="header list-title">
+				Remaining Courses
+			    </div>
+			    <div class="remaining-list">
+			    </div>
+			    <div class="header list-title"> Completed Courses</div>
+			    <div class="completed-list">
+			    </div>
 			</div>
 		    </div>
 		</div>
@@ -256,7 +269,7 @@
     $('#completed_task_frame').hide();
     $('#todo_task_frame').hide();
     $('#shopping_item_frame').hide();
-    $
+    $('#subject_frame').hide();
 </script>
 {% endblock %}
 	

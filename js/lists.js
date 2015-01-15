@@ -257,6 +257,7 @@ $(document).ready(function(){
    
     var loadShoppingView = {
 	init: function(shopping_list){
+	    $('#shopping_lists').html('');
 	    for(var i=0; i<shopping_list.length; i++){
 		this.render(shopping_list[i]);
 	    }
@@ -283,6 +284,7 @@ $(document).ready(function(){
 	    console.log(data);
 	    if (data.status == 'OK'){
 		loadShoppingView.init(data.results.shopping_list);
+		console.log(data.results.courses_list);
 		loadCourseView.init(data.results.courses_list);
 	    }else{
 		alert(data.error);
@@ -290,6 +292,7 @@ $(document).ready(function(){
 	});
     };
     getLists();
+   // setInterval(getLists, 3000);
     // ================= COURSES =================//
     var $createCoursesModal = $('#create_course_modal');
     var $createCourseBtn = $('#create_course_btn');
@@ -308,11 +311,52 @@ $(document).ready(function(){
 
     var loadCourseView = {
 	init: function(course_list){
+	    $('#courses_lists .remaining-list').html('');
+	    $('#courses_lists .completed-list').html('');
 	    if(course_list.length > 0){
-		
+		for( var i=0; i<course_list.length; i++){
+		    this.render(course_list[i]);
+		}
 	    }
+	},
+	render: function(major){
+	    var subjects = major.courses;
+	    console.log(subjects);
+	    for( var i=0; i<subjects.length; i++){
+		var thisSub = subjects[i];
+		var course_str = $('#subject_frame').html();
+		var $courseFrame = $(course_str);
+		$courseFrame.find('.name').text(thisSub[1].name);
+		$courseFrame.attr('id', 'course_' + major.id);
+		$courseFrame.find('.mark_completed_btn').attr('id', 'completed_btn_' + major.id + '|' + thisSub[0]);
+		$courseFrame.find('.edit_subject_btn').attr('id', 'edit_subject_btn_' + major.id + '|' + thisSub[0]);
+		$courseFrame.find('.remove_subject_btn').attr('id', 'remove_subject_btn_' + major.id + '|' + thisSub[0]);
+		if(thisSub[1].status){
+		    $('#courses_lists .completed-list').append($courseFrame);
+		}else{
+		    $('#courses_lists .remaining-list').append($courseFrame);
+		}
+	    }
+	},
+	listenEvents: function(){
+	    $('body').on('click', '.edit_subject_btn', function(){
+		var id = $(this).attr('id').split('_')[3];
+		courseMethods.editCourse(id);
+	    });
+
+	    $('body').on('click', '.remove_subject_btn', function(){
+		var id = $(this).attr('id').split('_')[3];
+		courseMethods.deleteCourse(id);
+	    });
+	    
+	    $('body').on('click','.mark_completed_btn', function(){
+		var id = $(this).attr('id').split('_')[2];
+		courseMethods.markCompleted(id);
+	    });
 	}
     };
+
+    loadCourseView.listenEvents();
  
     var createCourseModalView = {
 	init: function(){
@@ -357,9 +401,38 @@ $(document).ready(function(){
 	    }).done(function(data){
 		console.log(data);
 	    });
+	},
+	deleteCourse: function(id){
+	    var data = 'delete=' + id;
+	    $.ajax({
+		url: '/updatecourse',
+		type: 'POST',
+		dataType: 'json',
+		data: data
+	    }).done(function(data){
+		if(data.status == 'ERR'){
+		    console.log(data.error);
+		}
+	    });
+	},
+	markCompleted: function(id){
+	    data = 'completed=' + id;
+	    $.ajax({
+		url: '/updatecourse',
+		type: 'POST',
+		dataType: 'json',
+		data: data
+	    }).done(function(data){
+		if(data.status == 'ERR'){
+		    console.log(data.error);
+		}
+	    });
+	},
+	editCourse: function(id){
+	
 	}
     };
-
+    
     var initilizePage = function(){
 	addTaskBtnView.init();
 	addTaskModalView.init();
@@ -369,6 +442,6 @@ $(document).ready(function(){
 	createCourseBtnView.init();
 	createCourseModalView.init();
     };
-
+    
     initilizePage();
 });

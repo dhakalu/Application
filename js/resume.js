@@ -183,7 +183,7 @@ $(document).ready(function(){
 	    $new_edu.find('.graduation').text(this_graduation);
 	    var coursesHtml = '';
 	    for (var j=0; j<this_courses.length; j++){
-		coursesHtml +='<a class="option-box">' +  this_courses[j] + '</a>';
+		coursesHtml +='<button class="option-box">' +  this_courses[j] + '</button>';
 	    }
 	    $new_edu.find('.courses').html($(coursesHtml));
 	    $new_edu.attr('id', 'edu_' + this.edu.id);

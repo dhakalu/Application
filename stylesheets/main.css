@@ -1,5 +1,11 @@
-body {
-    overflow-x: hidden;
+@import url(http://fonts.googleapis.com/css?family=Roboto);
+
+html, body {
+  background: ##f3f3f3;
+  font-family: Roboto, sans-serif;
+  font-size: 14px;
+  margin: 0;
+  padding-top: 30px;
 }
 
 
@@ -33,10 +39,10 @@ textarea{
     padding-left: 0;
     margin: 0;
 }
-body {
+
+body{
     background: #f3f3f3;
 }
-
 h1, h2,h3,h4,h5,h6{
     text-rendering: optimizeLegibility;
 }
@@ -309,4 +315,25 @@ p {
 
 .text-bold{
     font-weight: bold;
+}
+
+/* Footer */
+.footer{
+    margin-bottom: 30px;
+}
+.module{
+       background-clip: padding-box;
+       border: 0;
+       border-radius: 6px;
+       line-height: 16px;
+       position: relative;
+       margin-bottom: 10px;
+}
+
+ .module .flex-module {
+     background-color: #fff;
+     border: 1px solid #e1e8ed;
+     padding: 15px;
+     line-height: 16px;
+     border-radius: 4px;
 }

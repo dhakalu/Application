@@ -204,5 +204,9 @@ class Major(db.Model):
                      )
 
     @classmethod
+    def by_id(cls, mid):
+        return Major.get_by_id(mid)
+
+    @classmethod
     def get_by_user_name(cls, user_name):
         return Major.all().filter('user_name = ', user_name)
