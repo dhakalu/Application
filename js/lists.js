@@ -1,12 +1,12 @@
 $(document).ready(function(){
     
-    var $addTaskBtn = $('#add_task_btn');
-    var $createShoppingBtn = $('#create_shopping_btn');
+    var $addTaskBtn = $('#add_task_btn');		// btn clicked to add the task
+    var $createShoppingBtn = $('#create_shopping_btn'); // tbn that creates the shopping list
     var $addTaskModal = $('#add_task_modal');
     var $addTaskForm = $('#add_task_form');
     var $createShoppingModal = $('#add_shopping_modal');
 
-    
+    // takes the data about the task from the backend
     var taskData = {
 	 init: function(){
 	    this.old_data = [0,0];
@@ -15,23 +15,27 @@ $(document).ready(function(){
 	},
 	 getJson : function(){
 	    $.ajax({
-		url: '/todo_json',
-		dataType: 'json'
-	    }).done(function(data){
-		taskMethods.updatePage(data.todo_tasks, data.done_tasks);
-	    });
-	}
+			url: '/todo_json',
+			dataType: 'json'
+	    	}).done(function(data){
+			taskMethods.updatePage(data.todo_tasks, data.done_tasks);
+	    	});
+		}
      };
    
+   // reload the page in each 3 seconds to keep up to date with the 
+   // backend
     setInterval(taskData.getJson, 3000);
+
+    // this is the button that starts the add task modal
     var addTaskBtnView= {
 	init: function(){
 	    this.listenClick();
 	},
 	listenClick: function(){
 	    $addTaskBtn.click(function(){
-		console.log('clicked');
-		addTaskModalView.open();
+			console.log('clicked');
+			addTaskModalView.open();
 	    });
 	}
     };
@@ -44,18 +48,18 @@ $(document).ready(function(){
 		$addTaskForm.find('input').focus();
 		$addTaskForm.validate({
 		    rules: {
-			task: 'required'
+				task: 'required'
 		    },
 		    messages: {
-			task: {
-			    required: "The name of task cannot be empty!"
-			}
+				task: {
+			    	required: "The name of task cannot be empty!"
+				}
 		    },
-		    submitHandler: function(){
-			var formData = $addTaskForm.serialize();
-			taskMethods.sendAddTaskRequest(formData);
+		    	submitHandler: function(){
+				var formData = $addTaskForm.serialize();
+				taskMethods.sendAddTaskRequest(formData);
 		    }
-		});
+			});
 	    });
 
 	    // The function that gets triggred when the modal hides
@@ -73,20 +77,23 @@ $(document).ready(function(){
 	}
     };
     
+    // the list where the lists of tasks obtained form the backend is shown
     var todoListView = {
 	init : function(todo_list){
 	    var $toDoContainer = $('#todo_list_container');
 	    $toDoContainer.html('');
-	   if (todo_list.length > 0){
-		var $header = $('<div class="header list-title text-center">Task to be done</div>');
-		$toDoContainer.append($header);
-		for ( var i = 0; i < todo_list.length; i++){
-		    this.task = todo_list[i];
-		    this.render();
-		}
+	    if (todo_list.length > 0){ // ig there are tasks show the tasks in the list
+			var $header = $('<div class="header list-title text-center">Task to be done</div>');
+			$toDoContainer.append($header);
+			for ( var i = 0; i < todo_list.length; i++){
+		    	this.task = todo_list[i];
+		    	this.render();
+			}
 	    }else{
-		var $noMessage = $('<div class="default-message-box">Fun times! It seems you do not have any tasks to be done. </div>');
-		$toDoContainer.append($noMessage);
+	    	//if no tasks are added by that user, show this message
+			var $noMessage = $('<div class="default-message-box">Fun times!
+					 It seems you do not have any tasks to be done. </div>');
+			$toDoContainer.append($noMessage);
 	    }
 	},
 	render: function(){ 
@@ -394,38 +401,38 @@ $(document).ready(function(){
     var courseMethods = {
 	createCourse: function(formData){
 	    $.ajax({
-		url:'/createcourse',
-		type: 'POST',
-		data: formData,
-		dataType: 'json'
+			url:'/createcourse',
+			type: 'POST',
+			data: formData,
+			dataType: 'json'
 	    }).done(function(data){
-		console.log(data);
+			console.log(data);
 	    });
 	},
 	deleteCourse: function(id){
 	    var data = 'delete=' + id;
 	    $.ajax({
-		url: '/updatecourse',
-		type: 'POST',
-		dataType: 'json',
-		data: data
+			url: '/updatecourse',
+			type: 'POST',
+			dataType: 'json',
+			data: data
 	    }).done(function(data){
-		if(data.status == 'ERR'){
+			if(data.status == 'ERR'){
 		    console.log(data.error);
-		}
+			}
 	    });
 	},
 	markCompleted: function(id){
 	    data = 'completed=' + id;
 	    $.ajax({
-		url: '/updatecourse',
-		type: 'POST',
-		dataType: 'json',
-		data: data
+			url: '/updatecourse',
+			type: 'POST',
+			dataType: 'json',
+			data: data
 	    }).done(function(data){
 		if(data.status == 'ERR'){
 		    console.log(data.error);
-		}
+			}
 	    });
 	},
 	editCourse: function(id){

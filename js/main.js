@@ -1,8 +1,8 @@
 $(function () {
-    $('[data-toggle="tooltip"]').tooltip();
-    
-    $('input').focus(function(){
-	$(this).removeClass('input-error');
-    });
+	$('[data-toggle="tooltip"]').tooltip();
+	
+	$('input').focus(function(){
+		$(this).removeClass('input-error');
+	});
 
 });

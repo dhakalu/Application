@@ -46,7 +46,6 @@ class ListPage(base.RequestHandler):
 
 app = webapp2.WSGIApplication([
     ('/', MainPage),
-    ('/catclicker', CatPage),
     ('/todo', todo.ToDoPage),
     ('/todo_json', todo.GetJSON),
     ('/updatetodo', todo.Update),

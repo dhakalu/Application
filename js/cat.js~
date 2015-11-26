@@ -1,9 +1,0 @@
-$(document).ready(function(){
-    images = ['/pics/cat1.jpg','/pics/cat2.jpg','/pics/cat3.jpg','/pics/cat4.jpg'];
-
-    for (var i = 0; i<images.length; i++){
-	var img = new Image();
-	img.src = images[i];
-	$('#image_selector').append($(img));
-    }
-});
